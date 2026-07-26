@@ -1,0 +1,138 @@
+{
+  "info": {
+    "name": "Fuel API (dev-b slice)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "base_url", "value": "http://127.0.0.1:5000" },
+    { "key": "token", "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc4NTA4NzU5NSwianRpIjoiNWI2Y2VkOTItOGU5Ny00MmNlLWJkYzYtOWRkYzRlZDdhZTNkIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjEiLCJuYmYiOjE3ODUwODc1OTUsImNzcmYiOiI2ZWU4Mzk4Ni05YzVlLTQ0NWEtOWYxMS01MDdhM2E3ZmE5N2IiLCJleHAiOjE3ODUwOTExOTUsInJvbGUiOiJzdXBlcl9hZG1pbiIsInJlZ2lvbl9pZCI6bnVsbH0.nE5QG72otX_2c_cRP6JRbIm0WLl1vaIeC4_ucu5k4H4" }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [{ "key": "token", "value": "{{token}}", "type": "string" }]
+  },
+  "item": [
+    {
+      "name": "Health",
+      "request": { "method": "GET", "url": "{{base_url}}/api/health", "auth": { "type": "noauth" } }
+    },
+    {
+      "name": "Customers",
+      "item": [
+        { "name": "List customers", "request": { "method": "GET", "url": "{{base_url}}/api/customers" } },
+        { "name": "Get customer", "request": { "method": "GET", "url": "{{base_url}}/api/customers/1" } },
+        {
+          "name": "Create customer",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/customers",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Acme Fuel Depot\",\n  \"phone\": \"+254700000111\",\n  \"email\": \"acme@example.com\",\n  \"region_id\": 1\n}"
+            }
+          }
+        },
+        {
+          "name": "Update customer",
+          "request": {
+            "method": "PATCH",
+            "url": "{{base_url}}/api/customers/1",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"credit_limit\": \"5000\"\n}" }
+          }
+        },
+        { "name": "Deactivate customer", "request": { "method": "DELETE", "url": "{{base_url}}/api/customers/1" } }
+      ]
+    },
+    {
+      "name": "Orders",
+      "item": [
+        { "name": "List orders", "request": { "method": "GET", "url": "{{base_url}}/api/orders" } },
+        { "name": "Get order", "request": { "method": "GET", "url": "{{base_url}}/api/orders/1" } },
+        {
+          "name": "Create order",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/orders",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"customer_id\": 1,\n  \"items\": [{ \"fuel_id\": 1, \"quantity\": 100 }],\n  \"delivery_address\": \"12 Industrial Rd\",\n  \"region_id\": 1\n}"
+            }
+          }
+        },
+        {
+          "name": "Update order",
+          "request": {
+            "method": "PATCH",
+            "url": "{{base_url}}/api/orders/1",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"notes\": \"Deliver before noon\"\n}" }
+          }
+        },
+        { "name": "Approve order", "request": { "method": "POST", "url": "{{base_url}}/api/orders/1/approve" } },
+        {
+          "name": "Cancel order",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/orders/1/cancel",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"reason\": \"Customer requested cancellation\"\n}" }
+          }
+        },
+        { "name": "Delete order", "request": { "method": "DELETE", "url": "{{base_url}}/api/orders/1" } }
+      ]
+    },
+    {
+      "name": "Distributions",
+      "item": [
+        { "name": "List distributions", "request": { "method": "GET", "url": "{{base_url}}/api/distributions" } },
+        { "name": "Get distribution", "request": { "method": "GET", "url": "{{base_url}}/api/distributions/1" } },
+        { "name": "Track by order number", "request": { "method": "GET", "url": "{{base_url}}/api/distributions/track/ORD-001-217213D1" } },
+        {
+          "name": "Schedule distribution",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/distributions",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"order_id\": 1,\n  \"vehicle_registration\": \"KDA123X\",\n  \"driver_name\": \"John Mwangi\",\n  \"driver_phone\": \"+254711111222\",\n  \"scheduled_date\": \"2026-07-28\",\n  \"region_id\": 1\n}"
+            }
+          }
+        },
+        {
+          "name": "Update distribution",
+          "request": {
+            "method": "PATCH",
+            "url": "{{base_url}}/api/distributions/1",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"driver_name\": \"Peter Otieno\"\n}" }
+          }
+        },
+        {
+          "name": "Change distribution status",
+          "request": {
+            "method": "PATCH",
+            "url": "{{base_url}}/api/distributions/1/status",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"status\": \"in_transit\"\n}" }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Reports",
+      "item": [
+        { "name": "Dashboard", "request": { "method": "GET", "url": "{{base_url}}/api/reports/dashboard" } },
+        { "name": "Inventory", "request": { "method": "GET", "url": "{{base_url}}/api/reports/inventory" } },
+        { "name": "Sales (regional_admin+)", "request": { "method": "GET", "url": "{{base_url}}/api/reports/sales" } },
+        { "name": "Revenue (regional_admin+)", "request": { "method": "GET", "url": "{{base_url}}/api/reports/revenue" } },
+        { "name": "Deliveries (regional_admin+)", "request": { "method": "GET", "url": "{{base_url}}/api/reports/deliveries" } },
+        { "name": "Top customers (regional_admin+)", "request": { "method": "GET", "url": "{{base_url}}/api/reports/top-customers" } },
+        { "name": "Consolidated (super_admin)", "request": { "method": "GET", "url": "{{base_url}}/api/reports/consolidated" } }
+      ]
+    }
+  ]
+}
