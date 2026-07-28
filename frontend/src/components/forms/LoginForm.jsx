@@ -1,6 +1,10 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
+import Input from "../common/Input";
+import PasswordInput from "../common/PasswordInput";
+import Button from "../common/Button";
+
 function LoginForm() {
   const [formData, setFormData] = useState({
     email: "",
@@ -8,78 +12,72 @@ function LoginForm() {
     remember: false,
   });
 
-  const handleChange = (e) => {
+  function handleChange(e) {
     const { name, value, checked, type } = e.target;
 
-    setFormData((prev) => ({
-      ...prev,
+    setFormData({
+      ...formData,
       [name]: type === "checkbox" ? checked : value,
-    }));
-  };
+    });
+  }
 
-  const handleSubmit = (e) => {
+  function handleSubmit(e) {
     e.preventDefault();
 
     console.log(formData);
-
-    // Backend login will be added later
-  };
+  }
 
   return (
-    <form className="login-form" onSubmit={handleSubmit}>
-      {/* Email */}
-      <div className="form-group">
-        <label>Email Address</label>
+    <form onSubmit={handleSubmit} className="mt-8 space-y-6">
+      <Input
+        label="Email"
+        type="email"
+        name="email"
+        placeholder="Enter your email"
+        value={formData.email}
+        onChange={handleChange}
+      />
 
-        <input
-          type="email"
-          name="email"
-          placeholder="Enter your email"
-          value={formData.email}
-          onChange={handleChange}
-          required
-        />
-      </div>
+      <PasswordInput
+        label="Password"
+        name="password"
+        placeholder="Enter your password"
+        value={formData.password}
+        onChange={handleChange}
+      />
 
-      {/* Password */}
-      <div className="form-group">
-        <label>Password</label>
-
-        <input
-          type="password"
-          name="password"
-          placeholder="Enter your password"
-          value={formData.password}
-          onChange={handleChange}
-          required
-        />
-      </div>
-
-      <div className="login-options">
-        <label className="remember">
+      <div className="flex items-center justify-between text-sm">
+        <label className="flex items-center gap-2">
           <input
             type="checkbox"
             name="remember"
             checked={formData.remember}
             onChange={handleChange}
           />
-
           Remember me
         </label>
 
-        <Link to="/forgot-password">
-          Forgot Password?
+        <Link
+          to="/forgot-password"
+          className="font-medium text-blue-700 hover:underline"
+        >
+          Forgot password?
         </Link>
       </div>
 
-      <button type="submit" className="login-btn">
-        Login
-      </button>
+      <Button type="submit">
+        Sign In
+      </Button>
 
-      <div className="register-link">
+      <p className="text-center text-sm text-slate-600">
         Don't have an account?{" "}
-        <Link to="/register">Register</Link>
-      </div>
+        <Link
+          to="/register"
+          className="font-semibold text-blue-700 hover:underline"
+        >
+          Register
+        </Link>
+      </p>
     </form>
   );
 }

@@ -1,53 +1,28 @@
 import { useState } from "react";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 
-function PasswordInput({
-  label,
-  name,
-  placeholder,
-  value,
-  onChange,
-}) {
-  const [showPassword, setShowPassword] = useState(false);
+function PasswordInput({ label, ...props }) {
+  const [show, setShow] = useState(false);
 
   return (
     <div className="space-y-2">
-      <label
-        htmlFor={name}
-        className="block text-sm font-medium text-slate-700"
-      >
+      <label className="block text-sm font-medium text-slate-700">
         {label}
       </label>
 
       <div className="relative">
         <input
-          id={name}
-          type={showPassword ? "text" : "password"}
-          name={name}
-          placeholder={placeholder}
-          value={value}
-          onChange={onChange}
-          className="
-            w-full
-            rounded-lg
-            border
-            border-slate-300
-            px-4
-            py-3
-            pr-12
-            outline-none
-            focus:border-blue-600
-            focus:ring-2
-            focus:ring-blue-200
-          "
+          {...props}
+          type={show ? "text" : "password"}
+          className="w-full rounded-xl border border-slate-300 px-4 py-3 pr-12 outline-none focus:border-blue-600 focus:ring-4 focus:ring-blue-100"
         />
 
         <button
           type="button"
-          onClick={() => setShowPassword((prev) => !prev)}
+          onClick={() => setShow(!show)}
           className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500"
         >
-          {showPassword ? <FiEyeOff /> : <FiEye />}
+          {show ? <FiEyeOff /> : <FiEye />}
         </button>
       </div>
     </div>

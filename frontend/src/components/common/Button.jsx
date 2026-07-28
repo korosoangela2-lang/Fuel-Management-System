@@ -1,30 +1,14 @@
 function Button({
   children,
   type = "button",
-  onClick,
   className = "",
-  disabled = false,
+  ...props
 }) {
   return (
     <button
       type={type}
-      onClick={onClick}
-      disabled={disabled}
-      className={`
-        w-full
-        rounded-lg
-        bg-blue-700
-        px-4
-        py-3
-        font-semibold
-        text-white
-        transition
-        duration-200
-        hover:bg-blue-800
-        disabled:cursor-not-allowed
-        disabled:opacity-60
-        ${className}
-      `}
+      className={`w-full rounded-xl bg-blue-700 px-5 py-3 font-semibold text-white shadow transition hover:bg-blue-800 ${className}`}
+      {...props}
     >
       {children}
     </button>
