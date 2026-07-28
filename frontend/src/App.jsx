@@ -1,7 +1,11 @@
-import AppRoutes from "./routes/AppRoutes";
-
 function App() {
-  return <AppRoutes />;
+  return (
+    <div className="flex min-h-screen items-center justify-center bg-slate-100">
+      <h1 className="text-5xl font-bold text-blue-700">
+        Tailwind Configuration Successful
+      </h1>
+    </div>
+  );
 }
 
 export default App;
