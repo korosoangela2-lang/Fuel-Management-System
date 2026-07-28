@@ -1,0 +1,52 @@
+.auth-container{
+    display:flex;
+    min-height:100vh;
+}
+
+.auth-left{
+
+    flex:1;
+
+    background:#2F80ED;
+
+    color:white;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    align-items:center;
+
+    padding:50px;
+
+}
+
+.auth-right{
+
+    flex:1;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    background:#F8F9FA;
+
+}
+
+.hero-text{
+
+    margin-top:30px;
+
+    max-width:420px;
+
+}
+
+.hero-text h2{
+
+    margin-bottom:15px;
+
+}
