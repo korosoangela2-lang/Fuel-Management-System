@@ -1,103 +1,67 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import toast from "react-hot-toast";
-
 import Input from "../common/Input";
 import PasswordInput from "../common/PasswordInput";
 import Button from "../common/Button";
 
 function LoginForm() {
-  const [loading, setLoading] = useState(false);
-
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-    remember: false,
-  });
-
-  function handleChange(e) {
-    const { name, value, checked, type } = e.target;
-
-    setFormData((prev) => ({
-      ...prev,
-      [name]: type === "checkbox" ? checked : value,
-    }));
-  }
-
-  async function handleSubmit(e) {
-    e.preventDefault();
-
-    if (!formData.email || !formData.password) {
-      toast.error("Please fill in all required fields.");
-      return;
-    }
-
-    setLoading(true);
-
-    // Temporary delay to simulate an API request.
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-
-    toast.success("Ready to connect to the backend.");
-
-    console.log(formData);
-
-    setLoading(false);
-  }
-
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="mt-8 space-y-6"
-    >
-      <Input
-        label="Email"
-        type="email"
-        name="email"
-        placeholder="Enter your email"
-        value={formData.email}
-        onChange={handleChange}
-      />
+    <form className="space-y-6">
+      {/* Heading */}
+      <div>
+        <h2 className="text-3xl font-bold text-gray-800">
+          Welcome Back
+        </h2>
 
-      <PasswordInput
-        label="Password"
-        name="password"
-        placeholder="Enter your password"
-        value={formData.password}
-        onChange={handleChange}
-      />
-
-      <div className="flex items-center justify-between text-sm">
-        <label className="flex items-center gap-2 text-slate-600">
-          <input
-            type="checkbox"
-            name="remember"
-            checked={formData.remember}
-            onChange={handleChange}
-          />
-
-          Remember me
-        </label>
-
-        <Link
-          to="/forgot-password"
-          className="font-medium text-blue-700 hover:underline"
-        >
-          Forgot password?
-        </Link>
+        <p className="text-gray-500 mt-2">
+          Sign in to continue to FuelMS.
+        </p>
       </div>
 
-      <Button type="submit" disabled={loading}>
-        {loading ? "Signing In..." : "Sign In"}
+      {/* Email */}
+      <Input
+        label="Email Address"
+        type="email"
+        placeholder="Enter your email"
+      />
+
+      {/* Password */}
+      <PasswordInput
+        label="Password"
+        placeholder="Enter your password"
+      />
+
+      {/* Remember Me */}
+      <div className="flex items-center justify-between text-sm">
+        <label className="flex items-center gap-2">
+          <input
+            type="checkbox"
+            className="rounded border-gray-300"
+          />
+
+          <span>Remember me</span>
+        </label>
+
+        <button
+          type="button"
+          className="text-blue-600 hover:underline"
+        >
+          Forgot Password?
+        </button>
+      </div>
+
+      {/* Login Button */}
+      <Button type="submit">
+        Sign In
       </Button>
 
-      <p className="text-center text-sm text-slate-600">
+      {/* Register Link */}
+      <p className="text-center text-gray-600">
         Don't have an account?{" "}
-        <Link
-          to="/register"
-          className="font-semibold text-blue-700 hover:underline"
+        <button
+          type="button"
+          className="text-blue-600 hover:underline"
         >
           Register
-        </Link>
+        </button>
       </p>
     </form>
   );
