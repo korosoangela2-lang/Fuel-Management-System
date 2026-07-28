@@ -50,3 +50,24 @@
     margin-bottom:15px;
 
 }
+
+@media (max-width: 768px) {
+
+    .auth-container{
+        flex-direction: column;
+    }
+
+    .auth-left{
+        display:none;
+    }
+
+    .auth-right{
+        width:100%;
+        padding:20px;
+    }
+
+    .login-wrapper{
+        max-width:100%;
+    }
+
+}
