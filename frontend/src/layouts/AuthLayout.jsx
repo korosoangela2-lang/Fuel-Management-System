@@ -1,28 +1,32 @@
-<div className="hidden lg:flex flex-col justify-between bg-blue-700 px-16 py-16 text-white">
-  <div>
-    <h1 className="text-4xl font-bold">FuelMS</h1>
-    <p className="mt-2 text-blue-100">
-      Fuel Management System
-    </p>
-  </div>
+import Logo from "../components/common/Logo";
+import illustration from "../assets/images/login-illustration.svg";
 
-  <div>
-    <h2 className="text-5xl font-bold leading-tight">
-      Manage Fuel
-      <br />
-      Operations
-      <br />
-      Efficiently
-    </h2>
+function AuthLayout({ children }) {
+  return (
+    <div className="min-h-screen flex">
+      {/* Left Side - Login Form */}
+      <div className="w-full lg:w-1/2 flex items-center justify-center bg-white px-6 py-10">
+        <div className="w-full max-w-md">
+          {/* Logo */}
+          <div className="mb-8 flex justify-center">
+            <Logo />
+          </div>
 
-    <p className="mt-6 max-w-md text-lg leading-8 text-blue-100">
-      Monitor fuel inventory, manage customer orders,
-      track deliveries, and generate reports from one
-      centralized platform.
-    </p>
-  </div>
+          {/* Login/Register/Forgot Password Form */}
+          {children}
+        </div>
+      </div>
 
-  <div className="text-sm text-blue-200">
-    © 2026 FuelMS
-  </div>
-</div>
+      {/* Right Side - Illustration */}
+      <div className="hidden lg:flex lg:w-1/2 bg-blue-600 items-center justify-center p-10">
+        <img
+          src={illustration}
+          alt="Fuel Management System"
+          className="w-full max-w-lg"
+        />
+      </div>
+    </div>
+  );
+}
+
+export default AuthLayout;

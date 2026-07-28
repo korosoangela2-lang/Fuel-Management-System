@@ -1,11 +1,14 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import toast from "react-hot-toast";
 
 import Input from "../common/Input";
 import PasswordInput from "../common/PasswordInput";
 import Button from "../common/Button";
 
 function LoginForm() {
+  const [loading, setLoading] = useState(false);
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -15,20 +18,37 @@ function LoginForm() {
   function handleChange(e) {
     const { name, value, checked, type } = e.target;
 
-    setFormData({
-      ...formData,
+    setFormData((prev) => ({
+      ...prev,
       [name]: type === "checkbox" ? checked : value,
-    });
+    }));
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
 
+    if (!formData.email || !formData.password) {
+      toast.error("Please fill in all required fields.");
+      return;
+    }
+
+    setLoading(true);
+
+    // Temporary delay to simulate an API request.
+    await new Promise((resolve) => setTimeout(resolve, 1500));
+
+    toast.success("Ready to connect to the backend.");
+
     console.log(formData);
+
+    setLoading(false);
   }
 
   return (
-    <form onSubmit={handleSubmit} className="mt-8 space-y-6">
+    <form
+      onSubmit={handleSubmit}
+      className="mt-8 space-y-6"
+    >
       <Input
         label="Email"
         type="email"
@@ -47,13 +67,14 @@ function LoginForm() {
       />
 
       <div className="flex items-center justify-between text-sm">
-        <label className="flex items-center gap-2">
+        <label className="flex items-center gap-2 text-slate-600">
           <input
             type="checkbox"
             name="remember"
             checked={formData.remember}
             onChange={handleChange}
           />
+
           Remember me
         </label>
 
@@ -65,8 +86,8 @@ function LoginForm() {
         </Link>
       </div>
 
-      <Button type="submit">
-        Sign In
+      <Button type="submit" disabled={loading}>
+        {loading ? "Signing In..." : "Sign In"}
       </Button>
 
       <p className="text-center text-sm text-slate-600">
