@@ -1,19 +1,31 @@
 import Sidebar from "../components/layout/Sidebar";
-import Navbar from "../components/layout/Navbar";
+import Topbar from "../components/layout/Topbar";
+import Breadcrumb from "../components/layout/Breadcrumb";
+import Footer from "../components/layout/Footer";
 
 function AdminLayout({ children }) {
   return (
-    <div className="dashboard-layout">
+    <div className="flex min-h-screen bg-gray-100">
 
+      {/* Sidebar */}
       <Sidebar />
 
-      <div className="dashboard-main">
+      {/* Main Section */}
+      <div className="flex flex-col flex-1">
 
-        <Navbar />
+        {/* Top Bar */}
+        <Topbar />
 
-        <main className="dashboard-content">
+        {/* Breadcrumb */}
+        <Breadcrumb />
+
+        {/* Page Content */}
+        <main className="flex-1 p-6">
           {children}
         </main>
+
+        {/* Footer */}
+        <Footer />
 
       </div>
 

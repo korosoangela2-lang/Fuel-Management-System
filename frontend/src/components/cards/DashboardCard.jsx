@@ -1,53 +1,30 @@
-import AdminLayout from "../../layouts/AdminLayout";
-import DashboardCard from "../../components/cards/DashboardCard";
+function DashboardCard({
+  title,
+  value,
+  icon,
+  color = "bg-blue-600",
+}) {
+  return (
+    <div className="bg-white rounded-xl shadow-md p-6 flex items-center justify-between">
 
-import {
-    FaGasPump,
-    FaUsers,
-    FaClipboardList,
-    FaDollarSign,
-} from "react-icons/fa";
+      <div>
+        <p className="text-gray-500 text-sm">
+          {title}
+        </p>
 
-function Dashboard() {
-    return (
-        <AdminLayout>
+        <h2 className="text-3xl font-bold mt-2">
+          {value}
+        </h2>
+      </div>
 
-            <h1>Administrator Dashboard</h1>
+      <div
+        className={`${color} w-14 h-14 rounded-full flex items-center justify-center text-white text-2xl`}
+      >
+        {icon}
+      </div>
 
-            <div className="cards-grid">
-
-                <DashboardCard
-                    title="Fuel Products"
-                    value="26"
-                    color="#2F80ED"
-                    icon={<FaGasPump />}
-                />
-
-                <DashboardCard
-                    title="Customers"
-                    value="187"
-                    color="#27AE60"
-                    icon={<FaUsers />}
-                />
-
-                <DashboardCard
-                    title="Orders"
-                    value="68"
-                    color="#F2994A"
-                    icon={<FaClipboardList />}
-                />
-
-                <DashboardCard
-                    title="Revenue"
-                    value="$53,200"
-                    color="#EB5757"
-                    icon={<FaDollarSign />}
-                />
-
-            </div>
-
-        </AdminLayout>
-    );
+    </div>
+  );
 }
 
-export default Dashboard;
+export default DashboardCard;
