@@ -18,14 +18,13 @@ import UserDashboard from "../pages/user/Dashboard";
 import AvailableFuel from "../pages/user/AvailableFuel";
 import FuelOrders from "../pages/user/FuelOrders";
 import OrderHistory from "../pages/user/OrderHistory";
+import DeliveryTracking from "../pages/user/DeliveryTracking";
 
 import Unauthorized from "../pages/shared/Unauthorized";
 import NotFound from "../pages/shared/NotFound";
 
 function AppRoutes() {
-
   return (
-
     <Routes>
 
       <Route
@@ -62,7 +61,7 @@ function AppRoutes() {
         }
       />
 
-      {/* Admin */}
+      {/* Admin Routes */}
 
       <Route
         path="/admin/dashboard"
@@ -82,7 +81,7 @@ function AppRoutes() {
         }
       />
 
-      {/* Customer */}
+      {/* Customer Routes */}
 
       <Route
         path="/dashboard"
@@ -120,6 +119,15 @@ function AppRoutes() {
         }
       />
 
+      <Route
+        path="/delivery-tracking"
+        element={
+          <ProtectedRoute allowedRoles={["customer"]}>
+            <DeliveryTracking />
+          </ProtectedRoute>
+        }
+      />
+
       {/* Shared */}
 
       <Route
@@ -133,9 +141,7 @@ function AppRoutes() {
       />
 
     </Routes>
-
   );
-
 }
 
 export default AppRoutes;
