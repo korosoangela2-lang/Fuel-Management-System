@@ -58,6 +58,11 @@ function Home() {
   const { isAuthenticated, user } = useAuth();
   const primaryTarget = isAuthenticated ? homeRouteFor(user?.role) : "/login";
   const primaryLabel = isAuthenticated ? "Open Dashboard" : "Sign In";
+  const snapshotDate = new Date().toLocaleDateString(undefined, {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100">
@@ -93,9 +98,10 @@ function Home() {
       <section id="overview" className="max-w-6xl mx-auto px-6 pt-20 pb-16 grid lg:grid-cols-2 gap-12 items-center">
 
         <div>
-          <p className="text-xs font-mono uppercase tracking-wider text-amber-400 mb-4">
-            Fuel Operations Platform
-          </p>
+          <div className="inline-flex items-center gap-2 border border-amber-500/30 bg-amber-500/5 rounded-full px-3 py-1 mb-6">
+            <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
+            <span className="text-xs font-mono uppercase tracking-wider text-amber-400">Live System</span>
+          </div>
 
           <h1 className="text-4xl md:text-5xl font-bold tracking-tight leading-tight">
             Fuel operations,<br />
@@ -129,7 +135,7 @@ function Home() {
 
         <div className="relative bg-slate-900 border border-slate-800 rounded-2xl shadow-xl p-6">
           <p className="text-[11px] font-mono uppercase tracking-wider text-slate-500 mb-4">
-            Operations Snapshot
+            Live — {snapshotDate}
           </p>
 
           <div className="grid grid-cols-2 gap-4">
