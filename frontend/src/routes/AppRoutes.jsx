@@ -1,7 +1,6 @@
 import {
   Routes,
   Route,
-  Navigate,
 } from "react-router-dom";
 
 import ProtectedRoute from "./ProtectedRoute";
@@ -31,6 +30,7 @@ import UserReports from "../pages/user/Reports";
 
 import Profile from "../pages/user/Profile";
 import Settings from "../pages/user/Settings";
+import Home from "../pages/shared/Home";
 import Unauthorized from "../pages/shared/Unauthorized";
 import NotFound from "../pages/shared/NotFound";
 
@@ -40,7 +40,7 @@ function AppRoutes() {
 
       <Route
         path="/"
-        element={<Navigate to="/login" replace />}
+        element={<Home />}
       />
 
       {/* Guest Routes */}
