@@ -2,11 +2,11 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
-import { loginUser } from "../../api/authService";
 import { useAuth } from "../../context/AuthContext";
 
 function LoginForm() {
   const navigate = useNavigate();
+
   const { login } = useAuth();
 
   const [formData, setFormData] = useState({
@@ -15,70 +15,61 @@ function LoginForm() {
     rememberMe: false,
   });
 
-  const [loading, setLoading] = useState(false);
-
-  // Update form fields
-  function handleChange(e) {
+  // Update form values
+  const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
 
-    setFormData((prev) => ({
-      ...prev,
+    setFormData({
+      ...formData,
       [name]: type === "checkbox" ? checked : value,
-    }));
-  }
+    });
+  };
 
-  // Submit login form
-  async function handleSubmit(e) {
+  // Mock login
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Simple validation
-    if (!formData.email || !formData.password) {
-      toast.error("Please fill in all fields.");
-      return;
-    }
-
     try {
-      setLoading(true);
-
-      // Call Flask API
-      const data = await loginUser({
+      // Fake authenticated user
+      const userData = {
+        id: 1,
+        name: "Administrator",
         email: formData.email,
-        password: formData.password,
-      });
+        role: "admin",
+      };
 
-      // Save user and token
-      login(data.user, data.token);
+      // Fake JWT token
+      const token = "demo-jwt-token";
+
+      // Save login in AuthContext
+      login(userData, token);
 
       toast.success("Login successful!");
 
-      // Redirect based on role
-      if (data.user.role === "admin") {
-        navigate("/admin/dashboard");
-      } else {
-        navigate("/dashboard");
-      }
+      // Redirect to Admin Dashboard
+      navigate("/admin/dashboard");
     } catch (error) {
-      toast.error(
-        error.response?.data?.message || "Invalid email or password."
-      );
-    } finally {
-      setLoading(false);
+      toast.error("Login failed.");
     }
-  }
+  };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <form
+      onSubmit={handleSubmit}
+      className="space-y-6"
+    >
       <div>
-        <h1 className="text-4xl font-bold text-gray-900">
+        <h1 className="text-5xl font-bold text-gray-900">
           Welcome Back
         </h1>
 
-        <p className="mt-2 text-gray-500">
+        <p className="mt-3 text-gray-600">
           Sign in to your Fuel Management System account.
         </p>
       </div>
 
       {/* Email */}
+
       <div>
         <label className="block mb-2 font-medium">
           Email Address
@@ -89,12 +80,14 @@ function LoginForm() {
           name="email"
           value={formData.email}
           onChange={handleChange}
+          required
           placeholder="Enter your email"
-          className="w-full rounded-lg border p-3"
+          className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-600"
         />
       </div>
 
       {/* Password */}
+
       <div>
         <label className="block mb-2 font-medium">
           Password
@@ -105,13 +98,15 @@ function LoginForm() {
           name="password"
           value={formData.password}
           onChange={handleChange}
+          required
           placeholder="Enter your password"
-          className="w-full rounded-lg border p-3"
+          className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-600"
         />
       </div>
 
-      {/* Remember me */}
-      <div className="flex justify-between items-center">
+      {/* Remember Me */}
+
+      <div className="flex items-center justify-between">
         <label className="flex items-center gap-2">
           <input
             type="checkbox"
@@ -125,26 +120,28 @@ function LoginForm() {
 
         <Link
           to="/forgot-password"
-          className="text-indigo-600 hover:underline"
+          className="text-blue-600 hover:underline"
         >
           Forgot Password?
         </Link>
       </div>
 
-      {/* Login button */}
+      {/* Submit Button */}
+
       <button
         type="submit"
-        disabled={loading}
-        className="w-full rounded-lg bg-indigo-600 py-3 text-white font-semibold hover:bg-indigo-700 transition"
+        className="w-full rounded-lg bg-blue-600 py-3 text-white font-semibold hover:bg-blue-700 transition"
       >
-        {loading ? "Signing In..." : "Sign In"}
+        Sign In
       </button>
+
+      {/* Register */}
 
       <p className="text-center">
         Don't have an account?{" "}
         <Link
           to="/register"
-          className="text-indigo-600 font-semibold"
+          className="text-blue-600 font-semibold hover:underline"
         >
           Register
         </Link>

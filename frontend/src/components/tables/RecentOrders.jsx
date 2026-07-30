@@ -1,51 +1,57 @@
 function RecentOrders() {
 
-    return (
+  const orders = [
 
-        <table>
+    {
+      customer: "ABC Ltd",
+      fuel: "Diesel",
+      status: "Delivered",
+    },
 
-            <thead>
+    {
+      customer: "City Haulers",
+      fuel: "Petrol",
+      status: "Pending",
+    },
 
-                <tr>
+    {
+      customer: "Green Energy",
+      fuel: "Kerosene",
+      status: "Processing",
+    },
 
-                    <th>Customer</th>
+  ];
 
-                    <th>Fuel</th>
+  return (
 
-                    <th>Status</th>
+    <div className="space-y-4">
 
-                </tr>
+      {orders.map((order, index) => (
 
-            </thead>
+        <div
+          key={index}
+          className="border-b pb-3"
+        >
 
-            <tbody>
+          <h3 className="font-semibold">
+            {order.customer}
+          </h3>
 
-                <tr>
+          <p className="text-gray-500 text-sm">
+            {order.fuel}
+          </p>
 
-                    <td>ABC Ltd</td>
+          <span className="text-blue-600 text-sm">
+            {order.status}
+          </span>
 
-                    <td>Diesel</td>
+        </div>
 
-                    <td>Delivered</td>
+      ))}
 
-                </tr>
+    </div>
 
-                <tr>
-
-                    <td>XYZ Oil</td>
-
-                    <td>Petrol</td>
-
-                    <td>Pending</td>
-
-                </tr>
-
-            </tbody>
-
-        </table>
-
-    );
-
+  );
 }
 
 export default RecentOrders;

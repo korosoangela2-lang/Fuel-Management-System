@@ -5,6 +5,7 @@ import {
 } from "react-router-dom";
 
 import ProtectedRoute from "./ProtectedRoute";
+import GuestRoute from "./GuestRoute";
 
 import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
@@ -20,22 +21,47 @@ function AppRoutes() {
   return (
     <Routes>
 
+      {/* Redirect root to login */}
       <Route
         path="/"
         element={<Navigate to="/login" replace />}
       />
 
-      {/* Public routes */}
-      <Route path="/login" element={<Login />} />
+      {/* ========================= */}
+      {/* Guest Routes */}
+      {/* ========================= */}
 
-      <Route path="/register" element={<Register />} />
+      <Route
+        path="/login"
+        element={
+          <GuestRoute>
+            <Login />
+          </GuestRoute>
+        }
+      />
+
+      <Route
+        path="/register"
+        element={
+          <GuestRoute>
+            <Register />
+          </GuestRoute>
+        }
+      />
 
       <Route
         path="/forgot-password"
-        element={<ForgotPassword />}
+        element={
+          <GuestRoute>
+            <ForgotPassword />
+          </GuestRoute>
+        }
       />
 
-      {/* Admin routes */}
+      {/* ========================= */}
+      {/* Admin Routes */}
+      {/* ========================= */}
+
       <Route
         path="/admin/dashboard"
         element={
@@ -47,7 +73,10 @@ function AppRoutes() {
         }
       />
 
-      {/* Customer routes */}
+      {/* ========================= */}
+      {/* Customer Routes */}
+      {/* ========================= */}
+
       <Route
         path="/dashboard"
         element={
@@ -59,13 +88,15 @@ function AppRoutes() {
         }
       />
 
-      {/* Unauthorized */}
+      {/* ========================= */}
+      {/* Shared Pages */}
+      {/* ========================= */}
+
       <Route
         path="/unauthorized"
         element={<Unauthorized />}
       />
 
-      {/* 404 */}
       <Route
         path="*"
         element={<NotFound />}

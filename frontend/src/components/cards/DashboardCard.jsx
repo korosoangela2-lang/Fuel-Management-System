@@ -1,11 +1,11 @@
 function DashboardCard({
   title,
   value,
-  icon,
   color,
+  icon,
 }) {
   return (
-    <div className="bg-white rounded-xl shadow-md p-6 flex justify-between items-center hover:shadow-xl transition">
+    <div className="bg-white rounded-lg shadow p-6 flex justify-between items-center">
 
       <div>
 
@@ -20,7 +20,7 @@ function DashboardCard({
       </div>
 
       <div
-        className="text-white text-3xl p-4 rounded-full"
+        className="text-4xl p-4 rounded-full text-white"
         style={{
           backgroundColor: color,
         }}
