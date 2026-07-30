@@ -13,6 +13,7 @@ import ForgotPassword from "../pages/auth/ForgotPassword";
 
 import AdminDashboard from "../pages/admin/Dashboard";
 import FuelInventory from "../pages/admin/FuelInventory";
+import Orders from "../pages/admin/Orders";
 
 import UserDashboard from "../pages/user/Dashboard";
 import AvailableFuel from "../pages/user/AvailableFuel";
@@ -77,6 +78,15 @@ function AppRoutes() {
         element={
           <ProtectedRoute allowedRoles={["admin"]}>
             <FuelInventory />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/admin/orders"
+        element={
+          <ProtectedRoute allowedRoles={["admin"]}>
+            <Orders />
           </ProtectedRoute>
         }
       />
