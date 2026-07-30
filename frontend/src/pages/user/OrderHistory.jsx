@@ -10,19 +10,19 @@ function statusColor(status) {
   switch (status) {
 
     case "delivered":
-      return "bg-green-100 text-green-700";
+      return "bg-green-500/10 text-green-400 border border-green-500/20";
 
     case "approved":
-      return "bg-indigo-100 text-indigo-700";
+      return "bg-blue-500/10 text-blue-400 border border-blue-500/20";
 
     case "pending":
-      return "bg-yellow-100 text-yellow-700";
+      return "bg-yellow-500/10 text-yellow-400 border border-yellow-500/20";
 
     case "cancelled":
-      return "bg-red-100 text-red-700";
+      return "bg-red-500/10 text-red-400 border border-red-500/20";
 
     default:
-      return "bg-slate-100 text-slate-700";
+      return "bg-slate-800 text-slate-200";
 
   }
 
@@ -60,11 +60,11 @@ function OrderHistory() {
         My Orders
       </h1>
 
-      <div className="bg-white rounded-xl shadow overflow-hidden">
+      <div className="bg-slate-900 rounded-xl shadow overflow-hidden">
 
         <table className="min-w-full">
 
-          <thead className="bg-slate-100">
+          <thead className="bg-slate-800">
 
             <tr>
 
@@ -96,7 +96,7 @@ function OrderHistory() {
 
             {orders.length === 0 ? (
               <tr>
-                <td colSpan="5" className="text-center py-10 text-slate-500">
+                <td colSpan="5" className="text-center py-10 text-slate-400">
                   You haven't placed any orders yet.
                 </td>
               </tr>
@@ -105,7 +105,7 @@ function OrderHistory() {
 
                 <tr
                   key={order.id}
-                  className="border-t"
+                  className="border-t border-slate-800"
                 >
 
                   <td className="px-6 py-4">

@@ -64,11 +64,11 @@ function RegisterForm() {
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <div>
-        <h2 className="text-3xl font-bold text-slate-800">
+        <h2 className="text-3xl font-bold text-white">
           Create Account
         </h2>
 
-        <p className="mt-2 text-slate-500">
+        <p className="mt-2 text-slate-400">
           Register to use Fuel Management System.
         </p>
       </div>
@@ -95,7 +95,7 @@ function RegisterForm() {
       />
 
       <div>
-        <label className="block text-sm font-medium text-slate-700 mb-2">
+        <label className="block text-sm font-medium text-slate-200 mb-2">
           Region
         </label>
         <select
@@ -103,7 +103,7 @@ function RegisterForm() {
           value={formData.regionId}
           onChange={handleChange}
           required
-          className="w-full border border-slate-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          className="w-full border border-slate-700 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-amber-500"
         >
           <option value="" disabled>
             Select your region
@@ -140,11 +140,11 @@ function RegisterForm() {
         {submitting ? "Creating account..." : "Register"}
       </Button>
 
-      <p className="text-center text-slate-600">
+      <p className="text-center text-slate-300">
         Already have an account?{" "}
         <Link
           to="/login"
-          className="text-indigo-600 hover:underline"
+          className="text-amber-600 hover:underline"
         >
           Login
         </Link>

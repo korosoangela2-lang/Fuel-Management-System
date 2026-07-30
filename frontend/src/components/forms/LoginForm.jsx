@@ -75,7 +75,7 @@ function LoginForm() {
           placeholder="Enter your username"
           value={formData.username}
           onChange={handleChange}
-          className="w-full border rounded-lg px-4 py-2"
+          className="w-full border border-slate-700 rounded-lg px-4 py-2"
           autoComplete="username"
           required
         />
@@ -96,7 +96,7 @@ function LoginForm() {
           placeholder="Enter your password"
           value={formData.password}
           onChange={handleChange}
-          className="w-full border rounded-lg px-4 py-2"
+          className="w-full border border-slate-700 rounded-lg px-4 py-2"
           autoComplete="current-password"
           required
         />
@@ -109,7 +109,7 @@ function LoginForm() {
 
         <Link
           to="/forgot-password"
-          className="text-indigo-600 hover:underline"
+          className="text-amber-600 hover:underline"
         >
           Forgot Password?
         </Link>
@@ -121,7 +121,7 @@ function LoginForm() {
       <button
         type="submit"
         disabled={submitting}
-        className="w-full bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700 disabled:opacity-60 disabled:cursor-not-allowed"
+        className="w-full bg-amber-600 text-white py-3 rounded-lg hover:bg-amber-700 disabled:opacity-60 disabled:cursor-not-allowed"
       >
         {submitting ? "Signing in..." : "Login"}
       </button>
@@ -134,7 +134,7 @@ function LoginForm() {
 
         <Link
           to="/register"
-          className="text-indigo-600 hover:underline"
+          className="text-amber-600 hover:underline"
         >
           Register
         </Link>

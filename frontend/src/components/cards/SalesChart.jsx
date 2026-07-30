@@ -29,7 +29,10 @@ function SalesChart({ labels = [], values = [], label = "Revenue (KES)" }) {
       {
         label,
         data: values,
-        backgroundColor: "#2563EB",
+        backgroundColor: labels.map((_, i) =>
+          i === labels.length - 1 ? "#f59e0b" : "#78450f"
+        ),
+        borderRadius: 3,
       },
     ],
   };
@@ -39,6 +42,23 @@ function SalesChart({ labels = [], values = [], label = "Revenue (KES)" }) {
     plugins: {
       legend: {
         display: false,
+      },
+      tooltip: {
+        backgroundColor: "#1e293b",
+        titleColor: "#f1f5f9",
+        bodyColor: "#cbd5e1",
+        borderColor: "#334155",
+        borderWidth: 1,
+      },
+    },
+    scales: {
+      x: {
+        ticks: { color: "#64748b", font: { family: "JetBrains Mono", size: 11 } },
+        grid: { display: false },
+      },
+      y: {
+        ticks: { color: "#64748b", font: { family: "JetBrains Mono", size: 11 } },
+        grid: { color: "#1e293b" },
       },
     },
   };

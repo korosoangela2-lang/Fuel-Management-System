@@ -3,15 +3,10 @@ import toast from "react-hot-toast";
 
 import UserLayout from "../../layouts/UserLayout";
 import DashboardCard from "../../components/cards/DashboardCard";
+import InventoryDonutChart from "../../components/cards/InventoryDonutChart";
+import RecentOrders from "../../components/tables/RecentOrders";
 import Loader from "../../components/common/Loader";
 import { fetchDashboardReport } from "../../services/reportService";
-
-import {
-  FaGasPump,
-  FaClipboardList,
-  FaTruck,
-  FaClock,
-} from "react-icons/fa";
 
 function Dashboard() {
   const [stats, setStats] = useState(null);
@@ -39,39 +34,61 @@ function Dashboard() {
 
   return (
     <UserLayout>
-      <h1 className="text-3xl font-bold mb-6">
-        Customer Dashboard
-      </h1>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
-        <DashboardCard
-          title="Fuel Products"
-          value={stats?.inventory?.product_count ?? 0}
-          color="#2F80ED"
-          icon={<FaGasPump />}
-        />
+      <div className="space-y-6">
 
-        <DashboardCard
-          title="Recent Orders"
-          value={stats?.my_recent_orders?.length ?? 0}
-          color="#27AE60"
-          icon={<FaClipboardList />}
-        />
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
+          <DashboardCard
+            title="Fuel Products"
+            value={stats?.inventory?.product_count ?? 0}
+            subtitle={`${Number(stats?.inventory?.total_stock ?? 0).toLocaleString()} litres in stock`}
+            color="#f59e0b"
+          />
 
-        <DashboardCard
-          title="Deliveries"
-          value={deliveriesInFlight}
-          color="#F2994A"
-          icon={<FaTruck />}
-        />
+          <DashboardCard
+            title="Recent Orders"
+            value={stats?.my_recent_orders?.length ?? 0}
+            subtitle="Placed by you"
+            color="#3b82f6"
+          />
 
-        <DashboardCard
-          title="Pending Orders"
-          value={stats?.pending_orders ?? 0}
-          color="#EB5757"
-          icon={<FaClock />}
-        />
+          <DashboardCard
+            title="Deliveries"
+            value={deliveriesInFlight}
+            subtitle={`${stats?.deliveries?.in_transit ?? 0} in transit`}
+            color="#a855f7"
+          />
+
+          <DashboardCard
+            title="Pending Orders"
+            value={stats?.pending_orders ?? 0}
+            subtitle="Region-wide"
+            color="#22c55e"
+          />
+        </div>
+
+        <div className="grid grid-cols-1 xl:grid-cols-3 gap-4">
+
+          <div className="bg-slate-900 rounded-xl shadow p-6 border border-slate-800">
+            <h2 className="text-base font-bold text-white mb-6">
+              Inventory by Type
+            </h2>
+
+            <InventoryDonutChart products={stats?.inventory?.products} />
+          </div>
+
+          <div className="xl:col-span-2 bg-slate-900 rounded-xl shadow p-6 border border-slate-800">
+            <h2 className="text-base font-bold text-white mb-6">
+              Your Recent Orders
+            </h2>
+
+            <RecentOrders orders={stats?.my_recent_orders} />
+          </div>
+
+        </div>
+
       </div>
+
     </UserLayout>
   );
 }

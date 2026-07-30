@@ -148,7 +148,7 @@ function FuelInventory() {
               Fuel Inventory
             </h1>
 
-            <p className="text-slate-500 mt-1">
+            <p className="text-slate-400 mt-1">
               Manage all fuel products.
             </p>
 
@@ -159,7 +159,7 @@ function FuelInventory() {
               setEditingFuel(null);
               setShowModal(true);
             }}
-            className="bg-indigo-600 text-white px-5 py-2 rounded-lg hover:bg-indigo-700"
+            className="bg-amber-600 text-white px-5 py-2 rounded-lg hover:bg-amber-700"
           >
             + Add Fuel
           </button>
@@ -168,20 +168,20 @@ function FuelInventory() {
 
         {/* Search + Filter */}
 
-        <div className="bg-white rounded-xl shadow p-4 flex flex-col md:flex-row gap-4">
+        <div className="bg-slate-900 rounded-xl shadow p-4 flex flex-col md:flex-row gap-4">
 
           <input
             type="text"
             placeholder="Search fuel..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="border rounded-lg px-4 py-2 flex-1"
+            className="border border-slate-700 rounded-lg px-4 py-2 flex-1"
           />
 
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="border rounded-lg px-4 py-2"
+            className="border border-slate-700 rounded-lg px-4 py-2"
           >
 
             <option>All</option>
@@ -255,7 +255,7 @@ function FuelInventory() {
 
       {stockFuel && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-xl shadow-xl w-full max-w-sm p-6">
+          <div className="bg-slate-900 rounded-xl shadow-xl w-full max-w-sm p-6">
 
             <h2 className="text-xl font-bold mb-4">
               Add Stock — {stockFuel.name}
@@ -270,7 +270,7 @@ function FuelInventory() {
                 placeholder={`Quantity to add (${stockFuel.unit_of_measure})`}
                 value={stockAmount}
                 onChange={(e) => setStockAmount(e.target.value)}
-                className="w-full border rounded-lg px-4 py-2"
+                className="w-full border border-slate-700 rounded-lg px-4 py-2"
                 autoFocus
                 required
               />
@@ -283,7 +283,7 @@ function FuelInventory() {
                     setStockFuel(null);
                     setStockAmount("");
                   }}
-                  className="px-5 py-2 rounded-lg border"
+                  className="px-5 py-2 rounded-lg border border-slate-700"
                 >
                   Cancel
                 </button>

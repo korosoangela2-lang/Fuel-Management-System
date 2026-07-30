@@ -18,19 +18,19 @@ function badgeColor(status) {
   switch (status) {
 
     case "delivered":
-      return "bg-green-100 text-green-700";
+      return "bg-green-500/10 text-green-400 border border-green-500/20";
 
     case "approved":
-      return "bg-indigo-100 text-indigo-700";
+      return "bg-blue-500/10 text-blue-400 border border-blue-500/20";
 
     case "pending":
-      return "bg-yellow-100 text-yellow-700";
+      return "bg-yellow-500/10 text-yellow-400 border border-yellow-500/20";
 
     case "cancelled":
-      return "bg-red-100 text-red-700";
+      return "bg-red-500/10 text-red-400 border border-red-500/20";
 
     default:
-      return "bg-slate-100 text-slate-700";
+      return "bg-slate-800 text-slate-200";
 
   }
 
@@ -179,7 +179,7 @@ function Orders() {
             Orders Management
           </h1>
 
-          <p className="text-slate-500 mt-2">
+          <p className="text-slate-400 mt-2">
             Total Orders: {filteredOrders.length}
           </p>
 
@@ -187,7 +187,7 @@ function Orders() {
 
         <button
           onClick={() => setShowModal(true)}
-          className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-lg"
+          className="bg-amber-600 hover:bg-amber-700 text-white px-6 py-3 rounded-lg"
         >
           + New Order
         </button>
@@ -196,20 +196,20 @@ function Orders() {
 
       {/* Filters */}
 
-      <div className="bg-white rounded-xl shadow p-5 mb-6">
+      <div className="bg-slate-900 rounded-xl shadow p-5 mb-6">
 
         <div className="grid md:grid-cols-2 gap-4">
 
           <input
             type="text"
             placeholder="Search order or customer..."
-            className="border rounded-lg p-3"
+            className="border border-slate-700 rounded-lg p-3"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
 
           <select
-            className="border rounded-lg p-3"
+            className="border border-slate-700 rounded-lg p-3"
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
           >
@@ -231,11 +231,11 @@ function Orders() {
       {loading ? (
         <Loader label="Loading orders..." />
       ) : (
-        <div className="bg-white rounded-xl shadow overflow-hidden">
+        <div className="bg-slate-900 rounded-xl shadow overflow-hidden">
 
           <table className="min-w-full">
 
-            <thead className="bg-slate-100">
+            <thead className="bg-slate-800">
 
               <tr>
 
@@ -256,7 +256,7 @@ function Orders() {
 
                 <tr
                   key={order.id}
-                  className="border-t hover:bg-slate-50"
+                  className="border-t border-slate-800 hover:bg-slate-950"
                 >
 
                   <td className="px-6 py-4">{order.order_number}</td>
@@ -328,7 +328,7 @@ function Orders() {
 
                   <td
                     colSpan="6"
-                    className="text-center py-8 text-slate-500"
+                    className="text-center py-8 text-slate-400"
                   >
                     No matching orders found.
                   </td>
@@ -350,7 +350,7 @@ function Orders() {
 
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
 
-          <div className="bg-white rounded-xl shadow-xl w-full max-w-lg p-6">
+          <div className="bg-slate-900 rounded-xl shadow-xl w-full max-w-lg p-6">
 
             <h2 className="text-2xl font-bold mb-6">
               Create New Order
@@ -376,15 +376,15 @@ function Orders() {
 
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
 
-          <div className="bg-white rounded-xl shadow-xl w-full max-w-lg p-6">
+          <div className="bg-slate-900 rounded-xl shadow-xl w-full max-w-lg p-6">
 
             <h2 className="text-2xl font-bold mb-4">
               {viewOrder.order_number}
             </h2>
 
-            <p className="text-slate-500 mb-4">{viewOrder.customer_name}</p>
+            <p className="text-slate-400 mb-4">{viewOrder.customer_name}</p>
 
-            <div className="divide-y border-t border-b mb-4">
+            <div className="divide-y border-t border-slate-800 border-b border-slate-800 mb-4">
               {(viewOrder.items || []).map((item) => (
                 <div key={item.id} className="py-2 flex justify-between text-sm">
                   <span>{item.fuel_name} × {item.quantity}</span>
@@ -400,7 +400,7 @@ function Orders() {
             <div className="flex justify-end">
               <button
                 onClick={() => setViewOrder(null)}
-                className="px-5 py-2 border rounded-lg"
+                className="px-5 py-2 border border-slate-700 rounded-lg"
               >
                 Close
               </button>
@@ -418,7 +418,7 @@ function Orders() {
 
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
 
-          <div className="bg-white rounded-xl shadow-xl w-full max-w-md p-6">
+          <div className="bg-slate-900 rounded-xl shadow-xl w-full max-w-md p-6">
 
             <h2 className="text-xl font-bold mb-4">
               Cancel {selectedOrder?.order_number}
@@ -431,7 +431,7 @@ function Orders() {
                 onChange={(e) => setCancelReason(e.target.value)}
                 placeholder="Reason for cancellation"
                 rows={3}
-                className="w-full border rounded-lg p-3"
+                className="w-full border border-slate-700 rounded-lg p-3"
                 required
               />
 
@@ -439,7 +439,7 @@ function Orders() {
                 <button
                   type="button"
                   onClick={() => setShowCancelModal(false)}
-                  className="px-5 py-2 border rounded-lg"
+                  className="px-5 py-2 border border-slate-700 rounded-lg"
                 >
                   Back
                 </button>

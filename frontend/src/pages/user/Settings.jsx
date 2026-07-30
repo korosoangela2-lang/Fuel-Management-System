@@ -45,10 +45,10 @@ function Settings() {
 
         <div>
           <h1 className="text-3xl font-bold">Settings</h1>
-          <p className="text-slate-500 mt-1">Manage your account security.</p>
+          <p className="text-slate-400 mt-1">Manage your account security.</p>
         </div>
 
-        <div className="bg-white rounded-xl shadow p-6">
+        <div className="bg-slate-900 rounded-xl shadow p-6">
 
           <h2 className="text-xl font-bold mb-4">Change Password</h2>
 
@@ -60,7 +60,7 @@ function Settings() {
                 type="password"
                 value={currentPassword}
                 onChange={(e) => setCurrentPassword(e.target.value)}
-                className="w-full border rounded-lg px-4 py-2"
+                className="w-full border border-slate-700 rounded-lg px-4 py-2"
                 autoComplete="current-password"
                 required
               />
@@ -72,7 +72,7 @@ function Settings() {
                 type="password"
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
-                className="w-full border rounded-lg px-4 py-2"
+                className="w-full border border-slate-700 rounded-lg px-4 py-2"
                 autoComplete="new-password"
                 minLength={8}
                 required
@@ -85,7 +85,7 @@ function Settings() {
                 type="password"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
-                className="w-full border rounded-lg px-4 py-2"
+                className="w-full border border-slate-700 rounded-lg px-4 py-2"
                 autoComplete="new-password"
                 minLength={8}
                 required
@@ -95,7 +95,7 @@ function Settings() {
             <button
               type="submit"
               disabled={saving}
-              className="bg-indigo-600 text-white px-5 py-2 rounded-lg hover:bg-indigo-700 disabled:opacity-60"
+              className="bg-amber-600 text-white px-5 py-2 rounded-lg hover:bg-amber-700 disabled:opacity-60"
             >
               {saving ? "Updating..." : "Change Password"}
             </button>

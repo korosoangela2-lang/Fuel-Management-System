@@ -1,38 +1,33 @@
 function DashboardCard({
   title,
   value,
+  subtitle,
   color,
-  icon,
 }) {
   return (
-    <div className="relative bg-white rounded-2xl shadow p-6 flex justify-between items-center overflow-hidden border border-slate-100 hover:shadow-md transition-shadow">
+    <div className="relative bg-slate-900 rounded-xl shadow p-5 overflow-hidden border border-slate-800">
 
       <div
-        className="absolute inset-x-0 top-0 h-1"
+        className="absolute inset-x-0 top-0 h-[3px]"
         style={{ backgroundColor: color }}
       />
 
-      <div>
+      <p className="text-[11px] font-mono font-semibold uppercase tracking-wider text-slate-500">
+        {title}
+      </p>
 
-        <p className="text-sm font-medium text-slate-500">
-          {title}
-        </p>
-
-        <h2 className="text-3xl font-bold mt-2 text-slate-800">
-          {value}
-        </h2>
-
-      </div>
-
-      <div
-        className="text-2xl w-14 h-14 rounded-xl flex items-center justify-center shrink-0"
-        style={{
-          backgroundColor: `${color}1a`,
-          color,
-        }}
+      <h2
+        className="text-3xl font-bold mt-2 font-mono"
+        style={{ color }}
       >
-        {icon}
-      </div>
+        {value}
+      </h2>
+
+      {subtitle && (
+        <p className="text-xs text-slate-500 mt-1">
+          {subtitle}
+        </p>
+      )}
 
     </div>
   );

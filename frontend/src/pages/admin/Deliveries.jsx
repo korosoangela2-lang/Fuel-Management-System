@@ -17,13 +17,13 @@ function titleCase(value = "") {
 function statusColor(status) {
   switch (status) {
     case "delivered":
-      return "bg-green-100 text-green-700";
+      return "bg-green-500/10 text-green-400 border border-green-500/20";
     case "in_transit":
-      return "bg-indigo-100 text-indigo-700";
+      return "bg-blue-500/10 text-blue-400 border border-blue-500/20";
     case "pending":
-      return "bg-yellow-100 text-yellow-700";
+      return "bg-yellow-500/10 text-yellow-400 border border-yellow-500/20";
     default:
-      return "bg-red-100 text-red-700";
+      return "bg-red-500/10 text-red-400 border border-red-500/20";
   }
 }
 
@@ -129,24 +129,24 @@ function Deliveries() {
         <div className="flex justify-between items-center">
           <div>
             <h1 className="text-3xl font-bold">Deliveries</h1>
-            <p className="text-slate-500 mt-1">Track scheduled deliveries from dispatch to completion.</p>
+            <p className="text-slate-400 mt-1">Track scheduled deliveries from dispatch to completion.</p>
           </div>
 
           <button
             onClick={() => setShowModal(true)}
             disabled={eligibleOrders.length === 0}
-            className="bg-indigo-600 text-white px-5 py-2 rounded-lg hover:bg-indigo-700 disabled:opacity-50"
+            className="bg-amber-600 text-white px-5 py-2 rounded-lg hover:bg-amber-700 disabled:opacity-50"
             title={eligibleOrders.length === 0 ? "No approved orders are awaiting a delivery" : ""}
           >
             + Schedule Delivery
           </button>
         </div>
 
-        <div className="bg-white rounded-xl shadow p-4">
+        <div className="bg-slate-900 rounded-xl shadow p-4">
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="border rounded-lg px-4 py-2"
+            className="border border-slate-700 rounded-lg px-4 py-2"
           >
             <option value="All">All</option>
             <option value="Pending">Pending</option>
@@ -161,14 +161,14 @@ function Deliveries() {
         ) : (
           <div className="space-y-4">
             {filteredDeliveries.length === 0 ? (
-              <p className="text-slate-500 text-center py-10">No deliveries found.</p>
+              <p className="text-slate-400 text-center py-10">No deliveries found.</p>
             ) : (
               filteredDeliveries.map((delivery) => (
-                <div key={delivery.id} className="bg-white rounded-xl shadow p-6">
+                <div key={delivery.id} className="bg-slate-900 rounded-xl shadow p-6">
                   <div className="flex justify-between items-center">
                     <div>
                       <h2 className="text-xl font-bold">{delivery.order_number}</h2>
-                      <p className="text-slate-500 mt-1">{delivery.customer_name}</p>
+                      <p className="text-slate-400 mt-1">{delivery.customer_name}</p>
                     </div>
                     <span className={`px-4 py-2 rounded-full text-sm font-semibold ${statusColor(delivery.status)}`}>
                       {titleCase(delivery.status)}
@@ -177,15 +177,15 @@ function Deliveries() {
 
                   <div className="grid md:grid-cols-3 gap-6 mt-6">
                     <div>
-                      <p className="text-slate-500">Driver</p>
+                      <p className="text-slate-400">Driver</p>
                       <p className="font-semibold">{delivery.driver_name}</p>
                     </div>
                     <div>
-                      <p className="text-slate-500">Vehicle</p>
+                      <p className="text-slate-400">Vehicle</p>
                       <p className="font-semibold">{delivery.vehicle_registration}</p>
                     </div>
                     <div>
-                      <p className="text-slate-500">Scheduled Date</p>
+                      <p className="text-slate-400">Scheduled Date</p>
                       <p className="font-semibold">{delivery.scheduled_date}</p>
                     </div>
                   </div>
@@ -197,7 +197,7 @@ function Deliveries() {
                           key={next}
                           onClick={() => handleStatusChange(delivery, next)}
                           disabled={saving}
-                          className="px-4 py-2 rounded-lg border text-sm hover:bg-slate-50 disabled:opacity-50"
+                          className="px-4 py-2 rounded-lg border border-slate-700 text-sm hover:bg-slate-950 disabled:opacity-50"
                         >
                           Mark {titleCase(next)}
                         </button>
@@ -214,14 +214,14 @@ function Deliveries() {
 
       {showModal && (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-          <div className="bg-white rounded-xl shadow-xl w-full max-w-lg p-6">
+          <div className="bg-slate-900 rounded-xl shadow-xl w-full max-w-lg p-6">
             <h2 className="text-2xl font-bold mb-6">Schedule Delivery</h2>
 
             <form onSubmit={handleSchedule} className="space-y-4">
               <select
                 value={form.order_id}
                 onChange={(e) => setForm({ ...form, order_id: e.target.value })}
-                className="w-full border rounded-lg p-3"
+                className="w-full border border-slate-700 rounded-lg p-3"
                 required
               >
                 <option value="" disabled>Select an approved order</option>
@@ -236,7 +236,7 @@ function Deliveries() {
                 value={form.vehicle_registration}
                 onChange={(e) => setForm({ ...form, vehicle_registration: e.target.value })}
                 placeholder="Vehicle registration"
-                className="w-full border rounded-lg p-3"
+                className="w-full border border-slate-700 rounded-lg p-3"
                 required
               />
 
@@ -244,7 +244,7 @@ function Deliveries() {
                 value={form.driver_name}
                 onChange={(e) => setForm({ ...form, driver_name: e.target.value })}
                 placeholder="Driver name"
-                className="w-full border rounded-lg p-3"
+                className="w-full border border-slate-700 rounded-lg p-3"
                 required
               />
 
@@ -252,7 +252,7 @@ function Deliveries() {
                 value={form.driver_phone}
                 onChange={(e) => setForm({ ...form, driver_phone: e.target.value })}
                 placeholder="Driver phone"
-                className="w-full border rounded-lg p-3"
+                className="w-full border border-slate-700 rounded-lg p-3"
                 required
               />
 
@@ -260,7 +260,7 @@ function Deliveries() {
                 type="date"
                 value={form.scheduled_date}
                 onChange={(e) => setForm({ ...form, scheduled_date: e.target.value })}
-                className="w-full border rounded-lg p-3"
+                className="w-full border border-slate-700 rounded-lg p-3"
                 required
               />
 
@@ -269,21 +269,21 @@ function Deliveries() {
                 onChange={(e) => setForm({ ...form, notes: e.target.value })}
                 placeholder="Notes (optional)"
                 rows={2}
-                className="w-full border rounded-lg p-3"
+                className="w-full border border-slate-700 rounded-lg p-3"
               />
 
               <div className="flex justify-end gap-3">
                 <button
                   type="button"
                   onClick={() => setShowModal(false)}
-                  className="px-5 py-2 border rounded-lg"
+                  className="px-5 py-2 border border-slate-700 rounded-lg"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={saving}
-                  className="px-5 py-2 bg-indigo-600 text-white rounded-lg disabled:opacity-60"
+                  className="px-5 py-2 bg-amber-600 text-white rounded-lg disabled:opacity-60"
                 >
                   {saving ? "Scheduling..." : "Schedule"}
                 </button>

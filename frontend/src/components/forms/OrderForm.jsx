@@ -53,7 +53,7 @@ function OrderForm({
       <select
         value={customerId}
         onChange={(e) => setCustomerId(e.target.value)}
-        className="w-full border rounded-lg p-3"
+        className="w-full border border-slate-700 rounded-lg p-3"
         required
       >
         <option value="" disabled>Select customer</option>
@@ -70,7 +70,7 @@ function OrderForm({
             <select
               value={item.fuel_id}
               onChange={(e) => updateItem(index, "fuel_id", e.target.value)}
-              className="flex-1 border rounded-lg p-3"
+              className="flex-1 border border-slate-700 rounded-lg p-3"
               required
             >
               <option value="" disabled>Select fuel</option>
@@ -88,7 +88,7 @@ function OrderForm({
               value={item.quantity}
               onChange={(e) => updateItem(index, "quantity", e.target.value)}
               placeholder="Quantity"
-              className="w-32 border rounded-lg p-3"
+              className="w-32 border border-slate-700 rounded-lg p-3"
               required
             />
 
@@ -107,7 +107,7 @@ function OrderForm({
         <button
           type="button"
           onClick={addItem}
-          className="text-indigo-600 text-sm font-medium"
+          className="text-amber-600 text-sm font-medium"
         >
           + Add another fuel
         </button>
@@ -117,7 +117,7 @@ function OrderForm({
         value={deliveryAddress}
         onChange={(e) => setDeliveryAddress(e.target.value)}
         placeholder="Delivery address (optional)"
-        className="w-full border rounded-lg p-3"
+        className="w-full border border-slate-700 rounded-lg p-3"
       />
 
       <textarea
@@ -125,7 +125,7 @@ function OrderForm({
         onChange={(e) => setNotes(e.target.value)}
         placeholder="Notes (optional)"
         rows={2}
-        className="w-full border rounded-lg p-3"
+        className="w-full border border-slate-700 rounded-lg p-3"
       />
 
       <div className="flex justify-end gap-3 pt-2">
@@ -133,7 +133,7 @@ function OrderForm({
         <button
           type="button"
           onClick={onCancel}
-          className="px-5 py-2 border rounded-lg"
+          className="px-5 py-2 border border-slate-700 rounded-lg"
         >
           Cancel
         </button>
@@ -141,7 +141,7 @@ function OrderForm({
         <button
           type="submit"
           disabled={submitting}
-          className="px-5 py-2 bg-indigo-600 text-white rounded-lg disabled:opacity-60"
+          className="px-5 py-2 bg-amber-600 text-white rounded-lg disabled:opacity-60"
         >
           {submitting ? "Saving..." : "Save Order"}
         </button>

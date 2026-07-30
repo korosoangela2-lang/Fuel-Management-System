@@ -57,7 +57,7 @@ function FuelForm({
           <select
             value={regionId}
             onChange={(e) => setRegionId(e.target.value)}
-            className="w-full border rounded-lg px-4 py-2"
+            className="w-full border border-slate-700 rounded-lg px-4 py-2"
             required
           >
             <option value="" disabled>Select region</option>
@@ -80,7 +80,7 @@ function FuelForm({
           name="name"
           value={fuel.name}
           onChange={handleChange}
-          className="w-full border rounded-lg px-4 py-2"
+          className="w-full border border-slate-700 rounded-lg px-4 py-2"
           required
         />
 
@@ -98,7 +98,7 @@ function FuelForm({
           placeholder="e.g. diesel, petrol, kerosene"
           value={fuel.fuel_type || ""}
           onChange={handleChange}
-          className="w-full border rounded-lg px-4 py-2"
+          className="w-full border border-slate-700 rounded-lg px-4 py-2"
         />
 
       </div>
@@ -118,7 +118,7 @@ function FuelForm({
             name="unit_price"
             value={fuel.unit_price}
             onChange={handleChange}
-            className="w-full border rounded-lg px-4 py-2"
+            className="w-full border border-slate-700 rounded-lg px-4 py-2"
             required
           />
 
@@ -135,7 +135,7 @@ function FuelForm({
             name="unit_of_measure"
             value={fuel.unit_of_measure}
             onChange={handleChange}
-            className="w-full border rounded-lg px-4 py-2"
+            className="w-full border border-slate-700 rounded-lg px-4 py-2"
             required
           />
 
@@ -159,12 +159,12 @@ function FuelForm({
             value={fuel.quantity_available}
             onChange={handleChange}
             disabled={isEditing}
-            className="w-full border rounded-lg px-4 py-2 disabled:bg-slate-100 disabled:text-slate-500"
+            className="w-full border border-slate-700 rounded-lg px-4 py-2 disabled:bg-slate-800 disabled:text-slate-400"
             required={!isEditing}
           />
 
           {isEditing && (
-            <p className="mt-1 text-xs text-slate-500">
+            <p className="mt-1 text-xs text-slate-400">
               Use "Add Stock" from the table to adjust quantity.
             </p>
           )}
@@ -184,7 +184,7 @@ function FuelForm({
             name="reorder_level"
             value={fuel.reorder_level}
             onChange={handleChange}
-            className="w-full border rounded-lg px-4 py-2"
+            className="w-full border border-slate-700 rounded-lg px-4 py-2"
             required
           />
 
@@ -197,7 +197,7 @@ function FuelForm({
         <button
           type="button"
           onClick={onCancel}
-          className="px-5 py-2 rounded-lg border"
+          className="px-5 py-2 rounded-lg border border-slate-700"
         >
           Cancel
         </button>
@@ -205,7 +205,7 @@ function FuelForm({
         <button
           type="submit"
           disabled={submitting}
-          className="px-5 py-2 rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 disabled:opacity-60"
+          className="px-5 py-2 rounded-lg bg-amber-600 text-white hover:bg-amber-700 disabled:opacity-60"
         >
           {submitting ? "Saving..." : submitLabel}
         </button>

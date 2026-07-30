@@ -8,13 +8,13 @@ function statusFor(fuel) {
 function statusColor(status) {
   switch (status) {
     case "Available":
-      return "bg-green-100 text-green-700";
+      return "bg-green-500/10 text-green-400 border border-green-500/20";
     case "Low Stock":
-      return "bg-yellow-100 text-yellow-700";
+      return "bg-yellow-500/10 text-yellow-400 border border-yellow-500/20";
     case "Inactive":
-      return "bg-slate-200 text-slate-600";
+      return "bg-slate-500/10 text-slate-400 border border-slate-500/20";
     default:
-      return "bg-red-100 text-red-700";
+      return "bg-red-500/10 text-red-400 border border-red-500/20";
   }
 }
 
@@ -25,11 +25,11 @@ function FuelTable({
   onDeactivate,
 }) {
   return (
-    <div className="bg-white rounded-xl shadow overflow-hidden">
+    <div className="bg-slate-900 rounded-xl shadow overflow-hidden">
 
       <table className="min-w-full">
 
-        <thead className="bg-slate-100">
+        <thead className="bg-slate-800">
 
           <tr>
 
@@ -65,7 +65,7 @@ function FuelTable({
 
               <td
                 colSpan="5"
-                className="text-center py-10 text-slate-500"
+                className="text-center py-10 text-slate-400"
               >
                 No fuel products found.
               </td>
@@ -78,12 +78,12 @@ function FuelTable({
 
               <tr
                 key={fuel.id}
-                className="border-t"
+                className="border-t border-slate-800"
               >
 
                 <td className="px-6 py-4">
                   {fuel.name}
-                  <div className="text-xs text-slate-400">{fuel.fuel_type}</div>
+                  <div className="text-xs text-slate-500">{fuel.fuel_type}</div>
                 </td>
 
                 <td className="px-6 py-4">
@@ -108,7 +108,7 @@ function FuelTable({
 
                   <button
                     onClick={() => onEdit(fuel)}
-                    className="bg-indigo-600 text-white px-3 py-1 rounded hover:bg-indigo-700"
+                    className="bg-amber-600 text-white px-3 py-1 rounded hover:bg-amber-700"
                   >
                     Edit
                   </button>

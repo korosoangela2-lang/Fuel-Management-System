@@ -10,7 +10,7 @@ function Input({
 }) {
   return (
     <div>
-      <label className="block text-sm font-medium text-slate-700 mb-2">
+      <label className="block text-sm font-medium text-slate-200 mb-2">
         {label}
       </label>
 
@@ -22,7 +22,7 @@ function Input({
         onChange={onChange}
         required={required}
         autoComplete={autoComplete}
-        className="w-full border border-slate-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        className="w-full border border-slate-700 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-amber-500"
       />
     </div>
   );

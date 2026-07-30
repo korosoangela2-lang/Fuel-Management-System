@@ -61,18 +61,18 @@ function Profile() {
 
         <div>
           <h1 className="text-3xl font-bold">Profile</h1>
-          <p className="text-slate-500 mt-1">Your account details.</p>
+          <p className="text-slate-400 mt-1">Your account details.</p>
         </div>
 
-        <div className="bg-white rounded-xl shadow p-6 space-y-4">
+        <div className="bg-slate-900 rounded-xl shadow p-6 space-y-4">
 
           <div>
-            <p className="text-sm text-slate-500">Username</p>
+            <p className="text-sm text-slate-400">Username</p>
             <p className="font-semibold">{profile?.username}</p>
           </div>
 
           <div>
-            <p className="text-sm text-slate-500">Role</p>
+            <p className="text-sm text-slate-400">Role</p>
             <p className="font-semibold">{titleCase(profile?.role || "")}</p>
           </div>
 
@@ -83,7 +83,7 @@ function Profile() {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full border rounded-lg px-4 py-2"
+                className="w-full border border-slate-700 rounded-lg px-4 py-2"
                 required
               />
             </div>
@@ -91,7 +91,7 @@ function Profile() {
             <button
               type="submit"
               disabled={saving}
-              className="bg-indigo-600 text-white px-5 py-2 rounded-lg hover:bg-indigo-700 disabled:opacity-60"
+              className="bg-amber-600 text-white px-5 py-2 rounded-lg hover:bg-amber-700 disabled:opacity-60"
             >
               {saving ? "Saving..." : "Save Changes"}
             </button>

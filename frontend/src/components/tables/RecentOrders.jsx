@@ -5,13 +5,13 @@ function titleCase(value = "") {
 function statusColor(status) {
   switch (status) {
     case "delivered":
-      return "text-green-600";
+      return "text-green-400";
     case "approved":
-      return "text-indigo-600";
+      return "text-blue-400";
     case "cancelled":
-      return "text-red-600";
+      return "text-red-400";
     default:
-      return "text-yellow-600";
+      return "text-yellow-400";
   }
 }
 
@@ -29,14 +29,14 @@ function RecentOrders({ orders = [] }) {
 
         <div
           key={order.id}
-          className="border-b pb-3"
+          className="border-b border-slate-800 pb-3"
         >
 
-          <h3 className="font-semibold">
+          <h3 className="font-semibold text-white">
             {order.customer || order.order_number}
           </h3>
 
-          <p className="text-slate-500 text-sm">
+          <p className="text-slate-500 text-sm font-mono">
             {order.order_number}
           </p>
 

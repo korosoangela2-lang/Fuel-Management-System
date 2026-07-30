@@ -44,7 +44,7 @@ function CustomerForm({
           <select
             value={regionId}
             onChange={(e) => setRegionId(e.target.value)}
-            className="w-full border rounded-lg px-4 py-2"
+            className="w-full border border-slate-700 rounded-lg px-4 py-2"
             required
           >
             <option value="" disabled>Select region</option>
@@ -62,7 +62,7 @@ function CustomerForm({
           name="name"
           value={customer.name}
           onChange={handleChange}
-          className="w-full border rounded-lg px-4 py-2"
+          className="w-full border border-slate-700 rounded-lg px-4 py-2"
           required
         />
       </div>
@@ -75,7 +75,7 @@ function CustomerForm({
             name="phone"
             value={customer.phone}
             onChange={handleChange}
-            className="w-full border rounded-lg px-4 py-2"
+            className="w-full border border-slate-700 rounded-lg px-4 py-2"
             required
           />
         </div>
@@ -87,7 +87,7 @@ function CustomerForm({
             name="email"
             value={customer.email || ""}
             onChange={handleChange}
-            className="w-full border rounded-lg px-4 py-2"
+            className="w-full border border-slate-700 rounded-lg px-4 py-2"
           />
         </div>
       </div>
@@ -99,7 +99,7 @@ function CustomerForm({
           name="address"
           value={customer.address || ""}
           onChange={handleChange}
-          className="w-full border rounded-lg px-4 py-2"
+          className="w-full border border-slate-700 rounded-lg px-4 py-2"
         />
       </div>
 
@@ -110,7 +110,7 @@ function CustomerForm({
             name="customer_type"
             value={customer.customer_type}
             onChange={handleChange}
-            className="w-full border rounded-lg px-4 py-2"
+            className="w-full border border-slate-700 rounded-lg px-4 py-2"
           >
             <option value="individual">Individual</option>
             <option value="corporate">Corporate</option>
@@ -127,7 +127,7 @@ function CustomerForm({
             name="credit_limit"
             value={customer.credit_limit}
             onChange={handleChange}
-            className="w-full border rounded-lg px-4 py-2"
+            className="w-full border border-slate-700 rounded-lg px-4 py-2"
           />
         </div>
       </div>
@@ -136,7 +136,7 @@ function CustomerForm({
         <button
           type="button"
           onClick={onCancel}
-          className="px-5 py-2 rounded-lg border"
+          className="px-5 py-2 rounded-lg border border-slate-700"
         >
           Cancel
         </button>
@@ -144,7 +144,7 @@ function CustomerForm({
         <button
           type="submit"
           disabled={submitting}
-          className="px-5 py-2 rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 disabled:opacity-60"
+          className="px-5 py-2 rounded-lg bg-amber-600 text-white hover:bg-amber-700 disabled:opacity-60"
         >
           {submitting ? "Saving..." : submitLabel}
         </button>

@@ -122,33 +122,33 @@ function UserManagement() {
         <div className="flex justify-between items-center">
           <div>
             <h1 className="text-3xl font-bold">User Management</h1>
-            <p className="text-slate-500 mt-1">Manage staff accounts and their access roles.</p>
+            <p className="text-slate-400 mt-1">Manage staff accounts and their access roles.</p>
           </div>
 
           <button
             onClick={openCreate}
-            className="bg-indigo-600 text-white px-5 py-2 rounded-lg hover:bg-indigo-700"
+            className="bg-amber-600 text-white px-5 py-2 rounded-lg hover:bg-amber-700"
           >
             + Add User
           </button>
         </div>
 
-        <div className="bg-white rounded-xl shadow p-4">
+        <div className="bg-slate-900 rounded-xl shadow p-4">
           <input
             type="text"
             placeholder="Search by username or email..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="border rounded-lg px-4 py-2 w-full"
+            className="border border-slate-700 rounded-lg px-4 py-2 w-full"
           />
         </div>
 
         {loading ? (
           <Loader label="Loading users..." />
         ) : (
-          <div className="bg-white rounded-xl shadow overflow-hidden">
+          <div className="bg-slate-900 rounded-xl shadow overflow-hidden">
             <table className="min-w-full">
-              <thead className="bg-slate-100">
+              <thead className="bg-slate-800">
                 <tr>
                   <th className="px-6 py-4 text-left">Username</th>
                   <th className="px-6 py-4 text-left">Email</th>
@@ -161,11 +161,11 @@ function UserManagement() {
               <tbody>
                 {filteredUsers.length === 0 ? (
                   <tr>
-                    <td colSpan="6" className="text-center py-10 text-slate-500">No users found.</td>
+                    <td colSpan="6" className="text-center py-10 text-slate-400">No users found.</td>
                   </tr>
                 ) : (
                   filteredUsers.map((user) => (
-                    <tr key={user.id} className="border-t">
+                    <tr key={user.id} className="border-t border-slate-800">
                       <td className="px-6 py-4">{user.username}</td>
                       <td className="px-6 py-4">{user.email}</td>
                       <td className="px-6 py-4">{titleCase(user.role)}</td>
@@ -173,14 +173,14 @@ function UserManagement() {
                         {regions.find((r) => r.id === user.region_id)?.name || "—"}
                       </td>
                       <td className="px-6 py-4">
-                        <span className={`px-3 py-1 rounded-full text-sm font-medium ${user.is_active ? "bg-green-100 text-green-700" : "bg-slate-200 text-slate-600"}`}>
+                        <span className={`px-3 py-1 rounded-full text-sm font-medium ${user.is_active ? "bg-green-500/10 text-green-400 border border-green-500/20" : "bg-slate-500/10 text-slate-400 border border-slate-500/20"}`}>
                           {user.is_active ? "Active" : "Inactive"}
                         </span>
                       </td>
                       <td className="px-6 py-4 text-center space-x-2 whitespace-nowrap">
                         <button
                           onClick={() => openEdit(user)}
-                          className="bg-indigo-600 text-white px-3 py-1 rounded hover:bg-indigo-700"
+                          className="bg-amber-600 text-white px-3 py-1 rounded hover:bg-amber-700"
                         >
                           Edit
                         </button>
@@ -214,7 +214,7 @@ function UserManagement() {
             value={form.username}
             onChange={(e) => setForm({ ...form, username: e.target.value })}
             disabled={!!editingUser}
-            className="w-full border rounded-lg p-3 disabled:bg-slate-100"
+            className="w-full border border-slate-700 rounded-lg p-3 disabled:bg-slate-800"
             required
           />
 
@@ -223,7 +223,7 @@ function UserManagement() {
             placeholder="Email"
             value={form.email}
             onChange={(e) => setForm({ ...form, email: e.target.value })}
-            className="w-full border rounded-lg p-3"
+            className="w-full border border-slate-700 rounded-lg p-3"
             required
           />
 
@@ -233,7 +233,7 @@ function UserManagement() {
               placeholder="Temporary password"
               value={form.password}
               onChange={(e) => setForm({ ...form, password: e.target.value })}
-              className="w-full border rounded-lg p-3"
+              className="w-full border border-slate-700 rounded-lg p-3"
               required
             />
           )}
@@ -241,7 +241,7 @@ function UserManagement() {
           <select
             value={form.role}
             onChange={(e) => setForm({ ...form, role: e.target.value })}
-            className="w-full border rounded-lg p-3"
+            className="w-full border border-slate-700 rounded-lg p-3"
           >
             {ROLES.map((role) => (
               <option key={role} value={role}>{titleCase(role)}</option>
@@ -252,7 +252,7 @@ function UserManagement() {
             <select
               value={form.region_id}
               onChange={(e) => setForm({ ...form, region_id: e.target.value })}
-              className="w-full border rounded-lg p-3"
+              className="w-full border border-slate-700 rounded-lg p-3"
               required
             >
               <option value="" disabled>Select region</option>
@@ -266,14 +266,14 @@ function UserManagement() {
             <button
               type="button"
               onClick={() => setShowModal(false)}
-              className="px-5 py-2 border rounded-lg"
+              className="px-5 py-2 border border-slate-700 rounded-lg"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={saving}
-              className="px-5 py-2 bg-indigo-600 text-white rounded-lg disabled:opacity-60"
+              className="px-5 py-2 bg-amber-600 text-white rounded-lg disabled:opacity-60"
             >
               {saving ? "Saving..." : editingUser ? "Save Changes" : "Add User"}
             </button>

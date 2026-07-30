@@ -94,7 +94,7 @@ function FuelOrders() {
         {fuels.map((fuel) => (
           <div
             key={fuel.id}
-            className="bg-white rounded-xl shadow p-6"
+            className="bg-slate-900 rounded-xl shadow p-6"
           >
             {/* Fuel Name */}
             <h2 className="text-xl font-bold">
@@ -102,7 +102,7 @@ function FuelOrders() {
             </h2>
 
             {/* Price */}
-            <p className="mt-4 text-slate-500">
+            <p className="mt-4 text-slate-400">
               Price
             </p>
 
@@ -111,7 +111,7 @@ function FuelOrders() {
             </p>
 
             {/* Stock */}
-            <p className="mt-4 text-slate-500">
+            <p className="mt-4 text-slate-400">
               Available Stock
             </p>
 
@@ -126,12 +126,12 @@ function FuelOrders() {
               value={quantity}
               onChange={(e) => setQuantity(e.target.value)}
               placeholder={`Enter Quantity (${fuel.unit_of_measure})`}
-              className="mt-5 w-full border rounded-lg p-3"
+              className="mt-5 w-full border border-slate-700 rounded-lg p-3"
             />
 
             {/* Estimated Total */}
             <div className="mt-5">
-              <p className="text-sm text-slate-500">
+              <p className="text-sm text-slate-400">
                 Estimated Total
               </p>
 
@@ -148,7 +148,7 @@ function FuelOrders() {
             {/* Checkout Button */}
             <button
               onClick={() => checkout(fuel)}
-              className="mt-6 w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-lg transition"
+              className="mt-6 w-full bg-amber-600 hover:bg-amber-700 text-white py-3 rounded-lg transition"
             >
               Checkout
             </button>
@@ -159,7 +159,7 @@ function FuelOrders() {
       {/* Checkout Modal */}
       {selectedFuel && (
         <div className="fixed inset-0 bg-black/40 flex justify-center items-center z-50">
-          <div className="bg-white rounded-xl shadow-lg w-[420px] p-8">
+          <div className="bg-slate-900 rounded-xl shadow-lg w-[420px] p-8">
             <h2 className="text-2xl font-bold mb-6">
               Confirm Order
             </h2>
@@ -170,7 +170,7 @@ function FuelOrders() {
                 <select
                   value={customerId}
                   onChange={(e) => setCustomerId(e.target.value)}
-                  className="w-full border rounded-lg p-3"
+                  className="w-full border border-slate-700 rounded-lg p-3"
                 >
                   <option value="" disabled>Select a customer</option>
                   {customers.map((customer) => (
@@ -204,7 +204,7 @@ function FuelOrders() {
               <button
                 onClick={() => setSelectedFuel(null)}
                 disabled={placingOrder}
-                className="px-5 py-2 border rounded-lg hover:bg-slate-100"
+                className="px-5 py-2 border border-slate-700 rounded-lg hover:bg-slate-800"
               >
                 Cancel
               </button>
@@ -212,7 +212,7 @@ function FuelOrders() {
               <button
                 onClick={confirmOrder}
                 disabled={placingOrder}
-                className="px-5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg disabled:opacity-60"
+                className="px-5 py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-lg disabled:opacity-60"
               >
                 {placingOrder ? "Placing order..." : "Confirm Order"}
               </button>

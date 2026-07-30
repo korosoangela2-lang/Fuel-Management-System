@@ -122,11 +122,11 @@ function SystemSettings() {
 
         <div>
           <h1 className="text-3xl font-bold">System Settings</h1>
-          <p className="text-slate-500 mt-1">Manage regions and refineries across the platform.</p>
+          <p className="text-slate-400 mt-1">Manage regions and refineries across the platform.</p>
         </div>
 
         {/* Regions */}
-        <div className="bg-white rounded-xl shadow p-6">
+        <div className="bg-slate-900 rounded-xl shadow p-6">
           <h2 className="text-xl font-bold mb-4">Regions</h2>
 
           <form onSubmit={handleAddRegion} className="flex flex-wrap gap-3 mb-6">
@@ -134,20 +134,20 @@ function SystemSettings() {
               placeholder="Region name"
               value={regionForm.name}
               onChange={(e) => setRegionForm({ ...regionForm, name: e.target.value })}
-              className="border rounded-lg px-4 py-2"
+              className="border border-slate-700 rounded-lg px-4 py-2"
               required
             />
             <input
               placeholder="Code (e.g. NRB)"
               value={regionForm.code}
               onChange={(e) => setRegionForm({ ...regionForm, code: e.target.value })}
-              className="border rounded-lg px-4 py-2 w-40"
+              className="border border-slate-700 rounded-lg px-4 py-2 w-40"
               required
             />
             <button
               type="submit"
               disabled={saving}
-              className="bg-indigo-600 text-white px-5 py-2 rounded-lg hover:bg-indigo-700 disabled:opacity-60"
+              className="bg-amber-600 text-white px-5 py-2 rounded-lg hover:bg-amber-700 disabled:opacity-60"
             >
               Add Region
             </button>
@@ -155,7 +155,7 @@ function SystemSettings() {
 
           <table className="min-w-full">
             <thead>
-              <tr className="text-left text-sm text-slate-500">
+              <tr className="text-left text-sm text-slate-400">
                 <th className="py-2">Name</th>
                 <th className="py-2">Code</th>
                 <th className="py-2">Users</th>
@@ -165,12 +165,12 @@ function SystemSettings() {
             </thead>
             <tbody>
               {regions.map((region) => (
-                <tr key={region.id} className="border-t">
+                <tr key={region.id} className="border-t border-slate-800">
                   <td className="py-3">{region.name}</td>
                   <td className="py-3">{region.code}</td>
                   <td className="py-3">{region.user_count}</td>
                   <td className="py-3">
-                    <span className={`px-3 py-1 rounded-full text-xs font-medium ${region.is_active ? "bg-green-100 text-green-700" : "bg-slate-200 text-slate-600"}`}>
+                    <span className={`px-3 py-1 rounded-full text-xs font-medium ${region.is_active ? "bg-green-500/10 text-green-400 border border-green-500/20" : "bg-slate-500/10 text-slate-400 border border-slate-500/20"}`}>
                       {region.is_active ? "Active" : "Inactive"}
                     </span>
                   </td>
@@ -178,7 +178,7 @@ function SystemSettings() {
                     <button
                       onClick={() => handleToggleRegion(region)}
                       disabled={saving}
-                      className="text-indigo-600 text-sm font-medium hover:underline disabled:opacity-50"
+                      className="text-amber-600 text-sm font-medium hover:underline disabled:opacity-50"
                     >
                       {region.is_active ? "Deactivate" : "Reactivate"}
                     </button>
@@ -190,7 +190,7 @@ function SystemSettings() {
         </div>
 
         {/* Refineries */}
-        <div className="bg-white rounded-xl shadow p-6">
+        <div className="bg-slate-900 rounded-xl shadow p-6">
           <h2 className="text-xl font-bold mb-4">Refineries</h2>
 
           <form onSubmit={handleAddRefinery} className="flex flex-wrap gap-3 mb-6">
@@ -198,14 +198,14 @@ function SystemSettings() {
               placeholder="Refinery name"
               value={refineryForm.name}
               onChange={(e) => setRefineryForm({ ...refineryForm, name: e.target.value })}
-              className="border rounded-lg px-4 py-2"
+              className="border border-slate-700 rounded-lg px-4 py-2"
               required
             />
             <input
               placeholder="Location"
               value={refineryForm.location}
               onChange={(e) => setRefineryForm({ ...refineryForm, location: e.target.value })}
-              className="border rounded-lg px-4 py-2"
+              className="border border-slate-700 rounded-lg px-4 py-2"
             />
             <input
               type="number"
@@ -214,13 +214,13 @@ function SystemSettings() {
               placeholder="Capacity"
               value={refineryForm.capacity}
               onChange={(e) => setRefineryForm({ ...refineryForm, capacity: e.target.value })}
-              className="border rounded-lg px-4 py-2 w-32"
+              className="border border-slate-700 rounded-lg px-4 py-2 w-32"
               required
             />
             <select
               value={refineryForm.region_id}
               onChange={(e) => setRefineryForm({ ...refineryForm, region_id: e.target.value })}
-              className="border rounded-lg px-4 py-2"
+              className="border border-slate-700 rounded-lg px-4 py-2"
               required
             >
               <option value="" disabled>Region</option>
@@ -231,7 +231,7 @@ function SystemSettings() {
             <button
               type="submit"
               disabled={saving}
-              className="bg-indigo-600 text-white px-5 py-2 rounded-lg hover:bg-indigo-700 disabled:opacity-60"
+              className="bg-amber-600 text-white px-5 py-2 rounded-lg hover:bg-amber-700 disabled:opacity-60"
             >
               Add Refinery
             </button>
@@ -239,7 +239,7 @@ function SystemSettings() {
 
           <table className="min-w-full">
             <thead>
-              <tr className="text-left text-sm text-slate-500">
+              <tr className="text-left text-sm text-slate-400">
                 <th className="py-2">Name</th>
                 <th className="py-2">Location</th>
                 <th className="py-2">Capacity</th>
@@ -249,12 +249,12 @@ function SystemSettings() {
             </thead>
             <tbody>
               {refineries.map((refinery) => (
-                <tr key={refinery.id} className="border-t">
+                <tr key={refinery.id} className="border-t border-slate-800">
                   <td className="py-3">{refinery.name}</td>
                   <td className="py-3">{refinery.location || "—"}</td>
                   <td className="py-3">{Number(refinery.capacity).toLocaleString()}</td>
                   <td className="py-3">
-                    <span className={`px-3 py-1 rounded-full text-xs font-medium ${refinery.is_active ? "bg-green-100 text-green-700" : "bg-slate-200 text-slate-600"}`}>
+                    <span className={`px-3 py-1 rounded-full text-xs font-medium ${refinery.is_active ? "bg-green-500/10 text-green-400 border border-green-500/20" : "bg-slate-500/10 text-slate-400 border border-slate-500/20"}`}>
                       {refinery.is_active ? "Active" : "Inactive"}
                     </span>
                   </td>
@@ -262,7 +262,7 @@ function SystemSettings() {
                     <button
                       onClick={() => handleToggleRefinery(refinery)}
                       disabled={saving}
-                      className="text-indigo-600 text-sm font-medium hover:underline disabled:opacity-50"
+                      className="text-amber-600 text-sm font-medium hover:underline disabled:opacity-50"
                     >
                       {refinery.is_active ? "Deactivate" : "Reactivate"}
                     </button>

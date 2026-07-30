@@ -43,10 +43,10 @@ function Analytics() {
 
         <div>
           <h1 className="text-3xl font-bold">Analytics</h1>
-          <p className="text-slate-500 mt-1">Revenue trends and regional performance.</p>
+          <p className="text-slate-400 mt-1">Revenue trends and regional performance.</p>
         </div>
 
-        <div className="bg-white rounded-xl shadow p-6">
+        <div className="bg-slate-900 rounded-xl shadow p-6">
           <h2 className="text-xl font-bold mb-6">Revenue Trend</h2>
           <SalesChart
             labels={revenue.months.map((m) => m.month)}
@@ -55,12 +55,12 @@ function Analytics() {
         </div>
 
         {consolidated && (
-          <div className="bg-white rounded-xl shadow p-6">
+          <div className="bg-slate-900 rounded-xl shadow p-6">
             <h2 className="text-xl font-bold mb-4">Cross-Region Performance</h2>
 
             <table className="min-w-full">
               <thead>
-                <tr className="text-left text-sm text-slate-500">
+                <tr className="text-left text-sm text-slate-400">
                   <th className="py-2">Region</th>
                   <th className="py-2">Orders</th>
                   <th className="py-2">Revenue</th>
@@ -69,7 +69,7 @@ function Analytics() {
               </thead>
               <tbody>
                 {consolidated.regions.map((region) => (
-                  <tr key={region.region_id} className="border-t">
+                  <tr key={region.region_id} className="border-t border-slate-800">
                     <td className="py-3">{region.region_name || `Region ${region.region_id}`}</td>
                     <td className="py-3">{region.orders}</td>
                     <td className="py-3">KES {Number(region.revenue).toLocaleString()}</td>
@@ -78,7 +78,7 @@ function Analytics() {
                 ))}
               </tbody>
               <tfoot>
-                <tr className="border-t font-semibold">
+                <tr className="border-t border-slate-800 font-semibold">
                   <td className="py-3">Total</td>
                   <td className="py-3">{consolidated.totals.orders}</td>
                   <td className="py-3">KES {Number(consolidated.totals.revenue).toLocaleString()}</td>
