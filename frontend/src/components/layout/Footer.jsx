@@ -1,8 +1,8 @@
 function Footer() {
   return (
-    <footer className="bg-white border-t py-4 text-center text-gray-500">
+    <footer className="border-t border-slate-200 py-4 text-center text-xs text-slate-400">
 
-      © 2026 Fuel Management System
+      &copy; {new Date().getFullYear()} Fuel Management System
 
     </footer>
   );

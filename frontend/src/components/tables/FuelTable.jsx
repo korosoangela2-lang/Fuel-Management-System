@@ -12,7 +12,7 @@ function statusColor(status) {
     case "Low Stock":
       return "bg-yellow-100 text-yellow-700";
     case "Inactive":
-      return "bg-gray-200 text-gray-600";
+      return "bg-slate-200 text-slate-600";
     default:
       return "bg-red-100 text-red-700";
   }
@@ -29,7 +29,7 @@ function FuelTable({
 
       <table className="min-w-full">
 
-        <thead className="bg-gray-100">
+        <thead className="bg-slate-100">
 
           <tr>
 
@@ -65,7 +65,7 @@ function FuelTable({
 
               <td
                 colSpan="5"
-                className="text-center py-10 text-gray-500"
+                className="text-center py-10 text-slate-500"
               >
                 No fuel products found.
               </td>
@@ -83,7 +83,7 @@ function FuelTable({
 
                 <td className="px-6 py-4">
                   {fuel.name}
-                  <div className="text-xs text-gray-400">{fuel.fuel_type}</div>
+                  <div className="text-xs text-slate-400">{fuel.fuel_type}</div>
                 </td>
 
                 <td className="px-6 py-4">
@@ -108,7 +108,7 @@ function FuelTable({
 
                   <button
                     onClick={() => onEdit(fuel)}
-                    className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700"
+                    className="bg-indigo-600 text-white px-3 py-1 rounded hover:bg-indigo-700"
                   >
                     Edit
                   </button>

@@ -13,7 +13,7 @@ function statusColor(status) {
       return "bg-green-100 text-green-700";
 
     case "approved":
-      return "bg-blue-100 text-blue-700";
+      return "bg-indigo-100 text-indigo-700";
 
     case "pending":
       return "bg-yellow-100 text-yellow-700";
@@ -22,7 +22,7 @@ function statusColor(status) {
       return "bg-red-100 text-red-700";
 
     default:
-      return "bg-gray-100 text-gray-700";
+      return "bg-slate-100 text-slate-700";
 
   }
 
@@ -64,7 +64,7 @@ function OrderHistory() {
 
         <table className="min-w-full">
 
-          <thead className="bg-gray-100">
+          <thead className="bg-slate-100">
 
             <tr>
 
@@ -96,7 +96,7 @@ function OrderHistory() {
 
             {orders.length === 0 ? (
               <tr>
-                <td colSpan="5" className="text-center py-10 text-gray-500">
+                <td colSpan="5" className="text-center py-10 text-slate-500">
                   You haven't placed any orders yet.
                 </td>
               </tr>

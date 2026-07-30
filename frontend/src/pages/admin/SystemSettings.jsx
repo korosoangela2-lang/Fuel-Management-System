@@ -122,7 +122,7 @@ function SystemSettings() {
 
         <div>
           <h1 className="text-3xl font-bold">System Settings</h1>
-          <p className="text-gray-500 mt-1">Manage regions and refineries across the platform.</p>
+          <p className="text-slate-500 mt-1">Manage regions and refineries across the platform.</p>
         </div>
 
         {/* Regions */}
@@ -147,7 +147,7 @@ function SystemSettings() {
             <button
               type="submit"
               disabled={saving}
-              className="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 disabled:opacity-60"
+              className="bg-indigo-600 text-white px-5 py-2 rounded-lg hover:bg-indigo-700 disabled:opacity-60"
             >
               Add Region
             </button>
@@ -155,7 +155,7 @@ function SystemSettings() {
 
           <table className="min-w-full">
             <thead>
-              <tr className="text-left text-sm text-gray-500">
+              <tr className="text-left text-sm text-slate-500">
                 <th className="py-2">Name</th>
                 <th className="py-2">Code</th>
                 <th className="py-2">Users</th>
@@ -170,7 +170,7 @@ function SystemSettings() {
                   <td className="py-3">{region.code}</td>
                   <td className="py-3">{region.user_count}</td>
                   <td className="py-3">
-                    <span className={`px-3 py-1 rounded-full text-xs font-medium ${region.is_active ? "bg-green-100 text-green-700" : "bg-gray-200 text-gray-600"}`}>
+                    <span className={`px-3 py-1 rounded-full text-xs font-medium ${region.is_active ? "bg-green-100 text-green-700" : "bg-slate-200 text-slate-600"}`}>
                       {region.is_active ? "Active" : "Inactive"}
                     </span>
                   </td>
@@ -178,7 +178,7 @@ function SystemSettings() {
                     <button
                       onClick={() => handleToggleRegion(region)}
                       disabled={saving}
-                      className="text-blue-600 text-sm font-medium hover:underline disabled:opacity-50"
+                      className="text-indigo-600 text-sm font-medium hover:underline disabled:opacity-50"
                     >
                       {region.is_active ? "Deactivate" : "Reactivate"}
                     </button>
@@ -231,7 +231,7 @@ function SystemSettings() {
             <button
               type="submit"
               disabled={saving}
-              className="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 disabled:opacity-60"
+              className="bg-indigo-600 text-white px-5 py-2 rounded-lg hover:bg-indigo-700 disabled:opacity-60"
             >
               Add Refinery
             </button>
@@ -239,7 +239,7 @@ function SystemSettings() {
 
           <table className="min-w-full">
             <thead>
-              <tr className="text-left text-sm text-gray-500">
+              <tr className="text-left text-sm text-slate-500">
                 <th className="py-2">Name</th>
                 <th className="py-2">Location</th>
                 <th className="py-2">Capacity</th>
@@ -254,7 +254,7 @@ function SystemSettings() {
                   <td className="py-3">{refinery.location || "—"}</td>
                   <td className="py-3">{Number(refinery.capacity).toLocaleString()}</td>
                   <td className="py-3">
-                    <span className={`px-3 py-1 rounded-full text-xs font-medium ${refinery.is_active ? "bg-green-100 text-green-700" : "bg-gray-200 text-gray-600"}`}>
+                    <span className={`px-3 py-1 rounded-full text-xs font-medium ${refinery.is_active ? "bg-green-100 text-green-700" : "bg-slate-200 text-slate-600"}`}>
                       {refinery.is_active ? "Active" : "Inactive"}
                     </span>
                   </td>
@@ -262,7 +262,7 @@ function SystemSettings() {
                     <button
                       onClick={() => handleToggleRefinery(refinery)}
                       disabled={saving}
-                      className="text-blue-600 text-sm font-medium hover:underline disabled:opacity-50"
+                      className="text-indigo-600 text-sm font-medium hover:underline disabled:opacity-50"
                     >
                       {refinery.is_active ? "Deactivate" : "Reactivate"}
                     </button>

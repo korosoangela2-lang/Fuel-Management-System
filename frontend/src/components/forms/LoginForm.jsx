@@ -109,7 +109,7 @@ function LoginForm() {
 
         <Link
           to="/forgot-password"
-          className="text-blue-600 hover:underline"
+          className="text-indigo-600 hover:underline"
         >
           Forgot Password?
         </Link>
@@ -121,7 +121,7 @@ function LoginForm() {
       <button
         type="submit"
         disabled={submitting}
-        className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 disabled:opacity-60 disabled:cursor-not-allowed"
+        className="w-full bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700 disabled:opacity-60 disabled:cursor-not-allowed"
       >
         {submitting ? "Signing in..." : "Login"}
       </button>
@@ -134,7 +134,7 @@ function LoginForm() {
 
         <Link
           to="/register"
-          className="text-blue-600 hover:underline"
+          className="text-indigo-600 hover:underline"
         >
           Register
         </Link>

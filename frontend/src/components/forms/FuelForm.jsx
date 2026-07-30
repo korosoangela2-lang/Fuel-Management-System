@@ -159,12 +159,12 @@ function FuelForm({
             value={fuel.quantity_available}
             onChange={handleChange}
             disabled={isEditing}
-            className="w-full border rounded-lg px-4 py-2 disabled:bg-gray-100 disabled:text-gray-500"
+            className="w-full border rounded-lg px-4 py-2 disabled:bg-slate-100 disabled:text-slate-500"
             required={!isEditing}
           />
 
           {isEditing && (
-            <p className="mt-1 text-xs text-gray-500">
+            <p className="mt-1 text-xs text-slate-500">
               Use "Add Stock" from the table to adjust quantity.
             </p>
           )}
@@ -205,7 +205,7 @@ function FuelForm({
         <button
           type="submit"
           disabled={submitting}
-          className="px-5 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-60"
+          className="px-5 py-2 rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 disabled:opacity-60"
         >
           {submitting ? "Saving..." : submitLabel}
         </button>

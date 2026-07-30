@@ -19,7 +19,7 @@ function statusColor(status) {
     case "delivered":
       return "bg-green-100 text-green-700";
     case "in_transit":
-      return "bg-blue-100 text-blue-700";
+      return "bg-indigo-100 text-indigo-700";
     case "pending":
       return "bg-yellow-100 text-yellow-700";
     default:
@@ -129,13 +129,13 @@ function Deliveries() {
         <div className="flex justify-between items-center">
           <div>
             <h1 className="text-3xl font-bold">Deliveries</h1>
-            <p className="text-gray-500 mt-1">Track scheduled deliveries from dispatch to completion.</p>
+            <p className="text-slate-500 mt-1">Track scheduled deliveries from dispatch to completion.</p>
           </div>
 
           <button
             onClick={() => setShowModal(true)}
             disabled={eligibleOrders.length === 0}
-            className="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 disabled:opacity-50"
+            className="bg-indigo-600 text-white px-5 py-2 rounded-lg hover:bg-indigo-700 disabled:opacity-50"
             title={eligibleOrders.length === 0 ? "No approved orders are awaiting a delivery" : ""}
           >
             + Schedule Delivery
@@ -161,14 +161,14 @@ function Deliveries() {
         ) : (
           <div className="space-y-4">
             {filteredDeliveries.length === 0 ? (
-              <p className="text-gray-500 text-center py-10">No deliveries found.</p>
+              <p className="text-slate-500 text-center py-10">No deliveries found.</p>
             ) : (
               filteredDeliveries.map((delivery) => (
                 <div key={delivery.id} className="bg-white rounded-xl shadow p-6">
                   <div className="flex justify-between items-center">
                     <div>
                       <h2 className="text-xl font-bold">{delivery.order_number}</h2>
-                      <p className="text-gray-500 mt-1">{delivery.customer_name}</p>
+                      <p className="text-slate-500 mt-1">{delivery.customer_name}</p>
                     </div>
                     <span className={`px-4 py-2 rounded-full text-sm font-semibold ${statusColor(delivery.status)}`}>
                       {titleCase(delivery.status)}
@@ -177,15 +177,15 @@ function Deliveries() {
 
                   <div className="grid md:grid-cols-3 gap-6 mt-6">
                     <div>
-                      <p className="text-gray-500">Driver</p>
+                      <p className="text-slate-500">Driver</p>
                       <p className="font-semibold">{delivery.driver_name}</p>
                     </div>
                     <div>
-                      <p className="text-gray-500">Vehicle</p>
+                      <p className="text-slate-500">Vehicle</p>
                       <p className="font-semibold">{delivery.vehicle_registration}</p>
                     </div>
                     <div>
-                      <p className="text-gray-500">Scheduled Date</p>
+                      <p className="text-slate-500">Scheduled Date</p>
                       <p className="font-semibold">{delivery.scheduled_date}</p>
                     </div>
                   </div>
@@ -197,7 +197,7 @@ function Deliveries() {
                           key={next}
                           onClick={() => handleStatusChange(delivery, next)}
                           disabled={saving}
-                          className="px-4 py-2 rounded-lg border text-sm hover:bg-gray-50 disabled:opacity-50"
+                          className="px-4 py-2 rounded-lg border text-sm hover:bg-slate-50 disabled:opacity-50"
                         >
                           Mark {titleCase(next)}
                         </button>
@@ -283,7 +283,7 @@ function Deliveries() {
                 <button
                   type="submit"
                   disabled={saving}
-                  className="px-5 py-2 bg-blue-600 text-white rounded-lg disabled:opacity-60"
+                  className="px-5 py-2 bg-indigo-600 text-white rounded-lg disabled:opacity-60"
                 >
                   {saving ? "Scheduling..." : "Schedule"}
                 </button>

@@ -58,12 +58,12 @@ function Reports() {
 
         <div>
           <h1 className="text-3xl font-bold">Reports</h1>
-          <p className="text-gray-500 mt-1">Sales, deliveries and top customers for your region.</p>
+          <p className="text-slate-500 mt-1">Sales, deliveries and top customers for your region.</p>
         </div>
 
         <form onSubmit={handleFilter} className="bg-white rounded-xl shadow p-4 flex flex-wrap gap-4 items-end">
           <div>
-            <label className="block text-sm text-gray-500 mb-1">Start Date</label>
+            <label className="block text-sm text-slate-500 mb-1">Start Date</label>
             <input
               type="date"
               value={startDate}
@@ -72,7 +72,7 @@ function Reports() {
             />
           </div>
           <div>
-            <label className="block text-sm text-gray-500 mb-1">End Date</label>
+            <label className="block text-sm text-slate-500 mb-1">End Date</label>
             <input
               type="date"
               value={endDate}
@@ -80,7 +80,7 @@ function Reports() {
               className="border rounded-lg px-4 py-2"
             />
           </div>
-          <button className="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700">
+          <button className="bg-indigo-600 text-white px-5 py-2 rounded-lg hover:bg-indigo-700">
             Apply
           </button>
         </form>
@@ -91,17 +91,17 @@ function Reports() {
           <>
             <div className="grid md:grid-cols-3 gap-6">
               <div className="bg-white rounded-xl shadow p-6">
-                <p className="text-gray-500 text-sm">Total Orders</p>
+                <p className="text-slate-500 text-sm">Total Orders</p>
                 <h2 className="text-3xl font-bold mt-2">{sales?.total_orders ?? 0}</h2>
               </div>
               <div className="bg-white rounded-xl shadow p-6">
-                <p className="text-gray-500 text-sm">Total Revenue</p>
+                <p className="text-slate-500 text-sm">Total Revenue</p>
                 <h2 className="text-3xl font-bold mt-2">
                   KES {Number(sales?.total_revenue ?? 0).toLocaleString()}
                 </h2>
               </div>
               <div className="bg-white rounded-xl shadow p-6">
-                <p className="text-gray-500 text-sm">Total Deliveries</p>
+                <p className="text-slate-500 text-sm">Total Deliveries</p>
                 <h2 className="text-3xl font-bold mt-2">{deliveries?.total ?? 0}</h2>
               </div>
             </div>
@@ -135,11 +135,11 @@ function Reports() {
             <div className="bg-white rounded-xl shadow p-6">
               <h2 className="text-xl font-bold mb-4">Top Customers</h2>
               {topCustomers.length === 0 ? (
-                <p className="text-gray-500 text-sm">No customer revenue recorded yet.</p>
+                <p className="text-slate-500 text-sm">No customer revenue recorded yet.</p>
               ) : (
                 <table className="min-w-full">
                   <thead>
-                    <tr className="text-left text-sm text-gray-500">
+                    <tr className="text-left text-sm text-slate-500">
                       <th className="py-2">Customer</th>
                       <th className="py-2">Orders</th>
                       <th className="py-2">Revenue</th>

@@ -39,20 +39,20 @@ function Reports() {
 
         <div>
           <h1 className="text-3xl font-bold">Reports</h1>
-          <p className="text-gray-500 mt-1">A snapshot of activity in your region.</p>
+          <p className="text-slate-500 mt-1">A snapshot of activity in your region.</p>
         </div>
 
         <div className="grid md:grid-cols-3 gap-6">
           <div className="bg-white rounded-xl shadow p-6">
-            <p className="text-gray-500 text-sm">Fuel Products</p>
+            <p className="text-slate-500 text-sm">Fuel Products</p>
             <h2 className="text-3xl font-bold mt-2">{inventory?.product_count ?? 0}</h2>
           </div>
           <div className="bg-white rounded-xl shadow p-6">
-            <p className="text-gray-500 text-sm">Total Stock</p>
+            <p className="text-slate-500 text-sm">Total Stock</p>
             <h2 className="text-3xl font-bold mt-2">{Number(inventory?.total_stock ?? 0).toLocaleString()}</h2>
           </div>
           <div className="bg-white rounded-xl shadow p-6">
-            <p className="text-gray-500 text-sm">Pending Orders</p>
+            <p className="text-slate-500 text-sm">Pending Orders</p>
             <h2 className="text-3xl font-bold mt-2">{dashboard?.pending_orders ?? 0}</h2>
           </div>
         </div>

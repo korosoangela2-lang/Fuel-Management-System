@@ -144,7 +144,7 @@ function CustomerForm({
         <button
           type="submit"
           disabled={submitting}
-          className="px-5 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-60"
+          className="px-5 py-2 rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 disabled:opacity-60"
         >
           {submitting ? "Saving..." : submitLabel}
         </button>

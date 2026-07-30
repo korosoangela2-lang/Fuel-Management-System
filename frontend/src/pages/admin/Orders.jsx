@@ -21,7 +21,7 @@ function badgeColor(status) {
       return "bg-green-100 text-green-700";
 
     case "approved":
-      return "bg-blue-100 text-blue-700";
+      return "bg-indigo-100 text-indigo-700";
 
     case "pending":
       return "bg-yellow-100 text-yellow-700";
@@ -30,7 +30,7 @@ function badgeColor(status) {
       return "bg-red-100 text-red-700";
 
     default:
-      return "bg-gray-100 text-gray-700";
+      return "bg-slate-100 text-slate-700";
 
   }
 
@@ -179,7 +179,7 @@ function Orders() {
             Orders Management
           </h1>
 
-          <p className="text-gray-500 mt-2">
+          <p className="text-slate-500 mt-2">
             Total Orders: {filteredOrders.length}
           </p>
 
@@ -187,7 +187,7 @@ function Orders() {
 
         <button
           onClick={() => setShowModal(true)}
-          className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg"
+          className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-lg"
         >
           + New Order
         </button>
@@ -235,7 +235,7 @@ function Orders() {
 
           <table className="min-w-full">
 
-            <thead className="bg-gray-100">
+            <thead className="bg-slate-100">
 
               <tr>
 
@@ -256,7 +256,7 @@ function Orders() {
 
                 <tr
                   key={order.id}
-                  className="border-t hover:bg-gray-50"
+                  className="border-t hover:bg-slate-50"
                 >
 
                   <td className="px-6 py-4">{order.order_number}</td>
@@ -282,7 +282,7 @@ function Orders() {
 
                       <button
                         onClick={() => setViewOrder(order)}
-                        className="bg-gray-600 text-white px-3 py-1 rounded hover:bg-gray-700"
+                        className="bg-slate-600 text-white px-3 py-1 rounded hover:bg-slate-700"
                       >
                         View
                       </button>
@@ -328,7 +328,7 @@ function Orders() {
 
                   <td
                     colSpan="6"
-                    className="text-center py-8 text-gray-500"
+                    className="text-center py-8 text-slate-500"
                   >
                     No matching orders found.
                   </td>
@@ -382,7 +382,7 @@ function Orders() {
               {viewOrder.order_number}
             </h2>
 
-            <p className="text-gray-500 mb-4">{viewOrder.customer_name}</p>
+            <p className="text-slate-500 mb-4">{viewOrder.customer_name}</p>
 
             <div className="divide-y border-t border-b mb-4">
               {(viewOrder.items || []).map((item) => (

@@ -45,7 +45,7 @@ function Settings() {
 
         <div>
           <h1 className="text-3xl font-bold">Settings</h1>
-          <p className="text-gray-500 mt-1">Manage your account security.</p>
+          <p className="text-slate-500 mt-1">Manage your account security.</p>
         </div>
 
         <div className="bg-white rounded-xl shadow p-6">
@@ -95,7 +95,7 @@ function Settings() {
             <button
               type="submit"
               disabled={saving}
-              className="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 disabled:opacity-60"
+              className="bg-indigo-600 text-white px-5 py-2 rounded-lg hover:bg-indigo-700 disabled:opacity-60"
             >
               {saving ? "Updating..." : "Change Password"}
             </button>

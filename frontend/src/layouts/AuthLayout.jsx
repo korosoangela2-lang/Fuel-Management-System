@@ -3,10 +3,10 @@ import illustration from "../assets/images/login-illustration.svg";
 
 function AuthLayout({ children }) {
   return (
-    <div className="min-h-screen flex">
+    <div className="min-h-screen flex bg-slate-50">
       {/* Left Side - Login Form */}
-      <div className="w-full lg:w-1/2 flex items-center justify-center bg-white px-6 py-10">
-        <div className="w-full max-w-md">
+      <div className="w-full lg:w-1/2 flex items-center justify-center px-6 py-10">
+        <div className="w-full max-w-md bg-white rounded-2xl shadow-lg border border-slate-100 p-8">
           {/* Logo */}
           <div className="mb-8 flex justify-center">
             <Logo />
@@ -18,11 +18,13 @@ function AuthLayout({ children }) {
       </div>
 
       {/* Right Side - Illustration */}
-      <div className="hidden lg:flex lg:w-1/2 bg-blue-600 items-center justify-center p-10">
+      <div className="hidden lg:flex lg:w-1/2 relative items-center justify-center p-10 overflow-hidden bg-gradient-to-br from-indigo-600 to-indigo-800">
+        <div className="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-white/10" />
+        <div className="absolute -bottom-32 -left-16 w-80 h-80 rounded-full bg-white/10" />
         <img
           src={illustration}
           alt="Fuel Management System"
-          className="w-full max-w-lg"
+          className="w-full max-w-lg relative"
         />
       </div>
     </div>

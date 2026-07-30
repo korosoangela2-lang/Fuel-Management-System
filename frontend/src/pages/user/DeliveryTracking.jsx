@@ -12,7 +12,7 @@ function statusColor(status) {
       return "bg-green-100 text-green-700";
 
     case "in_transit":
-      return "bg-blue-100 text-blue-700";
+      return "bg-indigo-100 text-indigo-700";
 
     case "pending":
       return "bg-yellow-100 text-yellow-700";
@@ -21,7 +21,7 @@ function statusColor(status) {
       return "bg-red-100 text-red-700";
 
     default:
-      return "bg-gray-100 text-gray-700";
+      return "bg-slate-100 text-slate-700";
 
   }
 
@@ -76,7 +76,7 @@ function DeliveryTracking() {
         <button
           type="submit"
           disabled={searching}
-          className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg disabled:opacity-60"
+          className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-lg disabled:opacity-60"
         >
           {searching ? "Searching..." : "Track"}
         </button>
@@ -90,7 +90,7 @@ function DeliveryTracking() {
 
             <div>
               <h2 className="text-xl font-bold">{result.order_number}</h2>
-              <p className="text-gray-500 mt-1">Order status: {titleCase(result.order_status)}</p>
+              <p className="text-slate-500 mt-1">Order status: {titleCase(result.order_status)}</p>
             </div>
 
             {result.delivery && (
@@ -105,22 +105,22 @@ function DeliveryTracking() {
             <div className="grid md:grid-cols-2 gap-6 mt-6">
 
               <div>
-                <p className="text-gray-500">Driver</p>
+                <p className="text-slate-500">Driver</p>
                 <p className="font-semibold">{result.delivery.driver_name}</p>
               </div>
 
               <div>
-                <p className="text-gray-500">Vehicle</p>
+                <p className="text-slate-500">Vehicle</p>
                 <p className="font-semibold">{result.delivery.vehicle_registration}</p>
               </div>
 
               <div>
-                <p className="text-gray-500">Scheduled Date</p>
+                <p className="text-slate-500">Scheduled Date</p>
                 <p className="font-semibold">{result.delivery.scheduled_date}</p>
               </div>
 
               <div>
-                <p className="text-gray-500">
+                <p className="text-slate-500">
                   {result.delivery.status === "delivered" ? "Delivered At" : "Dispatched At"}
                 </p>
                 <p className="font-semibold">
@@ -132,7 +132,7 @@ function DeliveryTracking() {
 
             </div>
           ) : (
-            <p className="text-gray-500 mt-6">
+            <p className="text-slate-500 mt-6">
               No delivery has been scheduled for this order yet.
             </p>
           )}
@@ -142,7 +142,7 @@ function DeliveryTracking() {
       )}
 
       {searched && !result && (
-        <p className="text-gray-500 text-center py-10">
+        <p className="text-slate-500 text-center py-10">
           No order found with that number.
         </p>
       )}

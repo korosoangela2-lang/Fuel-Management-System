@@ -102,7 +102,7 @@ function FuelOrders() {
             </h2>
 
             {/* Price */}
-            <p className="mt-4 text-gray-500">
+            <p className="mt-4 text-slate-500">
               Price
             </p>
 
@@ -111,7 +111,7 @@ function FuelOrders() {
             </p>
 
             {/* Stock */}
-            <p className="mt-4 text-gray-500">
+            <p className="mt-4 text-slate-500">
               Available Stock
             </p>
 
@@ -131,7 +131,7 @@ function FuelOrders() {
 
             {/* Estimated Total */}
             <div className="mt-5">
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-slate-500">
                 Estimated Total
               </p>
 
@@ -148,7 +148,7 @@ function FuelOrders() {
             {/* Checkout Button */}
             <button
               onClick={() => checkout(fuel)}
-              className="mt-6 w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg transition"
+              className="mt-6 w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-lg transition"
             >
               Checkout
             </button>
@@ -204,7 +204,7 @@ function FuelOrders() {
               <button
                 onClick={() => setSelectedFuel(null)}
                 disabled={placingOrder}
-                className="px-5 py-2 border rounded-lg hover:bg-gray-100"
+                className="px-5 py-2 border rounded-lg hover:bg-slate-100"
               >
                 Cancel
               </button>
@@ -212,7 +212,7 @@ function FuelOrders() {
               <button
                 onClick={confirmOrder}
                 disabled={placingOrder}
-                className="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg disabled:opacity-60"
+                className="px-5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg disabled:opacity-60"
               >
                 {placingOrder ? "Placing order..." : "Confirm Order"}
               </button>

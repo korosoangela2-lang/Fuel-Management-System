@@ -13,7 +13,7 @@ function ConfirmModal({
           {title}
         </h2>
 
-        <p className="text-gray-600 mb-8">
+        <p className="text-slate-600 mb-8">
           {message}
         </p>
 
@@ -21,7 +21,7 @@ function ConfirmModal({
 
           <button
             onClick={onCancel}
-            className="px-5 py-2 border rounded-lg hover:bg-gray-100"
+            className="px-5 py-2 border rounded-lg hover:bg-slate-100"
           >
             Cancel
           </button>

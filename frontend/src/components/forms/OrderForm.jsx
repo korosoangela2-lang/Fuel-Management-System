@@ -107,7 +107,7 @@ function OrderForm({
         <button
           type="button"
           onClick={addItem}
-          className="text-blue-600 text-sm font-medium"
+          className="text-indigo-600 text-sm font-medium"
         >
           + Add another fuel
         </button>
@@ -141,7 +141,7 @@ function OrderForm({
         <button
           type="submit"
           disabled={submitting}
-          className="px-5 py-2 bg-blue-600 text-white rounded-lg disabled:opacity-60"
+          className="px-5 py-2 bg-indigo-600 text-white rounded-lg disabled:opacity-60"
         >
           {submitting ? "Saving..." : "Save Order"}
         </button>

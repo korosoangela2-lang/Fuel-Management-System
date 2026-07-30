@@ -44,7 +44,7 @@ function SalesChart({ labels = [], values = [], label = "Revenue (KES)" }) {
   };
 
   if (labels.length === 0) {
-    return <p className="text-gray-500 text-center py-10">Not enough data yet to chart revenue.</p>;
+    return <p className="text-slate-500 text-center py-10">Not enough data yet to chart revenue.</p>;
   }
 
   return <Bar data={data} options={options} />;

@@ -29,11 +29,11 @@ function ForgotPasswordForm() {
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <div>
-        <h2 className="text-3xl font-bold text-gray-800">
+        <h2 className="text-3xl font-bold text-slate-800">
           Forgot Password
         </h2>
 
-        <p className="mt-2 text-gray-500">
+        <p className="mt-2 text-slate-500">
           Enter your email to receive a password reset link.
         </p>
       </div>
@@ -56,7 +56,7 @@ function ForgotPasswordForm() {
       <p className="text-center">
         <Link
           to="/login"
-          className="text-blue-600 hover:underline"
+          className="text-indigo-600 hover:underline"
         >
           Back to Login
         </Link>

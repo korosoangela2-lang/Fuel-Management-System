@@ -101,7 +101,7 @@ function Customers() {
         <div className="flex justify-between items-center">
           <div>
             <h1 className="text-3xl font-bold">Customers</h1>
-            <p className="text-gray-500 mt-1">Manage customer accounts in your region.</p>
+            <p className="text-slate-500 mt-1">Manage customer accounts in your region.</p>
           </div>
 
           <button
@@ -109,7 +109,7 @@ function Customers() {
               setEditingCustomer(null);
               setShowModal(true);
             }}
-            className="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700"
+            className="bg-indigo-600 text-white px-5 py-2 rounded-lg hover:bg-indigo-700"
           >
             + Add Customer
           </button>
@@ -130,7 +130,7 @@ function Customers() {
         ) : (
           <div className="bg-white rounded-xl shadow overflow-hidden">
             <table className="min-w-full">
-              <thead className="bg-gray-100">
+              <thead className="bg-slate-100">
                 <tr>
                   <th className="px-6 py-4 text-left">Name</th>
                   <th className="px-6 py-4 text-left">Contact</th>
@@ -143,7 +143,7 @@ function Customers() {
               <tbody>
                 {filteredCustomers.length === 0 ? (
                   <tr>
-                    <td colSpan="6" className="text-center py-10 text-gray-500">
+                    <td colSpan="6" className="text-center py-10 text-slate-500">
                       No customers found.
                     </td>
                   </tr>
@@ -155,7 +155,7 @@ function Customers() {
                       <td className="px-6 py-4">{titleCase(customer.customer_type)}</td>
                       <td className="px-6 py-4">{customer.order_count}</td>
                       <td className="px-6 py-4">
-                        <span className={`px-3 py-1 rounded-full text-sm font-medium ${customer.is_active ? "bg-green-100 text-green-700" : "bg-gray-200 text-gray-600"}`}>
+                        <span className={`px-3 py-1 rounded-full text-sm font-medium ${customer.is_active ? "bg-green-100 text-green-700" : "bg-slate-200 text-slate-600"}`}>
                           {customer.is_active ? "Active" : "Inactive"}
                         </span>
                       </td>
@@ -165,7 +165,7 @@ function Customers() {
                             setEditingCustomer(customer);
                             setShowModal(true);
                           }}
-                          className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700"
+                          className="bg-indigo-600 text-white px-3 py-1 rounded hover:bg-indigo-700"
                         >
                           Edit
                         </button>

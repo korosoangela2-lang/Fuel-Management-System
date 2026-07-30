@@ -61,18 +61,18 @@ function Profile() {
 
         <div>
           <h1 className="text-3xl font-bold">Profile</h1>
-          <p className="text-gray-500 mt-1">Your account details.</p>
+          <p className="text-slate-500 mt-1">Your account details.</p>
         </div>
 
         <div className="bg-white rounded-xl shadow p-6 space-y-4">
 
           <div>
-            <p className="text-sm text-gray-500">Username</p>
+            <p className="text-sm text-slate-500">Username</p>
             <p className="font-semibold">{profile?.username}</p>
           </div>
 
           <div>
-            <p className="text-sm text-gray-500">Role</p>
+            <p className="text-sm text-slate-500">Role</p>
             <p className="font-semibold">{titleCase(profile?.role || "")}</p>
           </div>
 
@@ -91,7 +91,7 @@ function Profile() {
             <button
               type="submit"
               disabled={saving}
-              className="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 disabled:opacity-60"
+              className="bg-indigo-600 text-white px-5 py-2 rounded-lg hover:bg-indigo-700 disabled:opacity-60"
             >
               {saving ? "Saving..." : "Save Changes"}
             </button>

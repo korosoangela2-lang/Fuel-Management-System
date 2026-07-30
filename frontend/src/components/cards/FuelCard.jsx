@@ -30,7 +30,7 @@ function FuelCard({
 
         </div>
 
-        <p className="text-gray-500 mt-4">
+        <p className="text-slate-500 mt-4">
           Price
         </p>
 
@@ -41,7 +41,7 @@ function FuelCard({
           </span>
         </p>
 
-        <p className="mt-3 text-gray-600">
+        <p className="mt-3 text-slate-600">
           Stock:{" "}
           <strong>
             {fuel.stock.toLocaleString()} Litres
@@ -55,8 +55,8 @@ function FuelCard({
         onClick={() => onOrder(fuel)}
         className={`mt-6 py-3 rounded-lg font-semibold transition ${
           fuel.status === "Out of Stock"
-            ? "bg-gray-300 cursor-not-allowed"
-            : "bg-blue-600 hover:bg-blue-700 text-white"
+            ? "bg-slate-300 cursor-not-allowed"
+            : "bg-indigo-600 hover:bg-indigo-700 text-white"
         }`}
       >
         {fuel.status === "Out of Stock"

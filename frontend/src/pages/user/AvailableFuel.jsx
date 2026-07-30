@@ -64,7 +64,7 @@ function AvailableFuel() {
 
         <div>
           <h1 className="text-3xl font-bold">Available Fuel</h1>
-          <p className="text-gray-500 mt-1">
+          <p className="text-slate-500 mt-1">
             Current fuel products and stock levels in your region.
           </p>
         </div>
@@ -95,7 +95,7 @@ function AvailableFuel() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
             {filteredFuels.length === 0 ? (
-              <p className="text-gray-500 col-span-full text-center py-10">
+              <p className="text-slate-500 col-span-full text-center py-10">
                 No fuel products match your search.
               </p>
             ) : (
@@ -108,12 +108,12 @@ function AvailableFuel() {
                     </span>
                   </div>
 
-                  <p className="mt-4 text-gray-500">Price</p>
+                  <p className="mt-4 text-slate-500">Price</p>
                   <p className="font-semibold">
                     KES {Number(fuel.unit_price).toFixed(2)} / {fuel.unit_of_measure}
                   </p>
 
-                  <p className="mt-4 text-gray-500">Available Stock</p>
+                  <p className="mt-4 text-slate-500">Available Stock</p>
                   <p className="font-semibold">
                     {Number(fuel.quantity_available).toLocaleString()} {fuel.unit_of_measure}
                   </p>

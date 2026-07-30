@@ -22,7 +22,7 @@ function Modal({
 
           <button
             onClick={onClose}
-            className="text-gray-500 hover:text-red-600 text-2xl"
+            className="text-slate-500 hover:text-red-600 text-2xl"
           >
             ×
           </button>

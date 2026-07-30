@@ -7,16 +7,16 @@ function Breadcrumb() {
     .split("/")
     .filter(Boolean)
     .pop()
-    ?.replace("-", " ");
+    ?.replaceAll("-", " ");
 
   return (
-    <div className="px-6 py-3 bg-gray-50 border-b">
+    <div className="px-6 py-2.5 bg-slate-50 border-b border-slate-200">
 
-      <span className="text-sm text-gray-500">
+      <span className="text-xs text-slate-400">
         Home /
       </span>
 
-      <span className="ml-2 font-medium capitalize">
+      <span className="ml-1.5 text-xs font-medium text-slate-600 capitalize">
         {page}
       </span>
 

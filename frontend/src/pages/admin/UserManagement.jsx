@@ -122,12 +122,12 @@ function UserManagement() {
         <div className="flex justify-between items-center">
           <div>
             <h1 className="text-3xl font-bold">User Management</h1>
-            <p className="text-gray-500 mt-1">Manage staff accounts and their access roles.</p>
+            <p className="text-slate-500 mt-1">Manage staff accounts and their access roles.</p>
           </div>
 
           <button
             onClick={openCreate}
-            className="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700"
+            className="bg-indigo-600 text-white px-5 py-2 rounded-lg hover:bg-indigo-700"
           >
             + Add User
           </button>
@@ -148,7 +148,7 @@ function UserManagement() {
         ) : (
           <div className="bg-white rounded-xl shadow overflow-hidden">
             <table className="min-w-full">
-              <thead className="bg-gray-100">
+              <thead className="bg-slate-100">
                 <tr>
                   <th className="px-6 py-4 text-left">Username</th>
                   <th className="px-6 py-4 text-left">Email</th>
@@ -161,7 +161,7 @@ function UserManagement() {
               <tbody>
                 {filteredUsers.length === 0 ? (
                   <tr>
-                    <td colSpan="6" className="text-center py-10 text-gray-500">No users found.</td>
+                    <td colSpan="6" className="text-center py-10 text-slate-500">No users found.</td>
                   </tr>
                 ) : (
                   filteredUsers.map((user) => (
@@ -173,14 +173,14 @@ function UserManagement() {
                         {regions.find((r) => r.id === user.region_id)?.name || "—"}
                       </td>
                       <td className="px-6 py-4">
-                        <span className={`px-3 py-1 rounded-full text-sm font-medium ${user.is_active ? "bg-green-100 text-green-700" : "bg-gray-200 text-gray-600"}`}>
+                        <span className={`px-3 py-1 rounded-full text-sm font-medium ${user.is_active ? "bg-green-100 text-green-700" : "bg-slate-200 text-slate-600"}`}>
                           {user.is_active ? "Active" : "Inactive"}
                         </span>
                       </td>
                       <td className="px-6 py-4 text-center space-x-2 whitespace-nowrap">
                         <button
                           onClick={() => openEdit(user)}
-                          className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700"
+                          className="bg-indigo-600 text-white px-3 py-1 rounded hover:bg-indigo-700"
                         >
                           Edit
                         </button>
@@ -214,7 +214,7 @@ function UserManagement() {
             value={form.username}
             onChange={(e) => setForm({ ...form, username: e.target.value })}
             disabled={!!editingUser}
-            className="w-full border rounded-lg p-3 disabled:bg-gray-100"
+            className="w-full border rounded-lg p-3 disabled:bg-slate-100"
             required
           />
 
@@ -273,7 +273,7 @@ function UserManagement() {
             <button
               type="submit"
               disabled={saving}
-              className="px-5 py-2 bg-blue-600 text-white rounded-lg disabled:opacity-60"
+              className="px-5 py-2 bg-indigo-600 text-white rounded-lg disabled:opacity-60"
             >
               {saving ? "Saving..." : editingUser ? "Save Changes" : "Add User"}
             </button>

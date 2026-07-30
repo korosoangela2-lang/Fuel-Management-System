@@ -43,7 +43,7 @@ function Analytics() {
 
         <div>
           <h1 className="text-3xl font-bold">Analytics</h1>
-          <p className="text-gray-500 mt-1">Revenue trends and regional performance.</p>
+          <p className="text-slate-500 mt-1">Revenue trends and regional performance.</p>
         </div>
 
         <div className="bg-white rounded-xl shadow p-6">
@@ -60,7 +60,7 @@ function Analytics() {
 
             <table className="min-w-full">
               <thead>
-                <tr className="text-left text-sm text-gray-500">
+                <tr className="text-left text-sm text-slate-500">
                   <th className="py-2">Region</th>
                   <th className="py-2">Orders</th>
                   <th className="py-2">Revenue</th>

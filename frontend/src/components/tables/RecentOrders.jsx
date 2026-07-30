@@ -7,7 +7,7 @@ function statusColor(status) {
     case "delivered":
       return "text-green-600";
     case "approved":
-      return "text-blue-600";
+      return "text-indigo-600";
     case "cancelled":
       return "text-red-600";
     default:
@@ -18,7 +18,7 @@ function statusColor(status) {
 function RecentOrders({ orders = [] }) {
 
   if (orders.length === 0) {
-    return <p className="text-gray-500 text-sm">No recent orders yet.</p>;
+    return <p className="text-slate-500 text-sm">No recent orders yet.</p>;
   }
 
   return (
@@ -36,7 +36,7 @@ function RecentOrders({ orders = [] }) {
             {order.customer || order.order_number}
           </h3>
 
-          <p className="text-gray-500 text-sm">
+          <p className="text-slate-500 text-sm">
             {order.order_number}
           </p>
 

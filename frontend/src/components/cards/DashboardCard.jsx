@@ -5,24 +5,30 @@ function DashboardCard({
   icon,
 }) {
   return (
-    <div className="bg-white rounded-lg shadow p-6 flex justify-between items-center">
+    <div className="relative bg-white rounded-2xl shadow p-6 flex justify-between items-center overflow-hidden border border-slate-100 hover:shadow-md transition-shadow">
+
+      <div
+        className="absolute inset-x-0 top-0 h-1"
+        style={{ backgroundColor: color }}
+      />
 
       <div>
 
-        <p className="text-gray-500">
+        <p className="text-sm font-medium text-slate-500">
           {title}
         </p>
 
-        <h2 className="text-3xl font-bold mt-2">
+        <h2 className="text-3xl font-bold mt-2 text-slate-800">
           {value}
         </h2>
 
       </div>
 
       <div
-        className="text-4xl p-4 rounded-full text-white"
+        className="text-2xl w-14 h-14 rounded-xl flex items-center justify-center shrink-0"
         style={{
-          backgroundColor: color,
+          backgroundColor: `${color}1a`,
+          color,
         }}
       >
         {icon}
