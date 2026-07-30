@@ -1,9 +1,12 @@
+import { useMemo, useState } from "react";
 import AdminLayout from "../../layouts/AdminLayout";
 
 function Orders() {
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const [statusFilter, setStatusFilter] = useState("All");
 
   const orders = [
-
     {
       id: "ORD-1001",
       customer: "Bruce James",
@@ -31,12 +34,42 @@ function Orders() {
       status: "Delivered",
     },
 
+    {
+      id: "ORD-1004",
+      customer: "Bruce James",
+      fuel: "Diesel",
+      quantity: 300,
+      total: 51000,
+      status: "Delivered",
+    },
+
+    {
+      id: "ORD-1005",
+      customer: "National Energy",
+      fuel: "Kerosene",
+      quantity: 1000,
+      total: 98000,
+      status: "Pending",
+    },
   ];
 
+  const filteredOrders = useMemo(() => {
+    return orders.filter((order) => {
+      const matchesSearch =
+        order.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        order.customer.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        order.fuel.toLowerCase().includes(searchTerm.toLowerCase());
+
+      const matchesStatus =
+        statusFilter === "All" ||
+        order.status === statusFilter;
+
+      return matchesSearch && matchesStatus;
+    });
+  }, [orders, searchTerm, statusFilter]);
+
   function badgeColor(status) {
-
     switch (status) {
-
       case "Delivered":
         return "bg-green-100 text-green-700";
 
@@ -48,26 +81,56 @@ function Orders() {
 
       default:
         return "bg-gray-100 text-gray-700";
-
     }
-
   }
 
   return (
-
     <AdminLayout>
 
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex flex-col lg:flex-row justify-between gap-4 mb-6">
 
-        <h1 className="text-3xl font-bold">
-          Orders Management
-        </h1>
+        <div>
 
-        <button
-          className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-3 rounded-lg"
-        >
-          New Order
+          <h1 className="text-3xl font-bold">
+            Orders Management
+          </h1>
+
+          <p className="text-gray-500 mt-2">
+            Total Orders: {filteredOrders.length}
+          </p>
+
+        </div>
+
+        <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg">
+          + New Order
         </button>
+
+      </div>
+
+      <div className="bg-white rounded-xl shadow p-5 mb-6">
+
+        <div className="grid md:grid-cols-2 gap-4">
+
+          <input
+            type="text"
+            placeholder="Search order, customer or fuel..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="border rounded-lg p-3 w-full"
+          />
+
+          <select
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value)}
+            className="border rounded-lg p-3"
+          >
+            <option>All</option>
+            <option>Pending</option>
+            <option>Approved</option>
+            <option>Delivered</option>
+          </select>
+
+        </div>
 
       </div>
 
@@ -79,33 +142,19 @@ function Orders() {
 
             <tr>
 
-              <th className="px-6 py-4 text-left">
-                Order ID
-              </th>
+              <th className="px-6 py-4 text-left">Order ID</th>
 
-              <th className="px-6 py-4 text-left">
-                Customer
-              </th>
+              <th className="px-6 py-4 text-left">Customer</th>
 
-              <th className="px-6 py-4 text-left">
-                Fuel
-              </th>
+              <th className="px-6 py-4 text-left">Fuel</th>
 
-              <th className="px-6 py-4 text-left">
-                Quantity
-              </th>
+              <th className="px-6 py-4 text-left">Quantity</th>
 
-              <th className="px-6 py-4 text-left">
-                Total
-              </th>
+              <th className="px-6 py-4 text-left">Total</th>
 
-              <th className="px-6 py-4 text-left">
-                Status
-              </th>
+              <th className="px-6 py-4 text-left">Status</th>
 
-              <th className="px-6 py-4 text-left">
-                Actions
-              </th>
+              <th className="px-6 py-4 text-left">Actions</th>
 
             </tr>
 
@@ -113,11 +162,11 @@ function Orders() {
 
           <tbody>
 
-            {orders.map((order) => (
+            {filteredOrders.map((order) => (
 
               <tr
                 key={order.id}
-                className="border-t"
+                className="border-t hover:bg-gray-50"
               >
 
                 <td className="px-6 py-4">
@@ -154,21 +203,15 @@ function Orders() {
 
                   <div className="flex gap-2">
 
-                    <button
-                      className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700"
-                    >
+                    <button className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded">
                       View
                     </button>
 
-                    <button
-                      className="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700"
-                    >
+                    <button className="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded">
                       Edit
                     </button>
 
-                    <button
-                      className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700"
-                    >
+                    <button className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded">
                       Delete
                     </button>
 
@@ -180,6 +223,21 @@ function Orders() {
 
             ))}
 
+            {filteredOrders.length === 0 && (
+
+              <tr>
+
+                <td
+                  colSpan="7"
+                  className="text-center py-8 text-gray-500"
+                >
+                  No matching orders found.
+                </td>
+
+              </tr>
+
+            )}
+
           </tbody>
 
         </table>
@@ -187,9 +245,7 @@ function Orders() {
       </div>
 
     </AdminLayout>
-
   );
-
 }
 
 export default Orders;
