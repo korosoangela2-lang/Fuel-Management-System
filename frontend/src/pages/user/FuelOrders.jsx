@@ -23,7 +23,7 @@ function FuelOrders() {
   const [customerId, setCustomerId] = useState("");
 
   useEffect(() => {
-    Promise.all([fetchFuels(), fetchCustomers({ is_active: true })])
+    Promise.all([fetchFuels({ per_page: 100 }), fetchCustomers({ is_active: true, per_page: 100 })])
       .then(([fuelResult, customerResult]) => {
         setFuels(fuelResult.items || []);
         setCustomers(customerResult.items || []);

@@ -44,7 +44,7 @@ function FuelInventory() {
 
   function loadFuels() {
     setLoading(true);
-    return fetchFuels()
+    return fetchFuels({ per_page: 100 })
       .then((result) => setFuels(result.items || []))
       .catch((error) => toast.error(error.message || "Could not load fuel inventory."))
       .finally(() => setLoading(false));
@@ -53,7 +53,7 @@ function FuelInventory() {
   useEffect(() => {
     void Promise.resolve().then(loadFuels);
     if (isSuperAdmin) {
-      fetchRegions().then((result) => setRegions(result.items || [])).catch(() => {});
+      fetchRegions({ per_page: 100 }).then((result) => setRegions(result.items || [])).catch(() => {});
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

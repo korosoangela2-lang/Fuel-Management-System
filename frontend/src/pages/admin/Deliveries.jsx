@@ -52,14 +52,14 @@ function Deliveries() {
 
   function loadDeliveries() {
     setLoading(true);
-    return fetchDistributions()
+    return fetchDistributions({ per_page: 100 })
       .then((result) => setDeliveries(result.items || []))
       .catch((error) => toast.error(error.message || "Could not load deliveries."))
       .finally(() => setLoading(false));
   }
 
   function loadEligibleOrders() {
-    return fetchOrders({ status: "approved" })
+    return fetchOrders({ status: "approved", per_page: 100 })
       .then((result) =>
         setEligibleOrders((result.items || []).filter((order) => !order.delivery_status))
       )

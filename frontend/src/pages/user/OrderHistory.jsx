@@ -3,6 +3,7 @@ import toast from "react-hot-toast";
 
 import UserLayout from "../../layouts/UserLayout";
 import Loader from "../../components/common/Loader";
+import Pagination from "../../components/common/Pagination";
 import { fetchOrders } from "../../services/orderService";
 
 function statusColor(status) {
@@ -35,14 +36,24 @@ function titleCase(value = "") {
 function OrderHistory() {
 
   const [orders, setOrders] = useState([]);
+  const [meta, setMeta] = useState(null);
+  const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchOrders({ mine: true })
-      .then((result) => setOrders(result.items || []))
-      .catch((error) => toast.error(error.message || "Could not load your orders."))
-      .finally(() => setLoading(false));
-  }, []);
+    function loadOrders() {
+      setLoading(true);
+      return fetchOrders({ mine: true, page })
+        .then((result) => {
+          setOrders(result.items || []);
+          setMeta(result.meta || null);
+        })
+        .catch((error) => toast.error(error.message || "Could not load your orders."))
+        .finally(() => setLoading(false));
+    }
+
+    void Promise.resolve().then(loadOrders);
+  }, [page]);
 
   if (loading) {
     return (
@@ -146,6 +157,8 @@ function OrderHistory() {
           </tbody>
 
         </table>
+
+        <Pagination meta={meta} onPageChange={setPage} />
 
       </div>
 

@@ -27,7 +27,7 @@ function SystemSettings() {
 
   function loadAll() {
     setLoading(true);
-    return Promise.all([fetchRegions(), fetchRefineries()])
+    return Promise.all([fetchRegions({ per_page: 100 }), fetchRefineries({ per_page: 100 })])
       .then(([regionResult, refineryResult]) => {
         setRegions(regionResult.items || []);
         setRefineries(refineryResult.items || []);

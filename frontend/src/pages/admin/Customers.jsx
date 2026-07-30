@@ -1,10 +1,11 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 import AdminLayout from "../../layouts/AdminLayout";
 import Modal from "../../components/common/Modal";
 import ConfirmModal from "../../components/common/ConfirmModal";
 import Loader from "../../components/common/Loader";
+import Pagination from "../../components/common/Pagination";
 import CustomerForm from "../../components/forms/CustomerForm";
 import {
   fetchCustomers,
@@ -14,6 +15,7 @@ import {
 } from "../../services/customerService";
 import { fetchRegions } from "../../services/regionService";
 import { useAuth } from "../../context/useAuth";
+import { useDebounce } from "../../hooks/useDebounce";
 
 function titleCase(value = "") {
   return value.replaceAll("_", " ").replace(/\b\w/g, (c) => c.toUpperCase());
@@ -25,6 +27,11 @@ function Customers() {
   const isSuperAdmin = user?.role === "super_admin";
 
   const [search, setSearch] = useState("");
+  const debouncedSearch = useDebounce(search);
+
+  const [page, setPage] = useState(1);
+  const [meta, setMeta] = useState(null);
+
   const [customers, setCustomers] = useState([]);
   const [regions, setRegions] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -36,28 +43,32 @@ function Customers() {
 
   function loadCustomers() {
     setLoading(true);
-    return fetchCustomers()
-      .then((result) => setCustomers(result.items || []))
+    const params = { page };
+    if (debouncedSearch) params.search = debouncedSearch;
+
+    return fetchCustomers(params)
+      .then((result) => {
+        setCustomers(result.items || []);
+        setMeta(result.meta || null);
+      })
       .catch((error) => toast.error(error.message || "Could not load customers."))
       .finally(() => setLoading(false));
   }
 
   useEffect(() => {
     void Promise.resolve().then(loadCustomers);
-    if (isSuperAdmin) {
-      fetchRegions().then((result) => setRegions(result.items || [])).catch(() => {});
-    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [debouncedSearch, page]);
 
-  const filteredCustomers = useMemo(() => {
-    const term = search.toLowerCase();
-    return customers.filter((customer) =>
-      customer.name.toLowerCase().includes(term) ||
-      (customer.phone || "").toLowerCase().includes(term) ||
-      (customer.email || "").toLowerCase().includes(term)
-    );
-  }, [customers, search]);
+  useEffect(() => {
+    void Promise.resolve().then(() => setPage(1));
+  }, [debouncedSearch]);
+
+  useEffect(() => {
+    if (isSuperAdmin) {
+      fetchRegions({ per_page: 100 }).then((result) => setRegions(result.items || [])).catch(() => {});
+    }
+  }, [isSuperAdmin]);
 
   async function handleSubmit(data) {
     setSaving(true);
@@ -141,14 +152,14 @@ function Customers() {
                 </tr>
               </thead>
               <tbody>
-                {filteredCustomers.length === 0 ? (
+                {customers.length === 0 ? (
                   <tr>
                     <td colSpan="6" className="text-center py-10 text-slate-400">
                       No customers found.
                     </td>
                   </tr>
                 ) : (
-                  filteredCustomers.map((customer) => (
+                  customers.map((customer) => (
                     <tr key={customer.id} className="border-t border-slate-800">
                       <td className="px-6 py-4">{customer.name}</td>
                       <td className="px-6 py-4">{customer.phone}{customer.email ? ` • ${customer.email}` : ""}</td>
@@ -182,6 +193,8 @@ function Customers() {
                 )}
               </tbody>
             </table>
+
+            <Pagination meta={meta} onPageChange={setPage} />
           </div>
         )}
 

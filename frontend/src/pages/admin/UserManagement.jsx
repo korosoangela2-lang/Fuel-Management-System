@@ -31,7 +31,7 @@ function UserManagement() {
 
   function loadUsers() {
     setLoading(true);
-    return fetchUsers()
+    return fetchUsers({ per_page: 100 })
       .then((result) => setUsers(result.items || []))
       .catch((error) => toast.error(error.message || "Could not load users."))
       .finally(() => setLoading(false));
@@ -39,7 +39,7 @@ function UserManagement() {
 
   useEffect(() => {
     void Promise.resolve().then(loadUsers);
-    fetchRegions().then((result) => setRegions(result.items || [])).catch(() => {});
+    fetchRegions({ per_page: 100 }).then((result) => setRegions(result.items || [])).catch(() => {});
   }, []);
 
   const filteredUsers = useMemo(() => {

@@ -1,13 +1,15 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 import AdminLayout from "../../layouts/AdminLayout";
 import OrderForm from "../../components/forms/OrderForm";
 import ConfirmModal from "../../components/common/ConfirmModal";
 import Loader from "../../components/common/Loader";
+import Pagination from "../../components/common/Pagination";
 import { fetchOrders, createOrder, approveOrder, cancelOrder, deleteOrder } from "../../services/orderService";
 import { fetchCustomers } from "../../services/customerService";
 import { fetchFuels } from "../../services/fuelService";
+import { useDebounce } from "../../hooks/useDebounce";
 
 function titleCase(value = "") {
   return value.replaceAll("_", " ").replace(/\b\w/g, (c) => c.toUpperCase());
@@ -40,6 +42,10 @@ function Orders() {
 
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("All");
+  const debouncedSearch = useDebounce(searchTerm);
+
+  const [page, setPage] = useState(1);
+  const [meta, setMeta] = useState(null);
 
   const [orders, setOrders] = useState([]);
   const [customers, setCustomers] = useState([]);
@@ -56,37 +62,33 @@ function Orders() {
 
   function loadOrders() {
     setLoading(true);
-    return fetchOrders()
-      .then((result) => setOrders(result.items || []))
+    const params = { page };
+    if (debouncedSearch) params.search = debouncedSearch;
+    if (statusFilter !== "All") params.status = statusFilter.toLowerCase();
+
+    return fetchOrders(params)
+      .then((result) => {
+        setOrders(result.items || []);
+        setMeta(result.meta || null);
+      })
       .catch((error) => toast.error(error.message || "Could not load orders."))
       .finally(() => setLoading(false));
   }
 
   useEffect(() => {
     void Promise.resolve().then(loadOrders);
-    fetchCustomers({ is_active: true }).then((result) => setCustomers(result.items || [])).catch(() => {});
-    fetchFuels().then((result) => setFuels(result.items || [])).catch(() => {});
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [debouncedSearch, statusFilter, page]);
+
+  // A new search or filter always starts back at page 1.
+  useEffect(() => {
+    void Promise.resolve().then(() => setPage(1));
+  }, [debouncedSearch, statusFilter]);
+
+  useEffect(() => {
+    fetchCustomers({ is_active: true, per_page: 100 }).then((result) => setCustomers(result.items || [])).catch(() => {});
+    fetchFuels({ per_page: 100 }).then((result) => setFuels(result.items || [])).catch(() => {});
   }, []);
-
-  const filteredOrders = useMemo(() => {
-
-    return orders.filter((order) => {
-
-      const term = searchTerm.toLowerCase();
-
-      const matchesSearch =
-        order.order_number.toLowerCase().includes(term) ||
-        (order.customer_name || "").toLowerCase().includes(term);
-
-      const matchesStatus =
-        statusFilter === "All" ||
-        order.status === statusFilter.toLowerCase();
-
-      return matchesSearch && matchesStatus;
-
-    });
-
-  }, [orders, searchTerm, statusFilter]);
 
   async function handleSaveOrder(order) {
     if (!order.items.length) {
@@ -180,7 +182,7 @@ function Orders() {
           </h1>
 
           <p className="text-slate-400 mt-2">
-            Total Orders: {filteredOrders.length}
+            Total Orders: {meta?.total ?? orders.length}
           </p>
 
         </div>
@@ -252,7 +254,7 @@ function Orders() {
 
             <tbody>
 
-              {filteredOrders.map((order) => (
+              {orders.map((order) => (
 
                 <tr
                   key={order.id}
@@ -322,7 +324,7 @@ function Orders() {
 
               ))}
 
-              {filteredOrders.length === 0 && (
+              {orders.length === 0 && (
 
                 <tr>
 
@@ -340,6 +342,8 @@ function Orders() {
             </tbody>
 
           </table>
+
+          <Pagination meta={meta} onPageChange={setPage} />
 
         </div>
       )}

@@ -30,7 +30,7 @@ function AvailableFuel() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchFuels()
+    fetchFuels({ per_page: 100 })
       .then((result) => setFuels(result.items || []))
       .catch((error) => toast.error(error.message || "Could not load fuel inventory."))
       .finally(() => setLoading(false));
