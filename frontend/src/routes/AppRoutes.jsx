@@ -12,6 +12,8 @@ import Register from "../pages/auth/Register";
 import ForgotPassword from "../pages/auth/ForgotPassword";
 
 import AdminDashboard from "../pages/admin/Dashboard";
+import FuelInventory from "../pages/admin/FuelInventory";
+
 import UserDashboard from "../pages/user/Dashboard";
 
 import Unauthorized from "../pages/shared/Unauthorized";
@@ -69,6 +71,17 @@ function AppRoutes() {
             allowedRoles={["admin"]}
           >
             <AdminDashboard />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/admin/fuel-inventory"
+        element={
+          <ProtectedRoute
+            allowedRoles={["admin"]}
+          >
+            <FuelInventory />
           </ProtectedRoute>
         }
       />
