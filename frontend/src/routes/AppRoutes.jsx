@@ -15,29 +15,36 @@ import AdminDashboard from "../pages/admin/Dashboard";
 import FuelInventory from "../pages/admin/FuelInventory";
 
 import UserDashboard from "../pages/user/Dashboard";
+import AvailableFuel from "../pages/user/AvailableFuel";
+import FuelOrders from "../pages/user/FuelOrders";
 
 import Unauthorized from "../pages/shared/Unauthorized";
 import NotFound from "../pages/shared/NotFound";
 
 function AppRoutes() {
+
   return (
+
     <Routes>
 
-      {/* Redirect root to login */}
+      {/* Redirect Root */}
+
       <Route
         path="/"
         element={<Navigate to="/login" replace />}
       />
 
-      {/* ========================= */}
+      {/* ================================= */}
       {/* Guest Routes */}
-      {/* ========================= */}
+      {/* ================================= */}
 
       <Route
         path="/login"
         element={
           <GuestRoute>
+
             <Login />
+
           </GuestRoute>
         }
       />
@@ -46,7 +53,9 @@ function AppRoutes() {
         path="/register"
         element={
           <GuestRoute>
+
             <Register />
+
           </GuestRoute>
         }
       />
@@ -55,14 +64,16 @@ function AppRoutes() {
         path="/forgot-password"
         element={
           <GuestRoute>
+
             <ForgotPassword />
+
           </GuestRoute>
         }
       />
 
-      {/* ========================= */}
+      {/* ================================= */}
       {/* Admin Routes */}
-      {/* ========================= */}
+      {/* ================================= */}
 
       <Route
         path="/admin/dashboard"
@@ -70,7 +81,9 @@ function AppRoutes() {
           <ProtectedRoute
             allowedRoles={["admin"]}
           >
+
             <AdminDashboard />
+
           </ProtectedRoute>
         }
       />
@@ -81,14 +94,16 @@ function AppRoutes() {
           <ProtectedRoute
             allowedRoles={["admin"]}
           >
+
             <FuelInventory />
+
           </ProtectedRoute>
         }
       />
 
-      {/* ========================= */}
+      {/* ================================= */}
       {/* Customer Routes */}
-      {/* ========================= */}
+      {/* ================================= */}
 
       <Route
         path="/dashboard"
@@ -96,14 +111,42 @@ function AppRoutes() {
           <ProtectedRoute
             allowedRoles={["customer"]}
           >
+
             <UserDashboard />
+
           </ProtectedRoute>
         }
       />
 
-      {/* ========================= */}
-      {/* Shared Pages */}
-      {/* ========================= */}
+      <Route
+        path="/available-fuel"
+        element={
+          <ProtectedRoute
+            allowedRoles={["customer"]}
+          >
+
+            <AvailableFuel />
+
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/fuel-orders"
+        element={
+          <ProtectedRoute
+            allowedRoles={["customer"]}
+          >
+
+            <FuelOrders />
+
+          </ProtectedRoute>
+        }
+      />
+
+      {/* ================================= */}
+      {/* Shared */}
+      {/* ================================= */}
 
       <Route
         path="/unauthorized"
@@ -116,7 +159,9 @@ function AppRoutes() {
       />
 
     </Routes>
+
   );
+
 }
 
 export default AppRoutes;
