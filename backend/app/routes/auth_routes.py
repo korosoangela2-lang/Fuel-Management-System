@@ -7,6 +7,7 @@ from flask_jwt_extended import (
 )
 
 from app.extensions import db
+from app.models.region import Region
 from app.models.token_blocklist import TokenBlocklist
 from app.models.user import User
 from app.schemas.auth_schema import (
@@ -24,6 +25,13 @@ register_schema = RegisterSchema()
 login_schema = LoginSchema()
 reset_request_schema = PasswordResetRequestSchema()
 reset_confirm_schema = PasswordResetConfirmSchema()
+
+
+@auth_bp.get("/regions")
+def registration_regions():
+    """Minimal, unauthenticated region list for the sign-up form's picker."""
+    regions = Region.query.filter_by(is_active=True).order_by(Region.name.asc()).all()
+    return jsonify([{"id": r.id, "name": r.name, "code": r.code} for r in regions]), 200
 
 
 @auth_bp.post("/register")

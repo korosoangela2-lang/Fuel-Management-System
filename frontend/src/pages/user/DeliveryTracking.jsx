@@ -1,0 +1,156 @@
+import { useState } from "react";
+import toast from "react-hot-toast";
+
+import UserLayout from "../../layouts/UserLayout";
+import { trackOrderDelivery } from "../../services/distributionService";
+
+function statusColor(status) {
+
+  switch (status) {
+
+    case "delivered":
+      return "bg-green-500/10 text-green-400 border border-green-500/20";
+
+    case "in_transit":
+      return "bg-blue-500/10 text-blue-400 border border-blue-500/20";
+
+    case "pending":
+      return "bg-yellow-500/10 text-yellow-400 border border-yellow-500/20";
+
+    case "failed":
+      return "bg-red-500/10 text-red-400 border border-red-500/20";
+
+    default:
+      return "bg-slate-800 text-slate-200";
+
+  }
+
+}
+
+function titleCase(value = "") {
+  return value.replaceAll("_", " ").replace(/\b\w/g, (c) => c.toUpperCase());
+}
+
+function DeliveryTracking() {
+
+  const [orderNumber, setOrderNumber] = useState("");
+  const [result, setResult] = useState(null);
+  const [searching, setSearching] = useState(false);
+  const [searched, setSearched] = useState(false);
+
+  async function handleSearch(event) {
+    event.preventDefault();
+    if (!orderNumber.trim()) return;
+
+    setSearching(true);
+    setSearched(false);
+    try {
+      const data = await trackOrderDelivery(orderNumber.trim());
+      setResult(data);
+    } catch (error) {
+      setResult(null);
+      toast.error(error.message || "Could not find that order.");
+    } finally {
+      setSearching(false);
+      setSearched(true);
+    }
+  }
+
+  return (
+
+    <UserLayout>
+
+      <h1 className="text-3xl font-bold mb-6">
+        Delivery Tracking
+      </h1>
+
+      <form onSubmit={handleSearch} className="bg-slate-900 rounded-xl shadow p-4 flex gap-4 mb-6">
+        <input
+          type="text"
+          placeholder="Enter order number, e.g. ORD-00001"
+          value={orderNumber}
+          onChange={(event) => setOrderNumber(event.target.value)}
+          className="border border-slate-700 rounded-lg px-4 py-2 flex-1"
+        />
+
+        <button
+          type="submit"
+          disabled={searching}
+          className="bg-amber-600 hover:bg-amber-700 text-white px-6 py-2 rounded-lg disabled:opacity-60"
+        >
+          {searching ? "Searching..." : "Track"}
+        </button>
+      </form>
+
+      {result && (
+
+        <div className="bg-slate-900 rounded-xl shadow p-6">
+
+          <div className="flex justify-between items-center">
+
+            <div>
+              <h2 className="text-xl font-bold">{result.order_number}</h2>
+              <p className="text-slate-400 mt-1">Order status: {titleCase(result.order_status)}</p>
+            </div>
+
+            {result.delivery && (
+              <span className={`px-4 py-2 rounded-full text-sm font-semibold ${statusColor(result.delivery.status)}`}>
+                {titleCase(result.delivery.status)}
+              </span>
+            )}
+
+          </div>
+
+          {result.delivery ? (
+            <div className="grid md:grid-cols-2 gap-6 mt-6">
+
+              <div>
+                <p className="text-slate-400">Driver</p>
+                <p className="font-semibold">{result.delivery.driver_name}</p>
+              </div>
+
+              <div>
+                <p className="text-slate-400">Vehicle</p>
+                <p className="font-semibold">{result.delivery.vehicle_registration}</p>
+              </div>
+
+              <div>
+                <p className="text-slate-400">Scheduled Date</p>
+                <p className="font-semibold">{result.delivery.scheduled_date}</p>
+              </div>
+
+              <div>
+                <p className="text-slate-400">
+                  {result.delivery.status === "delivered" ? "Delivered At" : "Dispatched At"}
+                </p>
+                <p className="font-semibold">
+                  {(result.delivery.status === "delivered"
+                    ? result.delivery.delivered_at
+                    : result.delivery.dispatched_at) || "—"}
+                </p>
+              </div>
+
+            </div>
+          ) : (
+            <p className="text-slate-400 mt-6">
+              No delivery has been scheduled for this order yet.
+            </p>
+          )}
+
+        </div>
+
+      )}
+
+      {searched && !result && (
+        <p className="text-slate-400 text-center py-10">
+          No order found with that number.
+        </p>
+      )}
+
+    </UserLayout>
+
+  );
+
+}
+
+export default DeliveryTracking;
