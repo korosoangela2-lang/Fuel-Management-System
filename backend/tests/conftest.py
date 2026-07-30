@@ -21,7 +21,7 @@ from app.models.order import OrderStatus
 
 @pytest.fixture
 def app():
-    application = create_app("config.TestingConfig")
+    application = create_app("app.config.TestingConfig")
     ctx = application.app_context()
     ctx.push()
     db.create_all()
