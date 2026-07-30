@@ -1,5 +1,28 @@
+function statusFor(fuel) {
+  if (!fuel.is_active) return "Inactive";
+  if (Number(fuel.quantity_available) <= 0) return "Out of Stock";
+  if (fuel.is_low_stock) return "Low Stock";
+  return "Available";
+}
+
+function statusColor(status) {
+  switch (status) {
+    case "Available":
+      return "bg-green-100 text-green-700";
+    case "Low Stock":
+      return "bg-yellow-100 text-yellow-700";
+    case "Inactive":
+      return "bg-gray-200 text-gray-600";
+    default:
+      return "bg-red-100 text-red-700";
+  }
+}
+
 function FuelTable({
   fuels,
+  onEdit,
+  onAddStock,
+  onDeactivate,
 }) {
   return (
     <div className="bg-white rounded-xl shadow overflow-hidden">
@@ -15,11 +38,11 @@ function FuelTable({
             </th>
 
             <th className="px-6 py-4 text-left">
-              Price (KES/L)
+              Price
             </th>
 
             <th className="px-6 py-4 text-left">
-              Stock (L)
+              Stock
             </th>
 
             <th className="px-6 py-4 text-left">
@@ -60,45 +83,49 @@ function FuelTable({
 
                 <td className="px-6 py-4">
                   {fuel.name}
+                  <div className="text-xs text-gray-400">{fuel.fuel_type}</div>
                 </td>
 
                 <td className="px-6 py-4">
-                  KES {fuel.price.toFixed(2)}
+                  KES {Number(fuel.unit_price).toFixed(2)} / {fuel.unit_of_measure}
                 </td>
 
                 <td className="px-6 py-4">
-                  {fuel.stock.toLocaleString()}
+                  {Number(fuel.quantity_available).toLocaleString()} {fuel.unit_of_measure}
                 </td>
 
                 <td className="px-6 py-4">
 
                   <span
-                    className={`px-3 py-1 rounded-full text-sm font-medium
-                    ${
-                      fuel.status === "Available"
-                        ? "bg-green-100 text-green-700"
-                        : fuel.status === "Low Stock"
-                        ? "bg-yellow-100 text-yellow-700"
-                        : "bg-red-100 text-red-700"
-                    }`}
+                    className={`px-3 py-1 rounded-full text-sm font-medium ${statusColor(statusFor(fuel))}`}
                   >
-                    {fuel.status}
+                    {statusFor(fuel)}
                   </span>
 
                 </td>
 
-                <td className="px-6 py-4 text-center space-x-2">
+                <td className="px-6 py-4 text-center space-x-2 whitespace-nowrap">
 
                   <button
+                    onClick={() => onEdit(fuel)}
                     className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700"
                   >
                     Edit
                   </button>
 
                   <button
-                    className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700"
+                    onClick={() => onAddStock(fuel)}
+                    className="bg-emerald-600 text-white px-3 py-1 rounded hover:bg-emerald-700"
                   >
-                    Delete
+                    Add Stock
+                  </button>
+
+                  <button
+                    onClick={() => onDeactivate(fuel)}
+                    disabled={!fuel.is_active}
+                    className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 disabled:opacity-50"
+                  >
+                    Deactivate
                   </button>
 
                 </td>

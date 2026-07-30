@@ -1,41 +1,36 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 import UserLayout from "../../layouts/UserLayout";
+import Loader from "../../components/common/Loader";
+import { fetchFuels } from "../../services/fuelService";
+import { fetchCustomers } from "../../services/customerService";
+import { createOrder } from "../../services/orderService";
 
 function FuelOrders() {
-  const fuels = [
-    {
-      id: 1,
-      name: "Petrol",
-      price: 180,
-      stock: 9500,
-    },
-    {
-      id: 2,
-      name: "Diesel",
-      price: 170,
-      stock: 7200,
-    },
-    {
-      id: 3,
-      name: "Kerosene",
-      price: 155,
-      stock: 3100,
-    },
-    {
-      id: 4,
-      name: "Premium Petrol",
-      price: 195,
-      stock: 4600,
-    },
-  ];
+  const [fuels, setFuels] = useState([]);
+  const [customers, setCustomers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [placingOrder, setPlacingOrder] = useState(false);
 
   // Stores the selected fuel for checkout
   const [selectedFuel, setSelectedFuel] = useState(null);
 
   // Stores the quantity entered
   const [quantity, setQuantity] = useState("");
+
+  // Selected customer to place the order on behalf of
+  const [customerId, setCustomerId] = useState("");
+
+  useEffect(() => {
+    Promise.all([fetchFuels(), fetchCustomers({ is_active: true })])
+      .then(([fuelResult, customerResult]) => {
+        setFuels(fuelResult.items || []);
+        setCustomers(customerResult.items || []);
+      })
+      .catch((error) => toast.error(error.message || "Could not load order data."))
+      .finally(() => setLoading(false));
+  }, []);
 
   // Opens the checkout modal
   function checkout(fuel) {
@@ -44,18 +39,47 @@ function FuelOrders() {
       return;
     }
 
+    if (Number(quantity) > Number(fuel.quantity_available)) {
+      toast.error("That quantity exceeds available stock.");
+      return;
+    }
+
     setSelectedFuel(fuel);
   }
 
   // Confirms the order
-  function confirmOrder() {
-    toast.success(
-      `${quantity}L of ${selectedFuel.name} has been ordered successfully.`
-    );
+  async function confirmOrder() {
+    if (!customerId) {
+      toast.error("Please select a customer for this order.");
+      return;
+    }
 
-    // Reset the form
-    setSelectedFuel(null);
-    setQuantity("");
+    setPlacingOrder(true);
+    try {
+      await createOrder({
+        customer_id: Number(customerId),
+        items: [{ fuel_id: selectedFuel.id, quantity }],
+      });
+
+      toast.success(
+        `${quantity}${selectedFuel.unit_of_measure} of ${selectedFuel.name} has been ordered successfully.`
+      );
+
+      setSelectedFuel(null);
+      setQuantity("");
+    } catch (error) {
+      toast.error(error.message || "Could not place the order.");
+    } finally {
+      setPlacingOrder(false);
+    }
+  }
+
+  if (loading) {
+    return (
+      <UserLayout>
+        <Loader label="Loading fuel orders..." />
+      </UserLayout>
+    );
   }
 
   return (
@@ -83,7 +107,7 @@ function FuelOrders() {
             </p>
 
             <p className="font-semibold">
-              ${fuel.price} / L
+              KES {Number(fuel.unit_price).toFixed(2)} / {fuel.unit_of_measure}
             </p>
 
             {/* Stock */}
@@ -92,22 +116,16 @@ function FuelOrders() {
             </p>
 
             <p className="font-semibold">
-              {fuel.stock.toLocaleString()} Litres
+              {Number(fuel.quantity_available).toLocaleString()} {fuel.unit_of_measure}
             </p>
 
             {/* Quantity */}
             <input
               type="number"
               min="1"
-              value={
-                selectedFuel?.id === fuel.id
-                  ? quantity
-                  : quantity
-              }
-              onChange={(e) =>
-                setQuantity(e.target.value)
-              }
-              placeholder="Enter Quantity (Litres)"
+              value={quantity}
+              onChange={(e) => setQuantity(e.target.value)}
+              placeholder={`Enter Quantity (${fuel.unit_of_measure})`}
               className="mt-5 w-full border rounded-lg p-3"
             />
 
@@ -118,10 +136,10 @@ function FuelOrders() {
               </p>
 
               <h3 className="text-2xl font-bold">
-                $
+                KES{" "}
                 {quantity
                   ? (
-                      Number(quantity) * fuel.price
+                      Number(quantity) * Number(fuel.unit_price)
                     ).toLocaleString()
                   : 0}
               </h3>
@@ -146,11 +164,22 @@ function FuelOrders() {
               Confirm Order
             </h2>
 
-            <div className="space-y-3">
-              <p>
-                <strong>Customer:</strong>{" "}
-                Bruce James
-              </p>
+            <div className="space-y-4">
+              <div>
+                <label className="block mb-2 font-medium text-sm">Customer</label>
+                <select
+                  value={customerId}
+                  onChange={(e) => setCustomerId(e.target.value)}
+                  className="w-full border rounded-lg p-3"
+                >
+                  <option value="" disabled>Select a customer</option>
+                  {customers.map((customer) => (
+                    <option key={customer.id} value={customer.id}>
+                      {customer.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
 
               <p>
                 <strong>Fuel:</strong>{" "}
@@ -159,23 +188,22 @@ function FuelOrders() {
 
               <p>
                 <strong>Quantity:</strong>{" "}
-                {quantity} Litres
+                {quantity} {selectedFuel.unit_of_measure}
               </p>
 
               <p>
-                <strong>Total:</strong> $
+                <strong>Total:</strong> KES{" "}
                 {(
                   Number(quantity) *
-                  selectedFuel.price
+                  Number(selectedFuel.unit_price)
                 ).toLocaleString()}
               </p>
             </div>
 
             <div className="flex justify-end gap-4 mt-8">
               <button
-                onClick={() =>
-                  setSelectedFuel(null)
-                }
+                onClick={() => setSelectedFuel(null)}
+                disabled={placingOrder}
                 className="px-5 py-2 border rounded-lg hover:bg-gray-100"
               >
                 Cancel
@@ -183,9 +211,10 @@ function FuelOrders() {
 
               <button
                 onClick={confirmOrder}
-                className="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg"
+                disabled={placingOrder}
+                className="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg disabled:opacity-60"
               >
-                Confirm Order
+                {placingOrder ? "Placing order..." : "Confirm Order"}
               </button>
             </div>
           </div>

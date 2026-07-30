@@ -1,35 +1,19 @@
-import { createContext, useContext, useEffect, useState } from "react";
-
-// Create the authentication context
-const AuthContext = createContext();
-
-// Custom hook for accessing the context
-export function useAuth() {
-  return useContext(AuthContext);
-}
+import { useState } from "react";
+import { AuthContext } from "./AuthContextBase";
+import { logoutUser } from "../services/authService";
 
 export function AuthProvider({ children }) {
-  // Logged in user
-  const [user, setUser] = useState(null);
-
-  // JWT token
-  const [token, setToken] = useState(null);
-
-  // Loading state while checking localStorage
-  const [loading, setLoading] = useState(true);
-
-  // Restore login session after refresh
-  useEffect(() => {
-    const savedToken = localStorage.getItem("token");
+  // Logged in user, restored synchronously from localStorage
+  const [user, setUser] = useState(() => {
     const savedUser = localStorage.getItem("user");
+    return savedUser ? JSON.parse(savedUser) : null;
+  });
 
-    if (savedToken && savedUser) {
-      setToken(savedToken);
-      setUser(JSON.parse(savedUser));
-    }
+  // JWT token, restored synchronously from localStorage
+  const [token, setToken] = useState(() => localStorage.getItem("token"));
 
-    setLoading(false);
-  }, []);
+  // Restoring from localStorage is synchronous, so there's nothing to wait on.
+  const [loading] = useState(false);
 
   // Login function
   const login = (userData, jwtToken) => {
@@ -40,8 +24,13 @@ export function AuthProvider({ children }) {
     localStorage.setItem("user", JSON.stringify(userData));
   };
 
-  // Logout function
+  // Logout function. Blocklisting the token server-side is best-effort — the
+  // client always clears local state even if the request fails.
   const logout = () => {
+    if (token) {
+      logoutUser().catch(() => {});
+    }
+
     setUser(null);
     setToken(null);
 

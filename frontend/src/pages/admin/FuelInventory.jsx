@@ -1,48 +1,62 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import toast from "react-hot-toast";
 
 import AdminLayout from "../../layouts/AdminLayout";
 import FuelTable from "../../components/tables/FuelTable";
 import Modal from "../../components/common/Modal";
+import ConfirmModal from "../../components/common/ConfirmModal";
+import Loader from "../../components/common/Loader";
 import FuelForm from "../../components/forms/FuelForm";
+import {
+  fetchFuels,
+  createFuel,
+  updateFuel,
+  addFuelStock,
+  deactivateFuel,
+} from "../../services/fuelService";
+import { fetchRegions } from "../../services/regionService";
+import { useAuth } from "../../context/useAuth";
+
+function statusFor(fuel) {
+  if (!fuel.is_active) return "Inactive";
+  if (Number(fuel.quantity_available) <= 0) return "Out of Stock";
+  if (fuel.is_low_stock) return "Low Stock";
+  return "Available";
+}
 
 function FuelInventory() {
 
-  const [search, setSearch] = useState("");
+  const { user } = useAuth();
+  const isSuperAdmin = user?.role === "super_admin";
 
+  const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("All");
+  const [fuels, setFuels] = useState([]);
+  const [regions, setRegions] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
 
   const [showModal, setShowModal] = useState(false);
+  const [editingFuel, setEditingFuel] = useState(null);
+  const [stockFuel, setStockFuel] = useState(null);
+  const [stockAmount, setStockAmount] = useState("");
+  const [deactivateTarget, setDeactivateTarget] = useState(null);
 
-  const [fuels, setFuels] = useState([
-    {
-      id: 1,
-      name: "Petrol",
-      price: 182.45,
-      stock: 12500,
-      status: "Available",
-    },
-    {
-      id: 2,
-      name: "Diesel",
-      price: 171.30,
-      stock: 9800,
-      status: "Available",
-    },
-    {
-      id: 3,
-      name: "Kerosene",
-      price: 145.20,
-      stock: 3500,
-      status: "Low Stock",
-    },
-    {
-      id: 4,
-      name: "Jet Fuel",
-      price: 210.00,
-      stock: 0,
-      status: "Out of Stock",
-    },
-  ]);
+  function loadFuels() {
+    setLoading(true);
+    return fetchFuels()
+      .then((result) => setFuels(result.items || []))
+      .catch((error) => toast.error(error.message || "Could not load fuel inventory."))
+      .finally(() => setLoading(false));
+  }
+
+  useEffect(() => {
+    void Promise.resolve().then(loadFuels);
+    if (isSuperAdmin) {
+      fetchRegions().then((result) => setRegions(result.items || [])).catch(() => {});
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const filteredFuels = useMemo(() => {
 
@@ -55,7 +69,7 @@ function FuelInventory() {
       const matchesStatus =
         statusFilter === "All"
           ? true
-          : fuel.status === statusFilter;
+          : statusFor(fuel) === statusFilter;
 
       return matchesSearch && matchesStatus;
 
@@ -63,20 +77,59 @@ function FuelInventory() {
 
   }, [fuels, search, statusFilter]);
 
-  function handleAddFuel(newFuel) {
+  async function handleSubmit(data) {
+    setSaving(true);
+    try {
+      if (editingFuel) {
+        await updateFuel(editingFuel.id, data);
+        toast.success("Fuel product updated.");
+      } else {
+        await createFuel(data);
+        toast.success("Fuel product added.");
+      }
+      setShowModal(false);
+      setEditingFuel(null);
+      await loadFuels();
+    } catch (error) {
+      toast.error(error.message || "Could not save this fuel product.");
+    } finally {
+      setSaving(false);
+    }
+  }
 
-    const fuel = {
-      ...newFuel,
-      id: Date.now(),
-    };
+  async function handleAddStock(event) {
+    event.preventDefault();
+    if (!stockAmount || Number(stockAmount) <= 0) {
+      toast.error("Enter a valid quantity to add.");
+      return;
+    }
 
-    setFuels((previousFuels) => [
-      ...previousFuels,
-      fuel,
-    ]);
+    setSaving(true);
+    try {
+      await addFuelStock(stockFuel.id, stockAmount);
+      toast.success(`Added ${stockAmount} ${stockFuel.unit_of_measure} to ${stockFuel.name}.`);
+      setStockFuel(null);
+      setStockAmount("");
+      await loadFuels();
+    } catch (error) {
+      toast.error(error.message || "Could not add stock.");
+    } finally {
+      setSaving(false);
+    }
+  }
 
-    setShowModal(false);
-
+  async function handleDeactivate() {
+    setSaving(true);
+    try {
+      await deactivateFuel(deactivateTarget.id);
+      toast.success(`${deactivateTarget.name} deactivated.`);
+      setDeactivateTarget(null);
+      await loadFuels();
+    } catch (error) {
+      toast.error(error.message || "Could not deactivate this fuel product.");
+    } finally {
+      setSaving(false);
+    }
   }
 
   return (
@@ -102,7 +155,10 @@ function FuelInventory() {
           </div>
 
           <button
-            onClick={() => setShowModal(true)}
+            onClick={() => {
+              setEditingFuel(null);
+              setShowModal(true);
+            }}
             className="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700"
           >
             + Add Fuel
@@ -128,21 +184,11 @@ function FuelInventory() {
             className="border rounded-lg px-4 py-2"
           >
 
-            <option>
-              All
-            </option>
-
-            <option>
-              Available
-            </option>
-
-            <option>
-              Low Stock
-            </option>
-
-            <option>
-              Out of Stock
-            </option>
+            <option>All</option>
+            <option>Available</option>
+            <option>Low Stock</option>
+            <option>Out of Stock</option>
+            <option>Inactive</option>
 
           </select>
 
@@ -150,26 +196,124 @@ function FuelInventory() {
 
         {/* Fuel Table */}
 
-        <FuelTable
-          fuels={filteredFuels}
-        />
+        {loading ? (
+          <Loader label="Loading fuel inventory..." />
+        ) : (
+          <FuelTable
+            fuels={filteredFuels}
+            onEdit={(fuel) => {
+              setEditingFuel(fuel);
+              setShowModal(true);
+            }}
+            onAddStock={(fuel) => setStockFuel(fuel)}
+            onDeactivate={(fuel) => setDeactivateTarget(fuel)}
+          />
+        )}
 
       </div>
 
-      {/* Add Fuel Modal */}
+      {/* Add / Edit Fuel Modal */}
 
       <Modal
         isOpen={showModal}
-        title="Add Fuel"
-        onClose={() => setShowModal(false)}
+        title={editingFuel ? `Edit ${editingFuel.name}` : "Add Fuel"}
+        onClose={() => {
+          setShowModal(false);
+          setEditingFuel(null);
+        }}
       >
 
         <FuelForm
-          onSubmit={handleAddFuel}
-          onCancel={() => setShowModal(false)}
+          key={editingFuel?.id || "new"}
+          initialData={
+            editingFuel
+              ? {
+                  name: editingFuel.name,
+                  fuel_type: editingFuel.fuel_type || "",
+                  unit_price: editingFuel.unit_price,
+                  quantity_available: editingFuel.quantity_available,
+                  unit_of_measure: editingFuel.unit_of_measure,
+                  reorder_level: editingFuel.reorder_level,
+                }
+              : undefined
+          }
+          isEditing={!!editingFuel}
+          regions={regions}
+          requireRegion={isSuperAdmin}
+          submitLabel={editingFuel ? "Save Changes" : "Add Fuel"}
+          submitting={saving}
+          onSubmit={handleSubmit}
+          onCancel={() => {
+            setShowModal(false);
+            setEditingFuel(null);
+          }}
         />
 
       </Modal>
+
+      {/* Add Stock Modal */}
+
+      {stockFuel && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-xl shadow-xl w-full max-w-sm p-6">
+
+            <h2 className="text-xl font-bold mb-4">
+              Add Stock — {stockFuel.name}
+            </h2>
+
+            <form onSubmit={handleAddStock} className="space-y-4">
+
+              <input
+                type="number"
+                step="0.01"
+                min="0"
+                placeholder={`Quantity to add (${stockFuel.unit_of_measure})`}
+                value={stockAmount}
+                onChange={(e) => setStockAmount(e.target.value)}
+                className="w-full border rounded-lg px-4 py-2"
+                autoFocus
+                required
+              />
+
+              <div className="flex justify-end gap-3">
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    setStockFuel(null);
+                    setStockAmount("");
+                  }}
+                  className="px-5 py-2 rounded-lg border"
+                >
+                  Cancel
+                </button>
+
+                <button
+                  type="submit"
+                  disabled={saving}
+                  className="px-5 py-2 rounded-lg bg-emerald-600 text-white hover:bg-emerald-700 disabled:opacity-60"
+                >
+                  {saving ? "Adding..." : "Add Stock"}
+                </button>
+
+              </div>
+
+            </form>
+
+          </div>
+        </div>
+      )}
+
+      {/* Deactivate Confirmation */}
+
+      {deactivateTarget && (
+        <ConfirmModal
+          title="Deactivate Fuel Product"
+          message={`Are you sure you want to deactivate ${deactivateTarget.name}? It will no longer be available for new orders.`}
+          onConfirm={handleDeactivate}
+          onCancel={() => setDeactivateTarget(null)}
+        />
+      )}
 
     </AdminLayout>
 

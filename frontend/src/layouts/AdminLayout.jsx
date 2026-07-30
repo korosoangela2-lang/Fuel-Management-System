@@ -2,13 +2,16 @@ import Sidebar from "../components/layout/Sidebar";
 import Topbar from "../components/layout/Topbar";
 import Breadcrumb from "../components/layout/Breadcrumb";
 import Footer from "../components/layout/Footer";
+import { useAuth } from "../context/useAuth";
 
 function AdminLayout({ children }) {
+  const { user } = useAuth();
+
   return (
     <div className="flex min-h-screen bg-gray-100">
 
       {/* Sidebar */}
-      <Sidebar />
+      <Sidebar role="admin" userRole={user?.role} />
 
       {/* Main Section */}
       <div className="flex flex-col flex-1">

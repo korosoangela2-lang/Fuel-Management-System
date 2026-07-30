@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaBell, FaChevronDown } from "react-icons/fa";
 
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../../context/useAuth";
 
 function Topbar() {
   const navigate = useNavigate();
@@ -30,10 +30,6 @@ function Topbar() {
         {/* Notifications */}
         <button className="relative">
           <FaBell className="text-xl text-gray-600" />
-
-          <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full px-1">
-            3
-          </span>
         </button>
 
         {/* User Menu */}
@@ -45,17 +41,17 @@ function Topbar() {
           >
 
             <div className="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold">
-              {user?.name?.charAt(0) || "A"}
+              {user?.username?.charAt(0).toUpperCase() || "U"}
             </div>
 
             <div className="text-left">
 
               <p className="font-semibold">
-                {user?.name || "Administrator"}
+                {user?.username || "Account"}
               </p>
 
               <p className="text-sm text-gray-500 capitalize">
-                {user?.role || "Admin"}
+                {user?.role?.replaceAll("_", " ") || ""}
               </p>
 
             </div>
@@ -66,15 +62,23 @@ function Topbar() {
 
           {/* Dropdown */}
           {showMenu && (
-            <div className="absolute right-0 mt-3 w-44 bg-white rounded-lg shadow-lg border">
+            <div className="absolute right-0 mt-3 w-44 bg-white rounded-lg shadow-lg border z-10">
 
               <button
+                onClick={() => {
+                  setShowMenu(false);
+                  navigate("/profile");
+                }}
                 className="block w-full text-left px-4 py-3 hover:bg-gray-100"
               >
                 Profile
               </button>
 
               <button
+                onClick={() => {
+                  setShowMenu(false);
+                  navigate("/settings");
+                }}
                 className="block w-full text-left px-4 py-3 hover:bg-gray-100"
               >
                 Settings

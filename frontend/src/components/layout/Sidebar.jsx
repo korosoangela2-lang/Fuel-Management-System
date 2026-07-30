@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom";
 
-function Sidebar({ role = "admin" }) {
+function Sidebar({ role = "admin", userRole }) {
 
   const adminLinks = [
 
@@ -39,15 +39,19 @@ function Sidebar({ role = "admin" }) {
       path: "/admin/analytics",
     },
 
-    {
-      name: "User Management",
-      path: "/admin/users",
-    },
-
-    {
-      name: "System Settings",
-      path: "/admin/settings",
-    },
+    // Super-admin only — regional admins can't manage users/regions.
+    ...(userRole === "super_admin"
+      ? [
+          {
+            name: "User Management",
+            path: "/admin/users",
+          },
+          {
+            name: "System Settings",
+            path: "/admin/settings",
+          },
+        ]
+      : []),
 
   ];
 

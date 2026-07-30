@@ -21,54 +21,31 @@ ChartJS.register(
   Legend
 );
 
-function SalesChart() {
+function SalesChart({ labels = [], values = [], label = "Revenue (KES)" }) {
 
   const data = {
-
-    labels: [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-    ],
-
+    labels,
     datasets: [
-
       {
-        label: "Fuel Sales",
-
-        data: [
-          120,
-          240,
-          190,
-          320,
-          410,
-          530,
-        ],
-
+        label,
+        data: values,
         backgroundColor: "#2563EB",
-
       },
-
     ],
-
   };
 
   const options = {
-
     responsive: true,
-
     plugins: {
-
       legend: {
         display: false,
       },
-
     },
-
   };
+
+  if (labels.length === 0) {
+    return <p className="text-gray-500 text-center py-10">Not enough data yet to chart revenue.</p>;
+  }
 
   return <Bar data={data} options={options} />;
 }

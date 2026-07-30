@@ -1,45 +1,40 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import toast from "react-hot-toast";
 
 import UserLayout from "../../layouts/UserLayout";
-import FuelCard from "../../components/cards/FuelCard";
+import Loader from "../../components/common/Loader";
+import { fetchFuels } from "../../services/fuelService";
+
+function statusFor(fuel) {
+  if (Number(fuel.quantity_available) <= 0) return "Out of Stock";
+  if (fuel.is_low_stock) return "Low Stock";
+  return "Available";
+}
+
+function statusColor(status) {
+  switch (status) {
+    case "Available":
+      return "bg-green-100 text-green-700";
+    case "Low Stock":
+      return "bg-yellow-100 text-yellow-700";
+    default:
+      return "bg-red-100 text-red-700";
+  }
+}
 
 function AvailableFuel() {
 
   const [search, setSearch] = useState("");
-
   const [status, setStatus] = useState("All");
+  const [fuels, setFuels] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const fuels = [
-    {
-      id: 1,
-      name: "Petrol",
-      price: 182.45,
-      stock: 12500,
-      status: "Available",
-    },
-    {
-      id: 2,
-      name: "Diesel",
-      price: 171.30,
-      stock: 9800,
-      status: "Available",
-    },
-    {
-      id: 3,
-      name: "Kerosene",
-      price: 145.20,
-      stock: 3500,
-      status: "Low Stock",
-    },
-    {
-      id: 4,
-      name: "Jet Fuel",
-      price: 210.00,
-      stock: 0,
-      status: "Out of Stock",
-    },
-  ];
+  useEffect(() => {
+    fetchFuels()
+      .then((result) => setFuels(result.items || []))
+      .catch((error) => toast.error(error.message || "Could not load fuel inventory."))
+      .finally(() => setLoading(false));
+  }, []);
 
   const filteredFuels = useMemo(() => {
 
@@ -49,24 +44,17 @@ function AvailableFuel() {
         .toLowerCase()
         .includes(search.toLowerCase());
 
+      const fuelStatus = statusFor(fuel);
       const matchesStatus =
         status === "All"
           ? true
-          : fuel.status === status;
+          : fuelStatus === status;
 
       return matchesSearch && matchesStatus;
 
     });
 
-  }, [search, status]);
-
-  function handleOrder(fuel) {
-
-    toast.success(
-      `${fuel.name} selected for ordering.`
-    );
-
-  }
+  }, [fuels, search, status]);
 
   return (
 
@@ -75,30 +63,24 @@ function AvailableFuel() {
       <div className="space-y-6">
 
         <div>
-
-          <h1 className="text-3xl font-bold">
-            Available Fuel
-          </h1>
-
+          <h1 className="text-3xl font-bold">Available Fuel</h1>
           <p className="text-gray-500 mt-1">
-            Browse available fuel products.
+            Current fuel products and stock levels in your region.
           </p>
-
         </div>
 
         <div className="bg-white rounded-xl shadow p-4 flex flex-col md:flex-row gap-4">
-
           <input
             type="text"
             placeholder="Search fuel..."
             value={search}
-            onChange={(e) => setSearch(e.target.value)}
+            onChange={(event) => setSearch(event.target.value)}
             className="border rounded-lg px-4 py-2 flex-1"
           />
 
           <select
             value={status}
-            onChange={(e) => setStatus(e.target.value)}
+            onChange={(event) => setStatus(event.target.value)}
             className="border rounded-lg px-4 py-2"
           >
             <option>All</option>
@@ -106,22 +88,40 @@ function AvailableFuel() {
             <option>Low Stock</option>
             <option>Out of Stock</option>
           </select>
-
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+        {loading ? (
+          <Loader label="Loading fuel inventory..." />
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+            {filteredFuels.length === 0 ? (
+              <p className="text-gray-500 col-span-full text-center py-10">
+                No fuel products match your search.
+              </p>
+            ) : (
+              filteredFuels.map((fuel) => (
+                <div key={fuel.id} className="bg-white rounded-xl shadow p-6">
+                  <div className="flex justify-between items-start">
+                    <h2 className="text-xl font-bold">{fuel.name}</h2>
+                    <span className={`px-3 py-1 rounded-full text-xs font-semibold ${statusColor(statusFor(fuel))}`}>
+                      {statusFor(fuel)}
+                    </span>
+                  </div>
 
-          {filteredFuels.map((fuel) => (
+                  <p className="mt-4 text-gray-500">Price</p>
+                  <p className="font-semibold">
+                    KES {Number(fuel.unit_price).toFixed(2)} / {fuel.unit_of_measure}
+                  </p>
 
-            <FuelCard
-              key={fuel.id}
-              fuel={fuel}
-              onOrder={handleOrder}
-            />
-
-          ))}
-
-        </div>
+                  <p className="mt-4 text-gray-500">Available Stock</p>
+                  <p className="font-semibold">
+                    {Number(fuel.quantity_available).toLocaleString()} {fuel.unit_of_measure}
+                  </p>
+                </div>
+              ))
+            )}
+          </div>
+        )}
 
       </div>
 

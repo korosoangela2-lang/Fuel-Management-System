@@ -1,30 +1,48 @@
 import { useState } from "react";
 
 function OrderForm({
-  initialData = {
-    customer: "",
-    fuel: "Petrol",
-    quantity: "",
-    status: "Pending",
-  },
+  customers = [],
+  fuels = [],
+  submitting = false,
   onSave,
   onCancel,
 }) {
-  const [formData, setFormData] = useState(initialData);
+  const [customerId, setCustomerId] = useState("");
+  const [deliveryAddress, setDeliveryAddress] = useState("");
+  const [notes, setNotes] = useState("");
+  const [items, setItems] = useState([{ fuel_id: "", quantity: "" }]);
 
-  function handleChange(e) {
-    const { name, value } = e.target;
+  function updateItem(index, field, value) {
+    setItems((previous) =>
+      previous.map((item, i) => (i === index ? { ...item, [field]: value } : item))
+    );
+  }
 
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+  function addItem() {
+    setItems((previous) => [...previous, { fuel_id: "", quantity: "" }]);
+  }
+
+  function removeItem(index) {
+    setItems((previous) => previous.filter((_, i) => i !== index));
   }
 
   function handleSubmit(e) {
     e.preventDefault();
 
-    onSave(formData);
+    const selectedCustomer = customers.find((customer) => customer.id === Number(customerId));
+
+    onSave({
+      customer_id: Number(customerId),
+      // A super admin has no region of their own, so the order's region is
+      // taken from the customer being ordered for (regular admins/staff are
+      // pinned to their own region server-side regardless of this value).
+      region_id: selectedCustomer?.region_id ?? null,
+      items: items
+        .filter((item) => item.fuel_id && item.quantity)
+        .map((item) => ({ fuel_id: Number(item.fuel_id), quantity: item.quantity })),
+      delivery_address: deliveryAddress || null,
+      notes: notes || null,
+    });
   }
 
   return (
@@ -32,47 +50,83 @@ function OrderForm({
       onSubmit={handleSubmit}
       className="space-y-4"
     >
-      <input
-        name="customer"
-        value={formData.customer}
-        onChange={handleChange}
-        placeholder="Customer Name"
+      <select
+        value={customerId}
+        onChange={(e) => setCustomerId(e.target.value)}
         className="w-full border rounded-lg p-3"
         required
-      />
-
-      <select
-        name="fuel"
-        value={formData.fuel}
-        onChange={handleChange}
-        className="w-full border rounded-lg p-3"
       >
-        <option>Petrol</option>
-        <option>Diesel</option>
-        <option>Premium Petrol</option>
-        <option>Kerosene</option>
+        <option value="" disabled>Select customer</option>
+        {customers.map((customer) => (
+          <option key={customer.id} value={customer.id}>
+            {customer.name}
+          </option>
+        ))}
       </select>
+
+      <div className="space-y-3">
+        {items.map((item, index) => (
+          <div key={index} className="flex gap-3 items-start">
+            <select
+              value={item.fuel_id}
+              onChange={(e) => updateItem(index, "fuel_id", e.target.value)}
+              className="flex-1 border rounded-lg p-3"
+              required
+            >
+              <option value="" disabled>Select fuel</option>
+              {fuels.map((fuel) => (
+                <option key={fuel.id} value={fuel.id}>
+                  {fuel.name}
+                </option>
+              ))}
+            </select>
+
+            <input
+              type="number"
+              min="0.01"
+              step="0.01"
+              value={item.quantity}
+              onChange={(e) => updateItem(index, "quantity", e.target.value)}
+              placeholder="Quantity"
+              className="w-32 border rounded-lg p-3"
+              required
+            />
+
+            {items.length > 1 && (
+              <button
+                type="button"
+                onClick={() => removeItem(index)}
+                className="px-3 py-3 text-red-600"
+              >
+                ×
+              </button>
+            )}
+          </div>
+        ))}
+
+        <button
+          type="button"
+          onClick={addItem}
+          className="text-blue-600 text-sm font-medium"
+        >
+          + Add another fuel
+        </button>
+      </div>
 
       <input
-        type="number"
-        name="quantity"
-        value={formData.quantity}
-        onChange={handleChange}
-        placeholder="Quantity (Litres)"
+        value={deliveryAddress}
+        onChange={(e) => setDeliveryAddress(e.target.value)}
+        placeholder="Delivery address (optional)"
         className="w-full border rounded-lg p-3"
-        required
       />
 
-      <select
-        name="status"
-        value={formData.status}
-        onChange={handleChange}
+      <textarea
+        value={notes}
+        onChange={(e) => setNotes(e.target.value)}
+        placeholder="Notes (optional)"
+        rows={2}
         className="w-full border rounded-lg p-3"
-      >
-        <option>Pending</option>
-        <option>Approved</option>
-        <option>Delivered</option>
-      </select>
+      />
 
       <div className="flex justify-end gap-3 pt-2">
 
@@ -86,9 +140,10 @@ function OrderForm({
 
         <button
           type="submit"
-          className="px-5 py-2 bg-blue-600 text-white rounded-lg"
+          disabled={submitting}
+          className="px-5 py-2 bg-blue-600 text-white rounded-lg disabled:opacity-60"
         >
-          Save Order
+          {submitting ? "Saving..." : "Save Order"}
         </button>
 
       </div>

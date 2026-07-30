@@ -1,13 +1,30 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import toast from "react-hot-toast";
+
 import Input from "../common/Input";
 import Button from "../common/Button";
+import { requestPasswordReset } from "../../services/authService";
 
 function ForgotPasswordForm() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  const [email, setEmail] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+  const [sent, setSent] = useState(false);
 
-    console.log("Reset password");
-  };
+  async function handleSubmit(event) {
+    event.preventDefault();
+    setSubmitting(true);
+
+    try {
+      await requestPasswordReset(email);
+      setSent(true);
+      toast.success("If that email is registered, a reset link has been sent.");
+    } catch (error) {
+      toast.error(error.message || "Something went wrong. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
+  }
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
@@ -24,11 +41,16 @@ function ForgotPasswordForm() {
       <Input
         label="Email Address"
         type="email"
+        name="email"
         placeholder="Enter your email"
+        value={email}
+        onChange={(event) => setEmail(event.target.value)}
+        autoComplete="email"
+        required
       />
 
-      <Button type="submit">
-        Send Reset Link
+      <Button type="submit" disabled={submitting || sent}>
+        {submitting ? "Sending..." : sent ? "Link sent" : "Send Reset Link"}
       </Button>
 
       <p className="text-center">

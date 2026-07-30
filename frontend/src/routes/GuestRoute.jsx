@@ -1,5 +1,6 @@
 import { Navigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../context/useAuth";
+import { homeRouteFor } from "../utils/roles";
 
 function GuestRoute({ children }) {
   const {
@@ -21,18 +22,9 @@ function GuestRoute({ children }) {
 
   // Already logged in?
   if (isAuthenticated) {
-    if (user?.role === "admin") {
-      return (
-        <Navigate
-          to="/admin/dashboard"
-          replace
-        />
-      );
-    }
-
     return (
       <Navigate
-        to="/dashboard"
+        to={homeRouteFor(user?.role)}
         replace
       />
     );

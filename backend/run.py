@@ -6,10 +6,23 @@ app = create_app()
 
 @app.shell_context_processor
 def shell_context():
-    from app.models import Customer, Distribution, Order, OrderItem
+    from app.models import (
+        Customer,
+        Distribution,
+        Fuel,
+        Order,
+        OrderItem,
+        Refinery,
+        Region,
+        User,
+    )
 
     return {
         "db": db,
+        "User": User,
+        "Region": Region,
+        "Fuel": Fuel,
+        "Refinery": Refinery,
         "Customer": Customer,
         "Order": Order,
         "OrderItem": OrderItem,

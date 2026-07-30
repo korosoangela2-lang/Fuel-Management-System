@@ -1,53 +1,59 @@
+import { useState } from "react";
+import toast from "react-hot-toast";
+
 import UserLayout from "../../layouts/UserLayout";
+import { trackOrderDelivery } from "../../services/distributionService";
+
+function statusColor(status) {
+
+  switch (status) {
+
+    case "delivered":
+      return "bg-green-100 text-green-700";
+
+    case "in_transit":
+      return "bg-blue-100 text-blue-700";
+
+    case "pending":
+      return "bg-yellow-100 text-yellow-700";
+
+    case "failed":
+      return "bg-red-100 text-red-700";
+
+    default:
+      return "bg-gray-100 text-gray-700";
+
+  }
+
+}
+
+function titleCase(value = "") {
+  return value.replaceAll("_", " ").replace(/\b\w/g, (c) => c.toUpperCase());
+}
 
 function DeliveryTracking() {
 
-  const deliveries = [
+  const [orderNumber, setOrderNumber] = useState("");
+  const [result, setResult] = useState(null);
+  const [searching, setSearching] = useState(false);
+  const [searched, setSearched] = useState(false);
 
-    {
-      id: "DL-1001",
-      fuel: "Petrol",
-      quantity: 500,
-      driver: "Michael Otieno",
-      truck: "KDG 458T",
-      destination: "Bruce James Warehouse",
-      eta: "26 July 2026",
-      progress: 85,
-      status: "In Transit",
-    },
+  async function handleSearch(event) {
+    event.preventDefault();
+    if (!orderNumber.trim()) return;
 
-    {
-      id: "DL-1002",
-      fuel: "Diesel",
-      quantity: 250,
-      driver: "Peter Mwangi",
-      truck: "KCY 611B",
-      destination: "Bruce James Station",
-      eta: "29 July 2026",
-      progress: 40,
-      status: "Dispatched",
-    },
-
-  ];
-
-  function statusColor(status) {
-
-    switch (status) {
-
-      case "Delivered":
-        return "bg-green-100 text-green-700";
-
-      case "In Transit":
-        return "bg-blue-100 text-blue-700";
-
-      case "Dispatched":
-        return "bg-yellow-100 text-yellow-700";
-
-      default:
-        return "bg-gray-100 text-gray-700";
-
+    setSearching(true);
+    setSearched(false);
+    try {
+      const data = await trackOrderDelivery(orderNumber.trim());
+      setResult(data);
+    } catch (error) {
+      setResult(null);
+      toast.error(error.message || "Could not find that order.");
+    } finally {
+      setSearching(false);
+      setSearched(true);
     }
-
   }
 
   return (
@@ -58,123 +64,88 @@ function DeliveryTracking() {
         Delivery Tracking
       </h1>
 
-      <div className="space-y-6">
+      <form onSubmit={handleSearch} className="bg-white rounded-xl shadow p-4 flex gap-4 mb-6">
+        <input
+          type="text"
+          placeholder="Enter order number, e.g. ORD-00001"
+          value={orderNumber}
+          onChange={(event) => setOrderNumber(event.target.value)}
+          className="border rounded-lg px-4 py-2 flex-1"
+        />
 
-        {deliveries.map((delivery) => (
+        <button
+          type="submit"
+          disabled={searching}
+          className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg disabled:opacity-60"
+        >
+          {searching ? "Searching..." : "Track"}
+        </button>
+      </form>
 
-          <div
-            key={delivery.id}
-            className="bg-white rounded-xl shadow p-6"
-          >
+      {result && (
 
-            <div className="flex justify-between items-center">
+        <div className="bg-white rounded-xl shadow p-6">
 
-              <div>
+          <div className="flex justify-between items-center">
 
-                <h2 className="text-xl font-bold">
-                  {delivery.id}
-                </h2>
+            <div>
+              <h2 className="text-xl font-bold">{result.order_number}</h2>
+              <p className="text-gray-500 mt-1">Order status: {titleCase(result.order_status)}</p>
+            </div>
 
-                <p className="text-gray-500 mt-1">
-                  {delivery.fuel} • {delivery.quantity} Litres
-                </p>
-
-              </div>
-
-              <span
-                className={`px-4 py-2 rounded-full text-sm font-semibold ${statusColor(
-                  delivery.status
-                )}`}
-              >
-                {delivery.status}
+            {result.delivery && (
+              <span className={`px-4 py-2 rounded-full text-sm font-semibold ${statusColor(result.delivery.status)}`}>
+                {titleCase(result.delivery.status)}
               </span>
-
-            </div>
-
-            <div className="grid md:grid-cols-2 gap-6 mt-6">
-
-              <div>
-
-                <p className="text-gray-500">
-                  Driver
-                </p>
-
-                <p className="font-semibold">
-                  {delivery.driver}
-                </p>
-
-              </div>
-
-              <div>
-
-                <p className="text-gray-500">
-                  Truck
-                </p>
-
-                <p className="font-semibold">
-                  {delivery.truck}
-                </p>
-
-              </div>
-
-              <div>
-
-                <p className="text-gray-500">
-                  Destination
-                </p>
-
-                <p className="font-semibold">
-                  {delivery.destination}
-                </p>
-
-              </div>
-
-              <div>
-
-                <p className="text-gray-500">
-                  Estimated Arrival
-                </p>
-
-                <p className="font-semibold">
-                  {delivery.eta}
-                </p>
-
-              </div>
-
-            </div>
-
-            <div className="mt-8">
-
-              <div className="flex justify-between mb-2">
-
-                <span>
-                  Delivery Progress
-                </span>
-
-                <span>
-                  {delivery.progress}%
-                </span>
-
-              </div>
-
-              <div className="w-full h-3 bg-gray-200 rounded-full">
-
-                <div
-                  className="h-3 bg-blue-600 rounded-full"
-                  style={{
-                    width: `${delivery.progress}%`,
-                  }}
-                />
-
-              </div>
-
-            </div>
+            )}
 
           </div>
 
-        ))}
+          {result.delivery ? (
+            <div className="grid md:grid-cols-2 gap-6 mt-6">
 
-      </div>
+              <div>
+                <p className="text-gray-500">Driver</p>
+                <p className="font-semibold">{result.delivery.driver_name}</p>
+              </div>
+
+              <div>
+                <p className="text-gray-500">Vehicle</p>
+                <p className="font-semibold">{result.delivery.vehicle_registration}</p>
+              </div>
+
+              <div>
+                <p className="text-gray-500">Scheduled Date</p>
+                <p className="font-semibold">{result.delivery.scheduled_date}</p>
+              </div>
+
+              <div>
+                <p className="text-gray-500">
+                  {result.delivery.status === "delivered" ? "Delivered At" : "Dispatched At"}
+                </p>
+                <p className="font-semibold">
+                  {(result.delivery.status === "delivered"
+                    ? result.delivery.delivered_at
+                    : result.delivery.dispatched_at) || "—"}
+                </p>
+              </div>
+
+            </div>
+          ) : (
+            <p className="text-gray-500 mt-6">
+              No delivery has been scheduled for this order yet.
+            </p>
+          )}
+
+        </div>
+
+      )}
+
+      {searched && !result && (
+        <p className="text-gray-500 text-center py-10">
+          No order found with that number.
+        </p>
+      )}
 
     </UserLayout>
 

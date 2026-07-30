@@ -1,56 +1,55 @@
+import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
+
 import UserLayout from "../../layouts/UserLayout";
+import Loader from "../../components/common/Loader";
+import { fetchOrders } from "../../services/orderService";
+
+function statusColor(status) {
+
+  switch (status) {
+
+    case "delivered":
+      return "bg-green-100 text-green-700";
+
+    case "approved":
+      return "bg-blue-100 text-blue-700";
+
+    case "pending":
+      return "bg-yellow-100 text-yellow-700";
+
+    case "cancelled":
+      return "bg-red-100 text-red-700";
+
+    default:
+      return "bg-gray-100 text-gray-700";
+
+  }
+
+}
+
+function titleCase(value = "") {
+  return value.replaceAll("_", " ").replace(/\b\w/g, (c) => c.toUpperCase());
+}
 
 function OrderHistory() {
 
-  const orders = [
+  const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-    {
-      id: 1001,
-      fuel: "Petrol",
-      quantity: 500,
-      total: 90000,
-      status: "Delivered",
-      date: "2026-07-18",
-    },
+  useEffect(() => {
+    fetchOrders({ mine: true })
+      .then((result) => setOrders(result.items || []))
+      .catch((error) => toast.error(error.message || "Could not load your orders."))
+      .finally(() => setLoading(false));
+  }, []);
 
-    {
-      id: 1002,
-      fuel: "Diesel",
-      quantity: 250,
-      total: 42500,
-      status: "Pending",
-      date: "2026-07-20",
-    },
-
-    {
-      id: 1003,
-      fuel: "Premium Petrol",
-      quantity: 800,
-      total: 156000,
-      status: "Approved",
-      date: "2026-07-22",
-    },
-
-  ];
-
-  function statusColor(status) {
-
-    switch (status) {
-
-      case "Delivered":
-        return "bg-green-100 text-green-700";
-
-      case "Approved":
-        return "bg-blue-100 text-blue-700";
-
-      case "Pending":
-        return "bg-yellow-100 text-yellow-700";
-
-      default:
-        return "bg-gray-100 text-gray-700";
-
-    }
-
+  if (loading) {
+    return (
+      <UserLayout>
+        <Loader label="Loading your orders..." />
+      </UserLayout>
+    );
   }
 
   return (
@@ -70,15 +69,11 @@ function OrderHistory() {
             <tr>
 
               <th className="text-left px-6 py-4">
-                Order ID
+                Order
               </th>
 
               <th className="text-left px-6 py-4">
-                Fuel
-              </th>
-
-              <th className="text-left px-6 py-4">
-                Quantity
+                Customer
               </th>
 
               <th className="text-left px-6 py-4">
@@ -99,48 +94,54 @@ function OrderHistory() {
 
           <tbody>
 
-            {orders.map((order) => (
-
-              <tr
-                key={order.id}
-                className="border-t"
-              >
-
-                <td className="px-6 py-4">
-                  #{order.id}
+            {orders.length === 0 ? (
+              <tr>
+                <td colSpan="5" className="text-center py-10 text-gray-500">
+                  You haven't placed any orders yet.
                 </td>
-
-                <td className="px-6 py-4">
-                  {order.fuel}
-                </td>
-
-                <td className="px-6 py-4">
-                  {order.quantity} L
-                </td>
-
-                <td className="px-6 py-4">
-                  ${order.total.toLocaleString()}
-                </td>
-
-                <td className="px-6 py-4">
-                  {order.date}
-                </td>
-
-                <td className="px-6 py-4">
-
-                  <span
-                    className={`px-3 py-1 rounded-full text-sm font-semibold ${statusColor(
-                      order.status
-                    )}`}
-                  >
-                    {order.status}
-                  </span>
-
-                </td>
-
               </tr>
+            ) : (
+              orders.map((order) => (
 
-            ))}
+                <tr
+                  key={order.id}
+                  className="border-t"
+                >
+
+                  <td className="px-6 py-4">
+                    {order.order_number}
+                  </td>
+
+                  <td className="px-6 py-4">
+                    {order.customer_name || "—"}
+                  </td>
+
+                  <td className="px-6 py-4">
+                    KES {Number(order.total_amount).toLocaleString()}
+                  </td>
+
+                  <td className="px-6 py-4">
+                    {order.created_at
+                      ? new Date(order.created_at).toLocaleDateString()
+                      : "—"}
+                  </td>
+
+                  <td className="px-6 py-4">
+
+                    <span
+                      className={`px-3 py-1 rounded-full text-sm font-semibold ${statusColor(
+                        order.status
+                      )}`}
+                    >
+                      {titleCase(order.status)}
+                    </span>
+
+                  </td>
+
+                </tr>
+
+              ))
+            )}
 
           </tbody>
 
