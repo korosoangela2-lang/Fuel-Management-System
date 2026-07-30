@@ -1,82 +1,120 @@
 import { NavLink } from "react-router-dom";
 
-import {
-  FaTachometerAlt,
-  FaGasPump,
-  FaClipboardList,
-  FaUsers,
-  FaTruck,
-  FaChartBar,
-  FaChartLine,
-  FaUserShield,
-  FaCog,
-} from "react-icons/fa";
+function Sidebar({ role = "admin" }) {
 
-function Sidebar() {
-  const links = [
+  const adminLinks = [
+
     {
       name: "Dashboard",
       path: "/admin/dashboard",
-      icon: <FaTachometerAlt />,
     },
+
     {
       name: "Fuel Inventory",
       path: "/admin/fuel-inventory",
-      icon: <FaGasPump />,
     },
+
     {
       name: "Orders",
       path: "/admin/orders",
-      icon: <FaClipboardList />,
     },
+
     {
       name: "Customers",
       path: "/admin/customers",
-      icon: <FaUsers />,
     },
+
     {
       name: "Deliveries",
       path: "/admin/deliveries",
-      icon: <FaTruck />,
     },
+
     {
       name: "Reports",
       path: "/admin/reports",
-      icon: <FaChartBar />,
     },
+
     {
       name: "Analytics",
       path: "/admin/analytics",
-      icon: <FaChartLine />,
     },
+
     {
       name: "User Management",
       path: "/admin/users",
-      icon: <FaUserShield />,
     },
+
     {
       name: "System Settings",
       path: "/admin/settings",
-      icon: <FaCog />,
     },
+
   ];
 
+  const customerLinks = [
+
+    {
+      name: "Dashboard",
+      path: "/dashboard",
+    },
+
+    {
+      name: "Available Fuel",
+      path: "/available-fuel",
+    },
+
+    {
+      name: "Fuel Orders",
+      path: "/fuel-orders",
+    },
+
+    {
+      name: "Delivery Tracking",
+      path: "/delivery-tracking",
+    },
+
+    {
+      name: "Order History",
+      path: "/order-history",
+    },
+
+    {
+      name: "Reports",
+      path: "/reports",
+    },
+
+    {
+      name: "Profile",
+      path: "/profile",
+    },
+
+    {
+      name: "Settings",
+      path: "/settings",
+    },
+
+  ];
+
+  const links =
+    role === "admin"
+      ? adminLinks
+      : customerLinks;
+
   return (
-    <aside className="w-64 min-h-screen bg-slate-900 text-white shadow-xl">
 
-      <div className="border-b border-slate-700 p-6">
+    <aside className="w-64 bg-slate-900 text-white min-h-screen">
 
-        <h1 className="text-2xl font-bold text-blue-400">
+      <div className="p-6 border-b border-slate-700">
+
+        <h1 className="text-2xl font-bold">
+
           FuelMS
-        </h1>
 
-        <p className="text-sm text-slate-400">
-          Administration
-        </p>
+        </h1>
 
       </div>
 
-      <nav className="mt-4">
+      <nav className="mt-6">
 
         {links.map((link) => (
 
@@ -84,7 +122,7 @@ function Sidebar() {
             key={link.path}
             to={link.path}
             className={({ isActive }) =>
-              `flex items-center gap-3 px-6 py-3 transition-all duration-200 ${
+              `block px-6 py-3 transition ${
                 isActive
                   ? "bg-blue-600"
                   : "hover:bg-slate-800"
@@ -92,13 +130,7 @@ function Sidebar() {
             }
           >
 
-            <span className="text-lg">
-              {link.icon}
-            </span>
-
-            <span>
-              {link.name}
-            </span>
+            {link.name}
 
           </NavLink>
 
@@ -107,6 +139,7 @@ function Sidebar() {
       </nav>
 
     </aside>
+
   );
 }
 

@@ -42,7 +42,7 @@ function LoginForm() {
       name:
         formData.role === "admin"
           ? "Administrator"
-          : "John Doe",
+          : "Bruce James",
 
       email: formData.email,
 
