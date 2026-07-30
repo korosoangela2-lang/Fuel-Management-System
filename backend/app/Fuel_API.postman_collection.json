@@ -1,11 +1,11 @@
 {
   "info": {
-    "name": "Fuel API (dev-b slice)",
+    "name": "Fuel API (merged: dev-a + dev-b)",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "variable": [
     { "key": "base_url", "value": "http://127.0.0.1:5000" },
-    { "key": "token", "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTc4NTA4NzU5NSwianRpIjoiNWI2Y2VkOTItOGU5Ny00MmNlLWJkYzYtOWRkYzRlZDdhZTNkIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjEiLCJuYmYiOjE3ODUwODc1OTUsImNzcmYiOiI2ZWU4Mzk4Ni05YzVlLTQ0NWEtOWYxMS01MDdhM2E3ZmE5N2IiLCJleHAiOjE3ODUwOTExOTUsInJvbGUiOiJzdXBlcl9hZG1pbiIsInJlZ2lvbl9pZCI6bnVsbH0.nE5QG72otX_2c_cRP6JRbIm0WLl1vaIeC4_ucu5k4H4" }
+    { "key": "token", "value": "" }
   ],
   "auth": {
     "type": "bearer",
@@ -15,6 +15,287 @@
     {
       "name": "Health",
       "request": { "method": "GET", "url": "{{base_url}}/api/health", "auth": { "type": "noauth" } }
+    },
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Login (super_admin / root)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const data = pm.response.json();",
+                  "if (data.access_token) { pm.collectionVariables.set('token', data.access_token); }"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/auth/login",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "auth": { "type": "noauth" },
+            "body": { "mode": "raw", "raw": "{\n  \"username\": \"root\",\n  \"password\": \"ChangeMe123!\"\n}" }
+          }
+        },
+        {
+          "name": "Login (regional_admin / nrb_admin)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const data = pm.response.json();",
+                  "if (data.access_token) { pm.collectionVariables.set('token', data.access_token); }"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/auth/login",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "auth": { "type": "noauth" },
+            "body": { "mode": "raw", "raw": "{\n  \"username\": \"nrb_admin\",\n  \"password\": \"ChangeMe123!\"\n}" }
+          }
+        },
+        {
+          "name": "Login (user / nrb_staff)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const data = pm.response.json();",
+                  "if (data.access_token) { pm.collectionVariables.set('token', data.access_token); }"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/auth/login",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "auth": { "type": "noauth" },
+            "body": { "mode": "raw", "raw": "{\n  \"username\": \"nrb_staff\",\n  \"password\": \"ChangeMe123!\"\n}" }
+          }
+        },
+        {
+          "name": "Register",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const data = pm.response.json();",
+                  "if (data.access_token) { pm.collectionVariables.set('token', data.access_token); }"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/auth/register",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "auth": { "type": "noauth" },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"new_user\",\n  \"email\": \"new_user@fuelco.co.ke\",\n  \"password\": \"ChangeMe123!\",\n  \"region_id\": 1\n}"
+            }
+          }
+        },
+        {
+          "name": "Refresh",
+          "request": { "method": "POST", "url": "{{base_url}}/api/auth/refresh" }
+        },
+        {
+          "name": "Logout",
+          "request": { "method": "POST", "url": "{{base_url}}/api/auth/logout" }
+        },
+        {
+          "name": "Me",
+          "request": { "method": "GET", "url": "{{base_url}}/api/auth/me" }
+        },
+        {
+          "name": "Password reset request",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/auth/password-reset/request",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "auth": { "type": "noauth" },
+            "body": { "mode": "raw", "raw": "{\n  \"email\": \"root@fuelco.co.ke\"\n}" }
+          }
+        },
+        {
+          "name": "Password reset confirm",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/auth/password-reset/confirm",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "auth": { "type": "noauth" },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"token\": \"<reset_token_from_request_step>\",\n  \"new_password\": \"NewPassword123!\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Regions (super_admin)",
+      "item": [
+        { "name": "List regions", "request": { "method": "GET", "url": "{{base_url}}/api/regions" } },
+        { "name": "Get region", "request": { "method": "GET", "url": "{{base_url}}/api/regions/1" } },
+        {
+          "name": "Create region",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/regions",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"Eldoret\",\n  \"code\": \"ELD\"\n}" }
+          }
+        },
+        {
+          "name": "Update region",
+          "request": {
+            "method": "PATCH",
+            "url": "{{base_url}}/api/regions/1",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"Nairobi Metro\"\n}" }
+          }
+        },
+        { "name": "Deactivate region", "request": { "method": "DELETE", "url": "{{base_url}}/api/regions/1" } }
+      ]
+    },
+    {
+      "name": "Users (super_admin)",
+      "item": [
+        { "name": "List users", "request": { "method": "GET", "url": "{{base_url}}/api/users" } },
+        { "name": "Get user", "request": { "method": "GET", "url": "{{base_url}}/api/users/1" } },
+        {
+          "name": "Create user",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/users",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"nrb_clerk\",\n  \"email\": \"clerk.nrb@fuelco.co.ke\",\n  \"password\": \"ChangeMe123!\",\n  \"role\": \"user\",\n  \"region_id\": 1\n}"
+            }
+          }
+        },
+        {
+          "name": "Update user",
+          "request": {
+            "method": "PATCH",
+            "url": "{{base_url}}/api/users/2",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"role\": \"regional_admin\"\n}" }
+          }
+        },
+        { "name": "Deactivate user", "request": { "method": "DELETE", "url": "{{base_url}}/api/users/2" } }
+      ]
+    },
+    {
+      "name": "Fuels",
+      "item": [
+        { "name": "List fuels", "request": { "method": "GET", "url": "{{base_url}}/api/fuels" } },
+        { "name": "List low stock fuels", "request": { "method": "GET", "url": "{{base_url}}/api/fuels?low_stock=true" } },
+        { "name": "Get fuel", "request": { "method": "GET", "url": "{{base_url}}/api/fuels/1" } },
+        {
+          "name": "Create fuel",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/fuels",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Kerosene\",\n  \"fuel_type\": \"kerosene\",\n  \"unit_price\": \"150.00\",\n  \"quantity_available\": \"20000\",\n  \"reorder_level\": \"2000\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Update fuel",
+          "request": {
+            "method": "PATCH",
+            "url": "{{base_url}}/api/fuels/1",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"unit_price\": \"190.00\"\n}" }
+          }
+        },
+        {
+          "name": "Add stock",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/fuels/1/stock/add",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"quantity\": \"1000\"\n}" }
+          }
+        },
+        { "name": "Deactivate fuel", "request": { "method": "DELETE", "url": "{{base_url}}/api/fuels/1" } }
+      ]
+    },
+    {
+      "name": "Refineries",
+      "item": [
+        { "name": "List refineries", "request": { "method": "GET", "url": "{{base_url}}/api/refineries" } },
+        { "name": "Get refinery", "request": { "method": "GET", "url": "{{base_url}}/api/refineries/1" } },
+        {
+          "name": "Create refinery",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/refineries",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Nairobi Depot\",\n  \"location\": \"Industrial Area\",\n  \"capacity\": \"100000\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Update refinery",
+          "request": {
+            "method": "PATCH",
+            "url": "{{base_url}}/api/refineries/1",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"capacity\": \"120000\"\n}" }
+          }
+        },
+        { "name": "Deactivate refinery", "request": { "method": "DELETE", "url": "{{base_url}}/api/refineries/1" } }
+      ]
+    },
+    {
+      "name": "Profile",
+      "item": [
+        { "name": "Get profile", "request": { "method": "GET", "url": "{{base_url}}/api/profile" } },
+        {
+          "name": "Update profile",
+          "request": {
+            "method": "PATCH",
+            "url": "{{base_url}}/api/profile",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"email\": \"root+updated@fuelco.co.ke\"\n}" }
+          }
+        },
+        {
+          "name": "Change password",
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/profile/change-password",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"current_password\": \"ChangeMe123!\",\n  \"new_password\": \"ChangeMe123!\"\n}"
+            }
+          }
+        }
+      ]
     },
     {
       "name": "Customers",
