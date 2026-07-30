@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 import { useAuth } from "../../context/AuthContext";
 
 function LoginForm() {
+
   const navigate = useNavigate();
 
   const { login } = useAuth();
@@ -13,82 +14,89 @@ function LoginForm() {
     email: "",
     password: "",
     rememberMe: false,
+    role: "admin",
   });
 
-  // Update form values
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
+  function handleChange(event) {
 
-    setFormData({
-      ...formData,
-      [name]: type === "checkbox" ? checked : value,
-    });
-  };
+    const { name, value, type, checked } = event.target;
 
-  // Mock login
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+    setFormData((previousData) => ({
+      ...previousData,
+      [name]:
+        type === "checkbox"
+          ? checked
+          : value,
+    }));
 
-    try {
-      // Fake authenticated user
-      const userData = {
-        id: 1,
-        name: "Administrator",
-        email: formData.email,
-        role: "admin",
-      };
+  }
 
-      // Fake JWT token
-      const token = "demo-jwt-token";
+  function handleSubmit(event) {
 
-      // Save login in AuthContext
-      login(userData, token);
+    event.preventDefault();
 
-      toast.success("Login successful!");
+    const user = {
 
-      // Redirect to Admin Dashboard
+      id: 1,
+
+      name:
+        formData.role === "admin"
+          ? "Administrator"
+          : "John Doe",
+
+      email: formData.email,
+
+      role: formData.role,
+
+    };
+
+    login(user, "demo-token");
+
+    toast.success("Login successful!");
+
+    if (formData.role === "admin") {
+
       navigate("/admin/dashboard");
-    } catch (error) {
-      toast.error("Login failed.");
+
+    } else {
+
+      navigate("/dashboard");
+
     }
-  };
+
+  }
 
   return (
+
     <form
       onSubmit={handleSubmit}
-      className="space-y-6"
+      className="space-y-5"
     >
-      <div>
-        <h1 className="text-5xl font-bold text-gray-900">
-          Welcome Back
-        </h1>
-
-        <p className="mt-3 text-gray-600">
-          Sign in to your Fuel Management System account.
-        </p>
-      </div>
 
       {/* Email */}
 
       <div>
+
         <label className="block mb-2 font-medium">
-          Email Address
+          Email
         </label>
 
         <input
           type="email"
           name="email"
+          placeholder="Enter your email"
           value={formData.email}
           onChange={handleChange}
+          className="w-full border rounded-lg px-4 py-2"
           required
-          placeholder="Enter your email"
-          className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-600"
         />
+
       </div>
 
       {/* Password */}
 
       <div>
+
         <label className="block mb-2 font-medium">
           Password
         </label>
@@ -96,18 +104,48 @@ function LoginForm() {
         <input
           type="password"
           name="password"
+          placeholder="Enter your password"
           value={formData.password}
           onChange={handleChange}
+          className="w-full border rounded-lg px-4 py-2"
           required
-          placeholder="Enter your password"
-          className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-600"
         />
+
+      </div>
+
+      {/* Login As */}
+
+      <div>
+
+        <label className="block mb-2 font-medium">
+          Login As
+        </label>
+
+        <select
+          name="role"
+          value={formData.role}
+          onChange={handleChange}
+          className="w-full border rounded-lg px-4 py-2"
+        >
+
+          <option value="admin">
+            Administrator
+          </option>
+
+          <option value="customer">
+            Customer
+          </option>
+
+        </select>
+
       </div>
 
       {/* Remember Me */}
 
       <div className="flex items-center justify-between">
+
         <label className="flex items-center gap-2">
+
           <input
             type="checkbox"
             name="rememberMe"
@@ -115,7 +153,8 @@ function LoginForm() {
             onChange={handleChange}
           />
 
-          Remember me
+          Remember Me
+
         </label>
 
         <Link
@@ -124,30 +163,37 @@ function LoginForm() {
         >
           Forgot Password?
         </Link>
+
       </div>
 
-      {/* Submit Button */}
+      {/* Login Button */}
 
       <button
         type="submit"
-        className="w-full rounded-lg bg-blue-600 py-3 text-white font-semibold hover:bg-blue-700 transition"
+        className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700"
       >
-        Sign In
+        Login
       </button>
 
-      {/* Register */}
+      {/* Register Link */}
 
       <p className="text-center">
+
         Don't have an account?{" "}
+
         <Link
           to="/register"
-          className="text-blue-600 font-semibold hover:underline"
+          className="text-blue-600 hover:underline"
         >
           Register
         </Link>
+
       </p>
+
     </form>
+
   );
+
 }
 
 export default LoginForm;

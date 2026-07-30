@@ -2,6 +2,8 @@ import { useMemo, useState } from "react";
 
 import AdminLayout from "../../layouts/AdminLayout";
 import FuelTable from "../../components/tables/FuelTable";
+import Modal from "../../components/common/Modal";
+import FuelForm from "../../components/forms/FuelForm";
 
 function FuelInventory() {
 
@@ -9,7 +11,9 @@ function FuelInventory() {
 
   const [statusFilter, setStatusFilter] = useState("All");
 
-  const fuels = [
+  const [showModal, setShowModal] = useState(false);
+
+  const [fuels, setFuels] = useState([
     {
       id: 1,
       name: "Petrol",
@@ -38,7 +42,7 @@ function FuelInventory() {
       stock: 0,
       status: "Out of Stock",
     },
-  ];
+  ]);
 
   const filteredFuels = useMemo(() => {
 
@@ -57,7 +61,23 @@ function FuelInventory() {
 
     });
 
-  }, [search, statusFilter]);
+  }, [fuels, search, statusFilter]);
+
+  function handleAddFuel(newFuel) {
+
+    const fuel = {
+      ...newFuel,
+      id: Date.now(),
+    };
+
+    setFuels((previousFuels) => [
+      ...previousFuels,
+      fuel,
+    ]);
+
+    setShowModal(false);
+
+  }
 
   return (
 
@@ -82,6 +102,7 @@ function FuelInventory() {
           </div>
 
           <button
+            onClick={() => setShowModal(true)}
             className="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700"
           >
             + Add Fuel
@@ -127,11 +148,28 @@ function FuelInventory() {
 
         </div>
 
+        {/* Fuel Table */}
+
         <FuelTable
           fuels={filteredFuels}
         />
 
       </div>
+
+      {/* Add Fuel Modal */}
+
+      <Modal
+        isOpen={showModal}
+        title="Add Fuel"
+        onClose={() => setShowModal(false)}
+      >
+
+        <FuelForm
+          onSubmit={handleAddFuel}
+          onCancel={() => setShowModal(false)}
+        />
+
+      </Modal>
 
     </AdminLayout>
 
