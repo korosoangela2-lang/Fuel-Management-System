@@ -241,7 +241,7 @@ function UserManagement() {
           <select
             value={form.role}
             onChange={(e) => setForm({ ...form, role: e.target.value })}
-            className="w-full border border-slate-700 rounded-lg p-3"
+            className="w-full border border-slate-700 rounded-lg p-3 bg-slate-900 text-slate-100"
           >
             {ROLES.map((role) => (
               <option key={role} value={role}>{titleCase(role)}</option>
@@ -252,7 +252,7 @@ function UserManagement() {
             <select
               value={form.region_id}
               onChange={(e) => setForm({ ...form, region_id: e.target.value })}
-              className="w-full border border-slate-700 rounded-lg p-3"
+              className="w-full border border-slate-700 rounded-lg p-3 bg-slate-900 text-slate-100"
               required
             >
               <option value="" disabled>Select region</option>

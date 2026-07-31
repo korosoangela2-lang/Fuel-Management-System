@@ -220,7 +220,7 @@ function SystemSettings() {
             <select
               value={refineryForm.region_id}
               onChange={(e) => setRefineryForm({ ...refineryForm, region_id: e.target.value })}
-              className="border border-slate-700 rounded-lg px-4 py-2"
+              className="border border-slate-700 rounded-lg px-4 py-2 bg-slate-900 text-slate-100"
               required
             >
               <option value="" disabled>Region</option>

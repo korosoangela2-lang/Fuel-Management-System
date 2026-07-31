@@ -57,7 +57,7 @@ function FuelForm({
           <select
             value={regionId}
             onChange={(e) => setRegionId(e.target.value)}
-            className="w-full border border-slate-700 rounded-lg px-4 py-2"
+            className="w-full border border-slate-700 rounded-lg px-4 py-2 bg-slate-900 text-slate-100"
             required
           >
             <option value="" disabled>Select region</option>

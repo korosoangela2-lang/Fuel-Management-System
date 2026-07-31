@@ -170,7 +170,7 @@ function FuelOrders() {
                 <select
                   value={customerId}
                   onChange={(e) => setCustomerId(e.target.value)}
-                  className="w-full border border-slate-700 rounded-lg p-3"
+                  className="w-full border border-slate-700 rounded-lg p-3 bg-slate-900 text-slate-100"
                 >
                   <option value="" disabled>Select a customer</option>
                   {customers.map((customer) => (

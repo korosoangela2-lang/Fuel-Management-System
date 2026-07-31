@@ -146,7 +146,7 @@ function Deliveries() {
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="border border-slate-700 rounded-lg px-4 py-2"
+            className="border border-slate-700 rounded-lg px-4 py-2 bg-slate-900 text-slate-100"
           >
             <option value="All">All</option>
             <option value="Pending">Pending</option>
@@ -221,7 +221,7 @@ function Deliveries() {
               <select
                 value={form.order_id}
                 onChange={(e) => setForm({ ...form, order_id: e.target.value })}
-                className="w-full border border-slate-700 rounded-lg p-3"
+                className="w-full border border-slate-700 rounded-lg p-3 bg-slate-900 text-slate-100"
                 required
               >
                 <option value="" disabled>Select an approved order</option>

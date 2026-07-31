@@ -53,7 +53,7 @@ function OrderForm({
       <select
         value={customerId}
         onChange={(e) => setCustomerId(e.target.value)}
-        className="w-full border border-slate-700 rounded-lg p-3"
+        className="w-full border border-slate-700 rounded-lg p-3 bg-slate-900 text-slate-100"
         required
       >
         <option value="" disabled>Select customer</option>
@@ -70,7 +70,7 @@ function OrderForm({
             <select
               value={item.fuel_id}
               onChange={(e) => updateItem(index, "fuel_id", e.target.value)}
-              className="flex-1 border border-slate-700 rounded-lg p-3"
+              className="flex-1 border border-slate-700 rounded-lg p-3 bg-slate-900 text-slate-100"
               required
             >
               <option value="" disabled>Select fuel</option>

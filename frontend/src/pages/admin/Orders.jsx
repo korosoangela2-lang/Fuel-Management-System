@@ -211,7 +211,7 @@ function Orders() {
           />
 
           <select
-            className="border border-slate-700 rounded-lg p-3"
+            className="border border-slate-700 rounded-lg p-3 bg-slate-900 text-slate-100"
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
           >

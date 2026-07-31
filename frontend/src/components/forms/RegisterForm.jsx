@@ -103,7 +103,7 @@ function RegisterForm() {
           value={formData.regionId}
           onChange={handleChange}
           required
-          className="w-full border border-slate-700 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-amber-500"
+          className="w-full border border-slate-700 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-amber-500 bg-slate-900 text-slate-100"
         >
           <option value="" disabled>
             Select your region
