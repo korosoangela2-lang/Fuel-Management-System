@@ -1,7 +1,12 @@
+import os
+
 from app import create_app
 from app.extensions import db
 
-app = create_app()
+# Locally this defaults to DevelopmentConfig. In production (Render), set
+# FLASK_CONFIG=app.config.ProductionConfig so gunicorn picks up Postgres and
+# turns debug mode off.
+app = create_app(os.getenv("FLASK_CONFIG", "app.config.DevelopmentConfig"))
 
 
 @app.shell_context_processor

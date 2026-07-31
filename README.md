@@ -87,6 +87,37 @@ npm run lint       # ESLint
 npm run preview    # preview a production build locally
 ```
 
+## Deployment
+
+The frontend and backend deploy to separate hosts — Vercel doesn't fit the
+backend (its serverless functions are stateless, so the default SQLite file
+wouldn't persist between requests).
+
+### Backend → Render
+
+A `render.yaml` blueprint at the repo root provisions both the web service
+and a free Postgres database in one step:
+
+1. Push to GitHub, then in Render: **New +** → **Blueprint** → select this repo.
+2. Render reads `render.yaml`, creates the `fuelms-backend` web service and
+   `fuelms-db` database, and wires `DATABASE_URL` between them automatically.
+   `SECRET_KEY` / `JWT_SECRET_KEY` are auto-generated.
+3. Once it's live, open the service's **Shell** tab and run `python seed.py`
+   once to create the tables and seed the sample accounts.
+4. Note the resulting URL (e.g. `https://fuelms-backend.onrender.com`) — the
+   API lives at `<that URL>/api`.
+
+### Frontend → Vercel
+
+1. Import the repo in Vercel and set **Root Directory** to `frontend`.
+2. Add an environment variable **`VITE_API_URL`** = `<your Render URL>/api`.
+3. `frontend/vercel.json` already handles the SPA rewrite (client-side
+   routes like `/admin/dashboard` need every path to fall back to
+   `index.html`, otherwise they 404 on direct load/refresh).
+
+Redeploy after setting the env var — Vercel doesn't pick up new environment
+variables on already-built deployments.
+
 ## API overview
 
 All endpoints are JSON and prefixed with `/api`. Requests (other than
