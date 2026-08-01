@@ -36,4 +36,9 @@ def shell_context():
 
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5000)
+    # Use PORT if provided (Render sets this), default to 5000 for local dev.
+    port = int(os.getenv("PORT", 5000))
+    # Respect the app configuration for DEBUG instead of forcing True here.
+    debug = app.config.get("DEBUG", False)
+    # Bind to 0.0.0.0 so services like Render or Docker can reach the server.
+    app.run(host="0.0.0.0", port=port, debug=debug)
