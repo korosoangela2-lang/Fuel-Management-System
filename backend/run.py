@@ -1,4 +1,9 @@
 import os
+import sys
+
+# Ensure the backend directory is on sys.path so `from app import ...` works
+# even when running `python backend/run.py` from the repository root.
+sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
 
 from app import create_app
 from app.extensions import db
